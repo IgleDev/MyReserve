@@ -1,0 +1,44 @@
+﻿@font-face {
+    font-style: normal;
+    font-weight: normal;
+    font-family: 'Coffee Spark';
+    src: url('../fonts/Coffee Spark.ttf');
+}
+
+button > a {
+    text-decoration : none;
+}
+
+button:hover a{
+    color : white;
+}
+
+.title {
+    margin: 0;
+}
+
+.container .row .col-lg-6 .title {
+    color: #2d9696;
+    font-family: 'Coffee Spark';
+}
+
+.container .row .col-lg-6 .titleMain {
+    color: #be5e43;
+}
+
+.sectionServicios {
+    background-color: #f3f2f0;
+}
+
+.container-img{
+    width : 80%;
+    text-align: center;
+}
+
+.sectionPeluqueria {
+    background-color: #f1ece5;
+}
+
+.sectionPeluqueria h2{
+    color : #b24020;
+}
