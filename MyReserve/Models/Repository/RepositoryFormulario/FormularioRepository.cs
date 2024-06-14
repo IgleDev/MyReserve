@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
 
 namespace MyReserve.Models.Repository.RepositoryUsuarios {
@@ -9,12 +10,22 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         }
 
         public async Task<Usuarios> Login(string usu_correo_electronico, string usu_contrasenha) {
-            var query = "SELECT * FROM Usuarios WHERE usu_correo_electronico = @usu_correo_electronico" +
+            var query = "SELECT * FROM Usuarios WHERE usu_correo_electronico = @usu_correo_electronico " +
                 "AND usu_contrasenha = @usu_contrasenha";
             using(var connection = _conexion.getConexion()) {
                 var usuario = await connection.QueryFirstOrDefaultAsync<Usuarios>(query, new { usu_correo_electronico, usu_contrasenha });
                 return usuario;
             }
         }
+
+        public async Task<Peluqueros> LoginPeluquero(string pel_correo_electronico, string pel_contrasenha) {
+            var query = "SELECT * FROM Peluquero WHERE pel_correo_electronico = @pel_correo_electronico " +
+                "AND pel_contrasenha = @pel_contrasenha";
+            using(var connection = _conexion.getConexion()) {
+                var peluquero = await connection.QueryFirstOrDefaultAsync<Peluqueros>(query, new { pel_correo_electronico, pel_contrasenha });
+                return peluquero;
+            }
+        }
+
     }
 }
