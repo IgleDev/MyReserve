@@ -25,22 +25,22 @@
             <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
                 <form asp-action="Login" method="post" id="formRegistro">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group text-start mt-1 w-100">
+                    <div class="form-group text-start mt-2 w-100">
                         <label asp-for="usu_nombre" class="control-label h4">Usuario</label>
                         <input asp-for="usu_nombre" class="form-control" placeholder="Nombre de Usuario" id="txtNombre" />
                         <span class="text-danger"></span>
                     </div>
-                    <div class="form-group text-start mt-1 w-100">
+                    <div class="form-group text-start mt-2 w-100">
                         <label asp-for="usu_correo_electronico" class="control-label h4">Correo Electrónico</label>
                         <input asp-for="usu_correo_electronico" class="form-control" placeholder="Correo Electrónico" id="txtCorreo" />
                         <span class="text-danger"></span>
                     </div>
-                    <div class="form-group text-start mt-4 w-100">
+                    <div class="form-group text-start mt-2 w-100">
                         <label asp-for="usu_contrasenha" class="control-label h4">Contraseña</label>
                         <input asp-for="usu_contrasenha" type="password" class="form-control" placeholder="Contraseña" id="txtContrasenha" />
                         <span class="text-danger"></span>
                     </div>
-                    <div class="form-group mt-4 w-100">
+                    <div class="form-group mt-4 mb-4 w-100">
                         <input type="submit" value="Crear cuenta" class="btn btn-primary w-100" />
                     </div>
                 </form>

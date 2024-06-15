@@ -40,7 +40,7 @@
         if (txtNombre && txtCorreo && txtContrasenha) return true;
     }
 
-    $('#formRegistro').submit(function (e) {
+    $('#formRegistroPeluqueros').submit(function (e) {
         e.preventDefault();
         if (validar()) {
             console.log('todo bien');
