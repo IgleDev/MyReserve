@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    console.log('ola')
     function valCorreo() {
         let validaEmail = new RegExp(/^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         let txtCorreo = $('#txtCorreo').val();
@@ -29,19 +28,9 @@
         if (txtCorreo && txtContrasenha) return true;
     }
 
-    $('#chkPeluquero').change(function () {
-        let chk = ('#chkPeluquero')
-        if (chk.is(':checked')) {
-            $('#formLogin').attr('action', '/LoginPeluqueros');
-        } else {
-            $('#formLogin').attr('action', '/Login');
-        }
-    });
-
     $('#formLogin').submit(function (e) {
         e.preventDefault();
         if (validar()) {
-            console.log('todo bien');
             this.submit();
         }
     });

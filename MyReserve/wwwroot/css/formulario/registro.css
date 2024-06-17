@@ -49,31 +49,18 @@ html, body {
     border-radius: 0 0 10px 10px;
 }
 
-@media (max-width: 768px) {
-    .container-fluid .row {
-        min-width: 100%;
-    }
+#btnPtV1, #btnPt3 {
+    padding: 6px;
+}   
 
-    .titleSection h1 {
-        font-size: 2rem;
-    }
+@media (max-width: 768px) {
+    #btnPtV1, #btnPt3 {
+        padding: 6px;
+    }    
 }
 
 @media (max-width: 576px) {
-    .titleSection h1 {
-        font-size: 1.5rem;
-    }
-
-    .container-fluid h1 {
-        font-size: 1.5rem;
-    }
-
-    .form-group label {
-        font-size: 1rem;
-    }
-
-    .btn-primary {
-        font-size: 1rem;
-        margin-bottom: 15px;
+    #btnPtV1, #btnPt3 {
+        padding: 6px;
     }
 }

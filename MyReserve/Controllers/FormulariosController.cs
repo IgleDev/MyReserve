@@ -32,6 +32,12 @@ namespace MyReserve.Controllers {
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Registro(Usuarios usuario) {
+            await _formularioRepository.RegistroUsuario(usuario);
+            return View("Login", usuario);
+        }
+
         // Login & Registro de Peluqueros ->
 
         public IActionResult LoginPeluqueros() {

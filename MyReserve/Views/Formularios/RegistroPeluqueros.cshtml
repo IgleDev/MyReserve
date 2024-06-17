@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width" />
     @section Styles {
         <!--El style que renderizamos-->
-        <link rel="stylesheet" href="~/css/formulario/login.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/formulario/registro.css" asp-append-version="true" />
     }
     <title>Registro</title>
 </head>
@@ -24,24 +24,60 @@
             </div>
             <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
                 <form asp-action="RegistroPeluqueros" method="post" id="formRegistroPeluqueros">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group text-start mt-1 w-100">
-                        <label asp-for="pel_nombre" class="control-label h4">Usuario</label>
-                        <input asp-for="pel_nombre" class="form-control" placeholder="Nombre de Usuario" id="txtNombre" />
-                        <span class="text-danger"></span>
+                    <div id="part1">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pel_nombre" class="control-label h4">Usuario</label>
+                            <input type="text" asp-for="pel_nombre" class="form-control" placeholder="Nombre de Usuario" id="txtNombre" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pel_correo_electronico" class="control-label h4">Correo Electrónico</label>
+                            <input asp-for="pel_correo_electronico" type="email" class="form-control" placeholder="Correo Electrónico" id="txtCorreo" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-start mt-4 w-100">
+                            <label asp-for="pel_contrasenha" class="control-label h4">Contraseña</label>
+                            <input asp-for="pel_contrasenha" type="password" class="form-control" placeholder="Contraseña" id="txtContrasenha" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-4 mb-4 w-100">
+                            <button type="button" id="btnPt1" class="btn btn-info w-100">Queremos saber más de tí &rarr;</button>
+                        </div>
                     </div>
-                    <div class="form-group text-start mt-1 w-100">
-                        <label asp-for="pel_correo_electronico" class="control-label h4">Correo Electrónico</label>
-                        <input asp-for="pel_correo_electronico" class="form-control" placeholder="Correo Electrónico" id="txtCorreo" />
-                        <span class="text-danger"></span>
+                    <div id="part2">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pel_experiencia" class="control-label h4">Experiencia</label>
+                            <input type="number" asp-for="pel_experiencia" class="form-control" placeholder="Años de experiencia" id="txtExperiencia" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pel_instagram" class="control-label h4">Instagram</label>
+                            <input asp-for="pel_instagram" type="text" class="form-control" placeholder="Tu Instagram" id="txtRRSS" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-4 mb-4 w-100">
+                            <button type="button" id="btnPtV1" class="btn btn-danger w-25">Volver</button>
+                            <button type="button" id="btnPt2" class="btn btn-info w-50">Una cosita más:) &rarr;</button>
+                        </div>
                     </div>
-                    <div class="form-group text-start mt-4 w-100">
-                        <label asp-for="pel_contrasenha" class="control-label h4">Contraseña</label>
-                        <input asp-for="pel_contrasenha" type="password" class="form-control" placeholder="Contraseña" id="txtContrasenha" />
-                        <span class="text-danger"></span>
-                    </div>
-                    <div class="form-group mt-4 mb-4 w-100">
-                        <input type="submit" value="Sé Peluquero" class="btn btn-primary w-100" />
+                    <div id="part3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pel_pelu_id_fk" class="control-label h4">Nombre de la peluquería</label>
+                            <input type="text" asp-for="pel_pelu_id_fk" class="form-control" placeholder="Nombre de la peluquería" id="txtNombrePeluqueria" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pel_grupo_id_fk" class="control-label h4">Grupo de la Peluqueria</label>
+                            <input type="text" asp-for="pel_grupo_id_fk" class="form-control" placeholder="Nombre del grupo de peluquerías" id="txtGP" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-4 mb-4 w-100">
+                            <button type="button" id="btnPt3" class="btn btn-danger w-25">Volver</button>
+                            <input type="submit" value="Sé Peluquero" class="btn btn-primary w-50" />
+                        </div>
                     </div>
                 </form>
             </div>

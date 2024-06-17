@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
+using System.Data;
 
 namespace MyReserve.Models.Repository.RepositoryUsuarios {
     public class FormularioRepository : IFormulario {
@@ -27,5 +28,17 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             }
         }
 
+        public async Task RegistroUsuario(Usuarios usuarios) {
+            var query = "INSERT INTO Usuarios (usu_nombre, usu_correo_electronico, usu_contrasenha) " +
+                "VALUES (@usu_nombre, @usu_correo_electronico, @usu_contrasenha)";
+            var parametros = new DynamicParameters();
+            parametros.Add("usu_nombre", usuarios.usu_nombre, DbType.String);
+            parametros.Add("usu_correo_electronico", usuarios.usu_correo_electronico, DbType.String);
+            parametros.Add("usu_contrasenha", usuarios.usu_contrasenha, DbType.String);
+
+            using(var connection = _conexion.getConexion()) {
+                await connection.ExecuteAsync(query, parametros);
+            }
+        }
     }
 }
