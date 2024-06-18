@@ -6,5 +6,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         Task<Usuarios> Login(string usu_correo_electronico, string usu_contrasenha);
         Task<Peluqueros> LoginPeluquero(string usu_correo_electronico, string usu_contrasenha);
         Task RegistroUsuario(Usuarios usuarios);
+        Task<int> ObtenerPeluqueriaIdPorNombreAsync(string nombre);
+        Task<int> ObtenerGrupoIdPorNombreAsync(string nombre);
+        Task RegistroPeluqueros(Peluqueros peluqueros);
     }
 }

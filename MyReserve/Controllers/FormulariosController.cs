@@ -59,6 +59,32 @@ namespace MyReserve.Controllers {
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> RegistroPeluquero(Peluqueros model) {
+            if(!ModelState.IsValid) {
+                return View(model);
+            }
+
+            int peluqueriaId = await _formularioRepository.ObtenerPeluqueriaIdPorNombreAsync(model.pel_pelu_id_fk);
+            int grupoId = await _formularioRepository.ObtenerGrupoIdPorNombreAsync(model.pel_grupo_id_fk);
+
+            var peluquero = new Peluqueros {
+                pel_nombre = model.pel_nombre,
+                pel_correo_electronico = model.pel_correo_electronico,
+                pel_contrasenha = model.pel_contrasenha,
+                pel_experiencia = model.pel_experiencia,
+                pel_instagram = model.pel_instagram,
+                pel_pelu_id_fk = peluqueriaId.ToString(),
+                pel_grupo_id_fk = grupoId.ToString()
+            };
+
+            await _formularioRepository.RegistroPeluqueros(peluquero);
+
+            return RedirectToAction("LoginPeluqueros");
+        }
+
+
+
         // Login & Registro de Grupos/Peluquerías ->
 
         public IActionResult LoginAdmin() {

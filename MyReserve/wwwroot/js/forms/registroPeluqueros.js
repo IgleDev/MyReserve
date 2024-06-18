@@ -52,7 +52,7 @@
         let txtRRSS = $('#txtRRSS').val();
         let errorRRSS = $('.text-danger').eq(4);
         if (txtRRSS === undefined || txtRRSS === '' || txtRRSS.includes(' ')) {
-            errorRRSS.html('<h4>* Error al escribir la contraseña</h4>');
+            errorRRSS.html('<h4>* Error al escribir tu instagram</h4>');
             return false
         }
         errorRRSS.text('');
@@ -62,7 +62,7 @@
     function valNombrePeluqueria() {
         let txtNombrePeluqueria = $('#txtNombrePeluqueria').val();
         let errorNombrePeluqueria = $('.text-danger').eq(5);
-        if (txtNombrePeluqueria === undefined || txtNombrePeluqueria === '' || txtNombrePeluqueria.includes(' ')) {
+        if (txtNombrePeluqueria === undefined || txtNombrePeluqueria === '') {
             errorNombrePeluqueria.html('<h4>* Error al escribir el nombre de la peluquería</h4>');
             return false
         }
@@ -73,7 +73,7 @@
     function valGP() {
         let txtGP = $('#txtGP').val();
         let errorGP = $('.text-danger').eq(6);
-        if (txtGP === undefined || txtGP === '' || txtGP.includes(' ')) {
+        if (txtGP === undefined || txtGP === '') {
             errorGP.html('<h4>* Error al escribir el grupo de peluquerías</h4>');
             return false
         }
