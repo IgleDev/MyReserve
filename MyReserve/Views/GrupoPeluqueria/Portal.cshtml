@@ -1,0 +1,41 @@
+﻿@model IEnumerable<MyReserve.Models.TablasBBDD.Peluqueria.Peluqueria>
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @section Styles {
+        <!--El style que renderizamos-->
+        <link rel="stylesheet" href="~/css/grupo/portal.css" asp-append-version="true" />
+    }
+    <title>Portal</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center display-1 mt-5">My Reserve</h1>
+            </div>
+            <div class="col-12">
+                <p class="text-center opacity-50">Bienvenido a tu <span class="text-info">portal</span> para gestionar tus peluquerías</p>
+            </div>
+            <div class="col-auto p-0">
+                <a class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i> Añade una nueva peluquería</a>
+            </div>
+        </div>
+        <div class="row mt-5 peluquerias d-flex flex-wrap">
+            @foreach(var item in Model) {
+                <div class="col-lg-2 rounded bg-info bg-opacity-50 p-2 me-5">
+                    <h3 class="text-white">@Html.DisplayFor(modelItem => item.pelu_nombre) <i class="fa-solid fa-arrow-right"></i></h3>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
