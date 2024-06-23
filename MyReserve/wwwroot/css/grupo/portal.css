@@ -1,0 +1,15 @@
+﻿@font-face {
+    font-family: 'Coffee Spark';
+    src: url('../fonts/Coffee Spark.ttf');
+    font-style: normal;
+    font-weight: normal;
+}
+
+.container h1 {
+    color: #2d9696;
+    font-family: 'Coffee Spark';
+}
+
+.container .peluquerias div h3 {
+    margin: 0%;
+}
