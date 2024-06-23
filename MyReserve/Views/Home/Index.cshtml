@@ -7,6 +7,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @section Styles {
         <!--El style que renderizamos-->
         <link rel="stylesheet" href="~/css/home/home.css" asp-append-version="true" />
@@ -19,6 +20,8 @@
                 <h1 class="text-start title">My Reserve</h1>
             </div>
             <div class="d-none d-md-flex col-md-6 col-lg-6 d-lg-flex justify-content-center align-items-center">
+                <a asp-controller="Formularios" asp-action="LoginGrupo"><button class="btn btn-outline-secondary rounded-pill me-2">Grupo <i class="fa-solid fa-store"></i></button></a>
+                <a asp-controller="Formularios" asp-action="LoginPeluqueria"><button class="btn btn-outline-secondary rounded-pill me-2">Peluquería <i class="fa-solid fa-scissors"></i></button></a>
                 <a asp-controller="Formularios" asp-action="Login"><button class="btn btn-outline-primary rounded-pill me-2">Inicar Sesión</button></a>
                 <a asp-controller="Formularios" asp-action="Registro"><button class="btn btn-outline-success rounded-pill me-2">Registro</button></a>
             </div>
@@ -27,7 +30,9 @@
             <div class="col-sm-12 col-md-6 col-lg-6 mt-0 mt-md-5 mt-lg-5">
                 <h1 class="text-left display-1 titleMain mt-0 mt-md-5 mt-lg-5">¡Tu peluquería de confianza a tan solo un click!</h1>
                 <div class="buttons mt-5">
-                    <a asp-controller="Formularios" asp-action="Login"><button class="btn btn-outline-primary rounded-pill w-100">Inicar Sesión</button></a>
+                    <a class="d-flex d-sm-flex d-md-none d-lg-none text-decoration-none" asp-controller="Formularios" asp-action="LoginGrupo"><button class="btn btn-outline-secondary rounded-pill mt-2 w-100">Grupo <i class="fa-solid fa-store"></i></button></a>
+                    <a class="d-flex d-sm-flex d-md-none d-lg-none text-decoration-none" asp-controller="Formularios" asp-action="LoginPeluqueria"><button class="btn btn-outline-secondary rounded-pill mt-2 w-100">Peluquería <i class="fa-solid fa-scissors"></i></button></a>
+                    <a asp-controller="Formularios" asp-action="Login"><button class="btn btn-outline-primary rounded-pill mt-2 w-100">Inicar Sesión</button></a>
                     <a asp-controller="Formularios" asp-action="Registro"><button class="btn btn-outline-success rounded-pill mt-2 w-100">Registro</button></a>
                 </div>
             </div>

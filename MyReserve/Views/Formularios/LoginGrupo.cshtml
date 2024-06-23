@@ -1,7 +1,7 @@
 ﻿@model MyReserve.Models.TablasBBDD.GrupoPeluqueria.GrupoPeluqueria
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Login Grupos";
     Layout = "_Layout";
 }
 
@@ -22,7 +22,7 @@
                 <h1 class="display-1">My Reserve</h1>
             </div>
             <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
-                <form asp-action="Login" method="post" id="formLogin" class="w-100">
+                <form asp-action="LoginGrupo" method="post" id="formLogin" class="w-100">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group text-start mt-1 w-100">
                         <label asp-for="gp_correo_electronico" class="control-label h4">Correo Electrónico</label>
@@ -40,7 +40,7 @@
                 </form>
             </div>
             <div class="d-flex justify-content-center col-12 p-2 register">
-                <a asp-action="Registro" class="text-white">¿Eres un nuevo grupo? Regístrate 💖</a>
+                <a asp-action="RegistroGrupo" class="text-white">¿Eres una empresa? Regístrate 💖</a>
             </div>
         </div>
     </div>

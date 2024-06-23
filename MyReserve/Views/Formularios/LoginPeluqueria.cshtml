@@ -1,0 +1,52 @@
+﻿@model MyReserve.Models.TablasBBDD.Peluqueria.Peluqueria
+
+@{
+    ViewData["Title"] = "Login Peluqueria";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @section Styles {
+        <!--El style que renderizamos-->
+        <link rel="stylesheet" href="~/css/formulario/login.css" asp-append-version="true" />
+    }
+    <title>Login</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="d-none d-md-flex col-md-6 d-flex titleSection">
+                <h1 class="display-1">My Reserve</h1>
+            </div>
+            <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
+                <form asp-action="LoginPeluquerias" method="post" id="formLogin" class="w-100">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group text-start mt-1 w-100">
+                        <label asp-for="pelu_correo_electronico" class="control-label h4">Correo Electrónico</label>
+                        <input asp-for="pelu_correo_electronico" class="form-control" placeholder="Correo Electrónico" id="txtCorreo" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group text-start mt-4 w-100">
+                        <label asp-for="pelu_contrasenha" class="control-label h4">Contraseña</label>
+                        <input asp-for="pelu_contrasenha" type="password" class="form-control" placeholder="Contraseña" id="txtContrasenha" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group mt-4 mb-4 w-100">
+                        <input type="submit" value="Iniciar Sesión" class="btn btn-primary w-100" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/forms/login.js"></script>
+</html>
