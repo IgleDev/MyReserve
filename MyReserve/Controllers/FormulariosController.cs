@@ -147,10 +147,13 @@ namespace MyReserve.Controllers {
             return View();
         }
 
+        [HttpPost]
         public async Task<IActionResult> RegistroGrupos(GrupoPeluqueria grupo) {
             await _formularioRepository.RegistroGrupos(grupo);
             return View("LoginGrupo", grupo);
         }
+
+        // Helpers
 
         public void serializarUsuario(Usuarios usuario) {
             string json = JsonConvert.SerializeObject(usuario);
@@ -186,12 +189,6 @@ namespace MyReserve.Controllers {
             return peluquero;
         }
 
-        public GrupoPeluqueria deserializarGrupo() {
-            GrupoPeluqueria grupo = new GrupoPeluqueria();
-            string json = HttpContext.Session.GetString("GrupoActual");
-            grupo = JsonConvert.DeserializeObject<GrupoPeluqueria>(json);
-            return grupo;
-        }
         public Peluqueria deserializarPeluqueria() {
             Peluqueria peluqueria = new Peluqueria();
             string json = HttpContext.Session.GetString("PeluqueriaActual");
