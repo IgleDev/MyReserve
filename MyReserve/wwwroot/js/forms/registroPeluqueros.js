@@ -115,8 +115,6 @@
 
     $('#formRegistroPeluqueros').submit(function (e) {
         e.preventDefault();
-        if (validar()) {
-            this.submit();
-        }
+        if (validar()) this.submit();
     });
 });

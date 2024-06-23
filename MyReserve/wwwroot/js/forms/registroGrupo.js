@@ -1,11 +1,8 @@
 ﻿$(document).ready(function () {
-
-    $('#part2').hide();
-
     function valNombre() {
         let txtNombre = $('#txtNombre').val();
         let errorNombre = $('.text-danger').eq(0);
-        if (txtNombre === undefined || txtNombre === '' || txtNombre.includes(' ')) {
+        if (txtNombre === undefined || txtNombre === '') {
             errorNombre.html('<h4>* Error al escribir el nombre</h4>');
             return false
         }
@@ -35,49 +32,16 @@
         errorContrasenha.text('');
         return true;
     }
-    function valPais() {
-        let txtPais = $('#txtPais').val();
-        let errorPais = $('.text-danger').eq(3);
-        if (txtPais === undefined || txtPais === '' || txtPais.includes(' ')) {
-            errorPais.html('<h4>* Error al escribir el País</h4>');
-            return false
-        }
-        errorPais.text('');
-        return true;
-    }
-
-    function valCiudad() {
-        let txtCiudad = $('#txtCiudad').val();
-        let errorCiudad = $('.text-danger').eq(4);
-        if (txtCiudad === undefined || txtCiudad === '' || txtCiudad.includes(' ')) {
-            errorCiudad.html('<h4>* Error al escribir la ciudad</h4>');
-            return false
-        }
-        errorCiudad.text('');
-        return true;
-    }
 
     function validar() {
         let txtNombre = valNombre();
         let txtCorreo = valCorreo();
         let txtContrasenha = valContrasenha();
-        let txtPais = valPais();
-        let txtCiudad = valCiudad();
-        if (txtNombre && txtCorreo && txtContrasenha && txtPais && txtCiudad) return true;
+        if (txtNombre && txtCorreo && txtContrasenha) return true;
     }
 
-    $('#btnPtV1').click(function (e) {
-        $('#part1').hide();
-        $('#part2').show();
-    });
-
-    $('#btnPt3').click(function (e) {
-        $('#part2').hide();
-        $('#part1').show();
-    });
-
-    $('#formRegistro').submit(function (e) {
+    $('#formRegistroGrupos').submit(function (e) {
         e.preventDefault();
         if (validar()) this.submit();
     });
-});
+}

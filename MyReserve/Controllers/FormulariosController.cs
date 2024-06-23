@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MyReserve.Models.Repository.RepositoryUsuarios;
 using MyReserve.Models.TablasBBDD.Usuarios;
 using MyReserve.Models.TablasBBDD.Peluqueros;
+using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
+using MyReserve.Models.TablasBBDD.Peluqueria;
 
 namespace MyReserve.Controllers {
     public class FormulariosController : Controller {
@@ -60,20 +62,20 @@ namespace MyReserve.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegistroPeluquero(Peluqueros model) {
+        public async Task<IActionResult> RegistroPeluquero(Peluqueros peluqueros) {
             if(!ModelState.IsValid) {
-                return View(model);
+                return View(peluqueros);
             }
 
-            int peluqueriaId = await _formularioRepository.ObtenerPeluqueriaIdPorNombreAsync(model.pel_pelu_id_fk);
-            int grupoId = await _formularioRepository.ObtenerGrupoIdPorNombreAsync(model.pel_grupo_id_fk);
+            int peluqueriaId = await _formularioRepository.PeluqueriaIDNombre(peluqueros.pel_pelu_id_fk);
+            int grupoId = await _formularioRepository.GrupoIdNombre(peluqueros.pel_grupo_id_fk);
 
             var peluquero = new Peluqueros {
-                pel_nombre = model.pel_nombre,
-                pel_correo_electronico = model.pel_correo_electronico,
-                pel_contrasenha = model.pel_contrasenha,
-                pel_experiencia = model.pel_experiencia,
-                pel_instagram = model.pel_instagram,
+                pel_nombre = peluqueros.pel_nombre,
+                pel_correo_electronico = peluqueros.pel_correo_electronico,
+                pel_contrasenha = peluqueros.pel_contrasenha,
+                pel_experiencia = peluqueros.pel_experiencia,
+                pel_instagram = peluqueros.pel_instagram,
                 pel_pelu_id_fk = peluqueriaId.ToString(),
                 pel_grupo_id_fk = grupoId.ToString()
             };
@@ -83,23 +85,71 @@ namespace MyReserve.Controllers {
             return RedirectToAction("LoginPeluqueros");
         }
 
-
-
         // Login & Registro de Grupos/Peluquerías ->
 
-        public IActionResult LoginAdmin() {
+        public IActionResult LoginPeluqueria() {
+            return View();
+        }
+
+        public async Task<IActionResult> LoginPeluquerias(string pelu_correo_electronico, string pelu_contrasenha) {
+            var peluqueria = await _formularioRepository.LoginPeluqueria(pelu_correo_electronico, pelu_contrasenha);
+            if(peluqueria == null) {
+                return View("LoginPeluqueria");
+            } else {
+                serializarPeluqueria(peluqueria);
+                return RedirectToAction("Portal", "Peluqueria", peluqueria);
+            }
+        }
+
+        public IActionResult LoginGrupo() {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> LoginAdmin(string usu_correo_electronico, string usu_contrasenha) {
-            var usuario = await _formularioRepository.Login(usu_correo_electronico, usu_contrasenha);
-            if(usuario == null) {
-                return View("Login");
+        public async Task<IActionResult> LoginGrupo(string gp_correo_electronico, string gp_contrasenha) {
+            var gp = await _formularioRepository.LoginGrupo(gp_correo_electronico, gp_contrasenha);
+            if(gp == null) {
+                return View("LoginGrupo");
             } else {
-                serializarUsuario(usuario);
-                return RedirectToAction("Index", "Libro", usuario);
+                serializarGrupo(gp);
+                return RedirectToAction("Portal", "GrupoPeluqueria", gp);
             }
+        }
+
+        public IActionResult RegistroPeluqueria() {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegistroPeluqueria(Peluqueria peluqueria) {
+            if(!ModelState.IsValid) {
+                return View(peluqueria);
+            }
+
+            int pelu_gp_id_fk = await _formularioRepository.GrupoIdNombre(peluqueria.pelu_gp_id_fk);
+
+            var peluquerias = new Peluqueria {
+                pelu_nombre = peluqueria.pelu_nombre,
+                pelu_correo_electronico = peluqueria.pelu_correo_electronico,
+                pelu_contrasenha = peluqueria.pelu_contrasenha,
+                pelu_pais = peluqueria.pelu_pais,
+                pelu_ciudad = peluqueria.pelu_ciudad,
+                pelu_telefono = peluqueria.pelu_telefono,
+                pelu_gp_id_fk = pelu_gp_id_fk.ToString()
+            };
+
+            await _formularioRepository.RegistroPeluqueria(peluquerias);
+
+            return RedirectToAction("LoginPeluqueria");
+        }
+
+        public IActionResult RegistroGrupo() {
+            return View();
+        }
+
+        public async Task<IActionResult> RegistroGrupos(GrupoPeluqueria grupo) {
+            await _formularioRepository.RegistroGrupos(grupo);
+            return View("LoginGrupo", grupo);
         }
 
         public void serializarUsuario(Usuarios usuario) {
@@ -112,6 +162,16 @@ namespace MyReserve.Controllers {
             HttpContext.Session.SetString("PeluqueroActual", json);
         }
 
+        public void serializarPeluqueria(Peluqueria peluqueria) {
+            string json = JsonConvert.SerializeObject(peluqueria);
+            HttpContext.Session.SetString("PeluqueriaActual", json);
+        }
+
+        public void serializarGrupo(GrupoPeluqueria grupo) {
+            string json = JsonConvert.SerializeObject(grupo);
+            HttpContext.Session.SetString("GrupoActual", json);
+        }
+
         public Usuarios deserializarUsuario() {
             Usuarios usuario = new Usuarios();
             string json = HttpContext.Session.GetString("UsuarioActual");
@@ -119,5 +179,24 @@ namespace MyReserve.Controllers {
             return usuario;
         }
 
+        public Peluqueros deserializarPeluquero() {
+            Peluqueros peluquero = new Peluqueros();
+            string json = HttpContext.Session.GetString("PeluqueroActual");
+            peluquero = JsonConvert.DeserializeObject<Peluqueros>(json);
+            return peluquero;
+        }
+
+        public GrupoPeluqueria deserializarGrupo() {
+            GrupoPeluqueria grupo = new GrupoPeluqueria();
+            string json = HttpContext.Session.GetString("GrupoActual");
+            grupo = JsonConvert.DeserializeObject<GrupoPeluqueria>(json);
+            return grupo;
+        }
+        public Peluqueria deserializarPeluqueria() {
+            Peluqueria peluqueria = new Peluqueria();
+            string json = HttpContext.Session.GetString("PeluqueriaActual");
+            peluqueria = JsonConvert.DeserializeObject<Peluqueria>(json);
+            return peluqueria;
+        }
     }
 }
