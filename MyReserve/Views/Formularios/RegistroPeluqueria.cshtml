@@ -1,0 +1,97 @@
+﻿@model MyReserve.Models.TablasBBDD.Peluqueria.Peluqueria;
+
+@{
+    ViewData["Title"] = "Registro Peluquerias";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @section Styles {
+        <!--El style que renderizamos-->
+        <link rel="stylesheet" href="~/css/formulario/registro.css" asp-append-version="true" />
+    }
+    <title>Registro Peluquerias</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="d-none d-md-flex col-md-6 d-flex titleSection">
+                <h1 class="display-1">My Reserve</h1>
+            </div>
+            <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
+                <form asp-action="RegistroPeluquerias" method="post" id="formRegistroPeluquerias">
+                    <div id="part1">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pelu_nombre" class="control-label h4">Nombre Peluqueria</label>
+                            <input type="text" asp-for="pelu_nombre" class="form-control" placeholder="Nombre de la Peluqueria" id="txtNombre" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pelu_correo_electronico" class="control-label h4">Correo Electrónico</label>
+                            <input asp-for="pelu_correo_electronico" type="email" class="form-control" placeholder="Correo Electrónico" id="txtCorreo" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-start mt-4 w-100">
+                            <label asp-for="pelu_contrasenha" class="control-label h4">Contraseña</label>
+                            <input asp-for="pelu_contrasenha" type="password" class="form-control" placeholder="Contraseña" id="txtContrasenha" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-4 mb-4 w-100">
+                            <button type="button" id="btnPt1" class="btn btn-info w-100">Unos datos mas... &rarr;</button>
+                        </div>
+                    </div>
+                    <div id="part2">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pelu_ciudad" class="control-label h4">Ciudad</label>
+                            <input type="text" asp-for="pelu_ciudad" class="form-control" placeholder="Ciudad" id="txtCiudad" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pelu_pais" class="control-label h4">País</label>
+                            <input asp-for="pelu_pais" type="text" class="form-control" placeholder="Pais" id="txtPais" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-4 mb-4 w-100">
+                            <button type="button" id="btnPtV1" class="btn btn-danger w-25">Volver</button>
+                            <button type="button" id="btnPt2" class="btn btn-info w-50">Ya casi &rarr;</button>
+                        </div>
+                    </div>
+                    <div id="part3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pelu_telefono" class="control-label h4">Telefono</label>
+                            <input type="number" asp-for="pelu_telefono" class="form-control" placeholder="Nombre de la peluquería" id="txtTelefono" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pelu_gp_id_fk" class="control-label h4">Grupo de la Peluqueria</label>
+                            <input disabled type="text" asp-for="pelu_gp_id_fk" class="form-control" placeholder="Nombre del grupo de peluquerías" id="txtGP" value="@Model.grupoPeluqueria.gp_nombre" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-4 mb-4 w-100">
+                            <button type="button" id="btnPt3" class="btn btn-danger w-25">Volver</button>
+                            <input type="submit" value="Registra tu peluquería" class="btn btn-primary w-50" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="d-flex justify-content-center col-12 p-2 register">
+                <a asp-action="LoginPeluqueros" class="text-white">¿Ya eres Peluquero? Inicia Sesión 💖</a>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/forms/registroPeluqueros.js"></script>
+</html>
