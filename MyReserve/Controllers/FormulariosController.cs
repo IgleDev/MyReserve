@@ -117,11 +117,17 @@ namespace MyReserve.Controllers {
         }
 
         public IActionResult RegistroPeluqueria() {
-            return View();
+            GrupoPeluqueria grupoActual = deserializarGrupo();
+
+            var peluqueria = new Peluqueria {
+                grupoPeluqueria = grupoActual,
+                pelu_gp_id_fk = grupoActual.gp_nombre
+            };
+            return View(peluqueria);
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegistroPeluqueria(Peluqueria peluqueria) {
+        public async Task<IActionResult> RegistroPeluquerias(Peluqueria peluqueria) {
             if(!ModelState.IsValid) {
                 return View(peluqueria);
             }
@@ -194,6 +200,13 @@ namespace MyReserve.Controllers {
             string json = HttpContext.Session.GetString("PeluqueriaActual");
             peluqueria = JsonConvert.DeserializeObject<Peluqueria>(json);
             return peluqueria;
+        }
+
+        public GrupoPeluqueria deserializarGrupo() {
+            GrupoPeluqueria grupo = new GrupoPeluqueria();
+            string json = HttpContext.Session.GetString("GrupoActual");
+            grupo = JsonConvert.DeserializeObject<GrupoPeluqueria>(json);
+            return grupo;
         }
     }
 }
