@@ -95,12 +95,12 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
 
             var parametros = new DynamicParameters();
             parametros.Add("pelu_nombre", peluqueria.pelu_nombre, DbType.String);
-            parametros.Add("pelu_correo_electronico", peluqueria.pelu_nombre, DbType.String);
-            parametros.Add("pelu_contrasenha", peluqueria.pelu_nombre, DbType.String);
-            parametros.Add("pelu_pais", peluqueria.pelu_nombre, DbType.String);
-            parametros.Add("pelu_ciudad", peluqueria.pelu_nombre, DbType.String);
-            parametros.Add("pelu_telefono", peluqueria.pelu_nombre, DbType.String);
-            parametros.Add("pelu_gp_id_fk", peluqueria.pelu_nombre, DbType.String);
+            parametros.Add("pelu_correo_electronico", peluqueria.pelu_contrasenha, DbType.String);
+            parametros.Add("pelu_contrasenha", peluqueria.pelu_contrasenha, DbType.String);
+            parametros.Add("pelu_pais", peluqueria.pelu_pais, DbType.String);
+            parametros.Add("pelu_ciudad", peluqueria.pelu_ciudad, DbType.String);
+            parametros.Add("pelu_telefono", peluqueria.pelu_telefono, DbType.String);
+            parametros.Add("pelu_gp_id_fk", peluqueria.pelu_gp_id_fk, DbType.String);
 
             using(var connection = _conexion.getConexion()) {
                 await connection.ExecuteAsync(query, parametros);

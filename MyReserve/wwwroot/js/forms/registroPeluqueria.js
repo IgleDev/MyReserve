@@ -6,7 +6,7 @@
     function valNombre() {
         let txtNombre = $('#txtNombre').val();
         let errorNombre = $('.text-danger').eq(0);
-        if (txtNombre === undefined || txtNombre === '' || txtNombre.includes(' ')) {
+        if (txtNombre === undefined || txtNombre === '') {
             errorNombre.html('<h4>* Error al escribir el nombre</h4>');
             return false
         }
