@@ -123,18 +123,20 @@ namespace MyReserve.Controllers {
                 grupoPeluqueria = grupoActual,
                 pelu_gp_id_fk = grupoActual.gp_nombre
             };
+
             return View(peluqueria);
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegistroPeluquerias(Peluqueria peluqueria) {
+        public async Task<IActionResult> RegistroPeluqueria(Peluqueria peluqueria) {
             if(!ModelState.IsValid) {
-                return View(peluqueria);
+                GrupoPeluqueria grupoActual = deserializarGrupo();
+                peluqueria.pelu_gp_id_fk = grupoActual.gp_nombre;
             }
 
             int pelu_gp_id_fk = await _formularioRepository.GrupoIdNombre(peluqueria.pelu_gp_id_fk);
 
-            var peluquerias = new Peluqueria {
+            var nuevaPeluqueria = new Peluqueria {
                 pelu_nombre = peluqueria.pelu_nombre,
                 pelu_correo_electronico = peluqueria.pelu_correo_electronico,
                 pelu_contrasenha = peluqueria.pelu_contrasenha,
@@ -144,10 +146,11 @@ namespace MyReserve.Controllers {
                 pelu_gp_id_fk = pelu_gp_id_fk.ToString()
             };
 
-            await _formularioRepository.RegistroPeluqueria(peluquerias);
+            await _formularioRepository.RegistroPeluqueria(nuevaPeluqueria);
 
             return RedirectToAction("LoginPeluqueria");
         }
+
 
         public IActionResult RegistroGrupo() {
             return View();
