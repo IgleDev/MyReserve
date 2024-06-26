@@ -148,7 +148,7 @@ namespace MyReserve.Controllers {
 
             await _formularioRepository.RegistroPeluqueria(nuevaPeluqueria);
 
-            return RedirectToAction("LoginPeluqueria");
+            return RedirectToAction("Portal", "GrupoPeluqueria");
         }
 
 
