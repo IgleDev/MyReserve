@@ -62,7 +62,7 @@ namespace MyReserve.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegistroPeluquero(Peluqueros peluqueros) {
+        public async Task<IActionResult> RegistroPeluqueros(Peluqueros peluqueros) {
             if(!ModelState.IsValid) {
                 return View(peluqueros);
             }
@@ -82,7 +82,7 @@ namespace MyReserve.Controllers {
 
             await _formularioRepository.RegistroPeluqueros(peluquero);
 
-            return RedirectToAction("LoginPeluqueros");
+            return RedirectToAction("Portal", "Peluquerias");
         }
 
         // Login & Registro de Grupos/Peluquerías ->
@@ -97,7 +97,7 @@ namespace MyReserve.Controllers {
                 return View("LoginPeluqueria");
             } else {
                 serializarPeluqueria(peluqueria);
-                return RedirectToAction("Portal", "Peluqueria", peluqueria);
+                return RedirectToAction("Portal", "Peluquerias", peluqueria);
             }
         }
 
