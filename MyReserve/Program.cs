@@ -1,6 +1,7 @@
 using MyReserve.Models.Repository.RepositoryUsuarios;
 using MyReserve.Models;
 using MyReserve.Models.Repository.RepositoryGrupoPeluquerias;
+using MyReserve.Models.Repository.RepositoryPeluqueria;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton(new Conexion(builder.Configuration.GetConnectionString("MyReserve")));
 builder.Services.AddScoped<IFormulario, FormularioRepository>();
 builder.Services.AddScoped<IGrupoPeluquerias, GrupoPeluqueriasRepository>();
+builder.Services.AddScoped<IPeluqueria, PeluqueriaRepository>();
 builder.Services.AddSession();
 
 var app = builder.Build();
