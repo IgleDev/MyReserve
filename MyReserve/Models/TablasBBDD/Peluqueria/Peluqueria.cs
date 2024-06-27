@@ -11,5 +11,6 @@ namespace MyReserve.Models.TablasBBDD.Peluqueria {
         public string pelu_telefono { get; set; }
         public string pelu_gp_id_fk { get; set; }
         public MyReserve.Models.TablasBBDD.GrupoPeluqueria.GrupoPeluqueria grupoPeluqueria { get; set; }
+        public IEnumerable<MyReserve.Models.TablasBBDD.Peluqueros.Peluqueros> peluqueros { get; set; }
     }
 }
