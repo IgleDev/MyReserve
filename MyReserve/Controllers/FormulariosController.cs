@@ -26,7 +26,7 @@ namespace MyReserve.Controllers {
                 return View("Login");
             } else {
                 serializarUsuario(usuario);
-                return RedirectToAction("Index", "Peluqueria", usuario);
+                return RedirectToAction("Portal", "InfoUsuarios", usuario);
             }
         }
 
