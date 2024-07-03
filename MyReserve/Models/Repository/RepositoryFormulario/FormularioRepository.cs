@@ -91,7 +91,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
 
         public async Task RegistroPeluqueria(Peluqueria peluqueria) {
             var query = "INSERT INTO Peluqueria (pelu_nombre, pelu_correo_electronico, pelu_contrasenha, pelu_pais, " +
-                "pelu_ciudad, pelu_telefono, pelu_gp_id_fk) VALUES (@pelu_nombre, @pelu_correo_electronico, @pelu_contrasenha, " +
+                "pelu_ciudad, pelu_calle, pelu_telefono, pelu_gp_id_fk) VALUES (@pelu_nombre, @pelu_correo_electronico, @pelu_contrasenha, " +
                 "@pelu_pais, @pelu_ciudad, @pelu_telefono, @pelu_gp_id_fk)";
 
             var parametros = new DynamicParameters();
@@ -100,6 +100,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             parametros.Add("pelu_contrasenha", peluqueria.pelu_contrasenha, DbType.String);
             parametros.Add("pelu_pais", peluqueria.pelu_pais, DbType.String);
             parametros.Add("pelu_ciudad", peluqueria.pelu_ciudad, DbType.String);
+            parametros.Add("pelu_calle", peluqueria.pelu_calle, DbType.String);
             parametros.Add("pelu_telefono", peluqueria.pelu_telefono, DbType.String);
             parametros.Add("pelu_gp_id_fk", peluqueria.pelu_gp_id_fk, DbType.String);
 
