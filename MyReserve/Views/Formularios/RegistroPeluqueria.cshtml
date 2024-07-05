@@ -48,13 +48,25 @@
                     <div id="part2">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group text-start mt-1 w-100">
-                            <label asp-for="pelu_ciudad" class="control-label h4">Ciudad</label>
-                            <input type="text" asp-for="pelu_ciudad" class="form-control" placeholder="Ciudad" id="txtCiudad" />
+                            <label asp-for="pelu_pais" class="control-label h4">País</label>
+                            <select asp-for="pelu_pais" class="form-control" id="listaPais">
+                                <option disabled value="">Selecciona un país</option>
+                                @foreach(var pais in Model.listaPaises) {
+                                    <option value="@pais.pai_nombre">@pais.pai_nombre</option>
+                                }
+                            </select>
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group text-start mt-1 w-100">
-                            <label asp-for="pelu_pais" class="control-label h4">País</label>
-                            <input asp-for="pelu_pais" type="text" class="form-control" placeholder="Pais" id="txtPais" />
+                            <label asp-for="pelu_ciudad" class="control-label h4">Selecciona la Región</label>
+                            <select id="listaRegiones" asp-for="pelu_ciudad" class="form-control">
+                                <option value="">Seleccionar Región</option>
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pelu_direccion" class="control-label h4">Dirección</label>
+                            <input asp-for="pelu_direccion" type="text" class="form-control" placeholder="Calle..." id="txtCalle" />
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group mt-4 mb-4 w-100">
