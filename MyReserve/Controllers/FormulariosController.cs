@@ -5,6 +5,7 @@ using MyReserve.Models.TablasBBDD.Usuarios;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueria;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MyReserve.Controllers {
     public class FormulariosController : Controller {
@@ -116,16 +117,30 @@ namespace MyReserve.Controllers {
             }
         }
 
-        public IActionResult RegistroPeluqueria() {
+        [HttpGet]
+        public async Task<IActionResult> RegistroPeluqueria() {
             GrupoPeluqueria grupoActual = deserializarGrupo();
+            var paises = await _formularioRepository.getPaises();
 
             var peluqueria = new Peluqueria {
                 grupoPeluqueria = grupoActual,
-                pelu_gp_id_fk = grupoActual.gp_nombre
+                pelu_gp_id_fk = grupoActual.gp_nombre,
+                listaPaises = paises
             };
 
             return View(peluqueria);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> getRegionesPais(string pai_nombre) {
+                if(string.IsNullOrEmpty(pai_nombre)) {
+                    return Json("No hay parametros disponibles");
+                }
+
+                var regiones = await _formularioRepository.getRegionesPais(pai_nombre);
+                return Json(regiones);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> RegistroPeluqueria(Peluqueria peluqueria) {
@@ -142,6 +157,7 @@ namespace MyReserve.Controllers {
                 pelu_contrasenha = peluqueria.pelu_contrasenha,
                 pelu_pais = peluqueria.pelu_pais,
                 pelu_ciudad = peluqueria.pelu_ciudad,
+                pelu_direccion = peluqueria.pelu_direccion,
                 pelu_telefono = peluqueria.pelu_telefono,
                 pelu_gp_id_fk = pelu_gp_id_fk.ToString()
             };
