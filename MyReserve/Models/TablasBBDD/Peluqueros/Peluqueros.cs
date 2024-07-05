@@ -26,7 +26,6 @@ namespace MyReserve.Models.TablasBBDD.Peluqueros {
         [Required]
         public string? pel_grupo_id_fk { get; set; }
 
-        [NotMapped]
         public MyReserve.Models.TablasBBDD.Peluqueria.Peluqueria? peluqueria { get; set; }
     }
 }
