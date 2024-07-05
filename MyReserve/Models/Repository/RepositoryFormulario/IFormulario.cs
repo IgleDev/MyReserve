@@ -1,4 +1,6 @@
-﻿using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
+﻿using MyReserve.Models.TablasBBDD.Region;
+using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
+using MyReserve.Models.TablasBBDD.Paises;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
@@ -21,5 +23,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         // Helpers de Querys
         Task<int> PeluqueriaIDNombre(string pelu_nombre);
         Task<int> GrupoIdNombre(string gp_nombre);
+        Task<IEnumerable<Paises>> getPaises();
+        Task<IEnumerable<Region>> getRegionesPais(string pai_nombre);
     }
 }

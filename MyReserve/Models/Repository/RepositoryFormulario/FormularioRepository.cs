@@ -1,5 +1,7 @@
 ﻿using Dapper;
+using MyReserve.Models.TablasBBDD.Region;
 using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
+using MyReserve.Models.TablasBBDD.Paises;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
@@ -54,14 +56,12 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         // Registros ->
 
         public async Task RegistroUsuario(Usuarios usuarios) {
-            var query = "INSERT INTO Usuarios (usu_nombre, usu_correo_electronico, usu_contrasenha, usu_pais, usu_ciudad) " +
-                "VALUES (@usu_nombre, @usu_correo_electronico, @usu_contrasenha, @usu_pais, @usu_ciudad)";
+            var query = "INSERT INTO Usuarios (usu_nombre, usu_correo_electronico, usu_contrasenha) " +
+                "VALUES (@usu_nombre, @usu_correo_electronico, @usu_contrasenha)";
             var parametros = new DynamicParameters();
             parametros.Add("usu_nombre", usuarios.usu_nombre, DbType.String);
             parametros.Add("usu_correo_electronico", usuarios.usu_correo_electronico, DbType.String);
             parametros.Add("usu_contrasenha", usuarios.usu_contrasenha, DbType.String);
-            parametros.Add("usu_ciudad", usuarios.usu_ciudad, DbType.String);
-            parametros.Add("usu_pais", usuarios.usu_pais, DbType.String);
 
             using(var connection = _conexion.getConexion()) {
                 await connection.ExecuteAsync(query, parametros);
@@ -91,16 +91,16 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
 
         public async Task RegistroPeluqueria(Peluqueria peluqueria) {
             var query = "INSERT INTO Peluqueria (pelu_nombre, pelu_correo_electronico, pelu_contrasenha, pelu_pais, " +
-                "pelu_ciudad, pelu_calle, pelu_telefono, pelu_gp_id_fk) VALUES (@pelu_nombre, @pelu_correo_electronico, @pelu_contrasenha, " +
-                "@pelu_pais, @pelu_ciudad, @pelu_telefono, @pelu_gp_id_fk)";
+                "pelu_ciudad, pelu_direccion, pelu_telefono, pelu_gp_id_fk) VALUES (@pelu_nombre, @pelu_correo_electronico, @pelu_contrasenha, " +
+                "@pelu_pais, @pelu_ciudad, @pelu_direccion, @pelu_telefono, @pelu_gp_id_fk)";
 
             var parametros = new DynamicParameters();
             parametros.Add("pelu_nombre", peluqueria.pelu_nombre, DbType.String);
-            parametros.Add("pelu_correo_electronico", peluqueria.pelu_contrasenha, DbType.String);
+            parametros.Add("pelu_correo_electronico", peluqueria.pelu_correo_electronico, DbType.String);
             parametros.Add("pelu_contrasenha", peluqueria.pelu_contrasenha, DbType.String);
             parametros.Add("pelu_pais", peluqueria.pelu_pais, DbType.String);
             parametros.Add("pelu_ciudad", peluqueria.pelu_ciudad, DbType.String);
-            parametros.Add("pelu_calle", peluqueria.pelu_calle, DbType.String);
+            parametros.Add("pelu_direccion", peluqueria.pelu_direccion, DbType.String);
             parametros.Add("pelu_telefono", peluqueria.pelu_telefono, DbType.String);
             parametros.Add("pelu_gp_id_fk", peluqueria.pelu_gp_id_fk, DbType.String);
 
@@ -137,5 +137,24 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
                 return await connection.ExecuteScalarAsync<int>(query, new { gp_nombre });
             }
         }
+
+        public async Task<IEnumerable<Paises>> getPaises() {
+            var query = "SELECT pai_nombre FROM Paises";
+            using (var connection = _conexion.getConexion()) {
+                var paises = await connection.QueryAsync<Paises>(query);
+                return paises;
+            }
+        }
+
+        public async Task<IEnumerable<Region>> getRegionesPais(string pai_nombre) {
+            var query = "SELECT reg_nombre FROM Region " +
+                "INNER JOIN Paises AS pai ON pai.pai_id = reg_pai_id_fk " +
+                "WHERE pai_nombre = @pai_nombre";
+
+            using(var connection = _conexion.getConexion()) {
+                return await connection.QueryAsync<Region>(query, new { pai_nombre = pai_nombre });
+            }
+        }
+
     }
 }
