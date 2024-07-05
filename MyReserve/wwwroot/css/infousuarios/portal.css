@@ -17,3 +17,7 @@ h1{
 .peluqueriaInfo{
     width: 86%;
 }
+
+div > p > i {
+    color: #2d9696;
+}
