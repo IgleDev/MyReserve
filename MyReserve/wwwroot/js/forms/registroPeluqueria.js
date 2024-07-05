@@ -37,33 +37,44 @@
         return true;
     }
 
-    function valCiudad() {
-        let txtCiudad = $('#txtCiudad').val();
-        let errorCiudad = $('.text-danger').eq(3);
-        if (txtCiudad === undefined || txtCiudad === '') {
-            errorCiudad.html('<h4>* Error al escribir la experiencia</h4>');
-            return false
-        }
-        errorCiudad.text('');
-        return true;
-    }
-
     function valPais() {
         let txtPais = $('#txtPais').val();
-        let errorPais = $('.text-danger').eq(4);
-        if (txtPais === undefined || txtPais === '') {
-            errorPais.html('<h4>* Error al escribir tu instagram</h4>');
+        let errorPais = $('.text-danger').eq(3);
+        if (txtPais === 'Selecciona un país') {
+            errorPais.html('<h4>* Elige un país</h4>');
             return false
         }
         errorPais.text('');
         return true;
     }
 
+    function valCiudad() {
+        let txtCiudad = $('#txtCiudad').val();
+        let errorCiudad = $('.text-danger').eq(4);
+        if (txtCiudad === 'Seleccionar Región') {
+            errorCiudad.html('<h4>* Elige una Región </h4>');
+            return false
+        }
+        errorCiudad.text('');
+        return true;
+    }
+
+    function valCalle() {
+        let txtCalle = $('#txtCalle').val();
+        let errorCalle = $('.text-danger').eq(5);
+        if (txtCalle === undefined || txtCalle === '') {
+            errorCalle.html('<h4>* Error al escribir la calle</h4>');
+            return false
+        }
+        errorCalle.text('');
+        return true;
+    }
+
     function valTelefono() {
         let txtTelefono = $('#txtTelefono').val();
-        let errorTelefono = $('.text-danger').eq(5);
+        let errorTelefono = $('.text-danger').eq(6);
         if (txtTelefono === undefined || txtTelefono === '') {
-            errorTelefono.html('<h4>* Error al escribir el nombre de la peluquería</h4>');
+            errorTelefono.html('<h4>* Error al escribir el teléfono</h4>');
             return false
         }
         errorTelefono.text('');
@@ -72,7 +83,7 @@
 
     function valGP() {
         let txtGP = $('#txtGP').val();
-        let errorGP = $('.text-danger').eq(6);
+        let errorGP = $('.text-danger').eq(7);
         if (txtGP === undefined || txtGP === '') {
             errorGP.html('<h4>* Error al escribir el grupo de peluquerías</h4>');
             return false
@@ -85,12 +96,13 @@
         let txtNombre = valNombre();
         let txtCorreo = valCorreo();
         let txtContrasenha = valContrasenha();
-        let txtExperiencia = valCiudad();
-        let txtRRSS = valPais();
-        let txtNombrePeluqueria = valTelefono();
+        let txtCiudad = valCiudad();
+        let txtPais = valPais();
+        let txtCalle = valCalle();
+        let txtTelefono = valTelefono();
         let txtGP = valGP();
-        if (txtNombre && txtCorreo && txtContrasenha && txtExperiencia &&
-            txtRRSS && txtNombrePeluqueria && txtGP) return true;
+        if (txtNombre && txtCorreo && txtContrasenha && txtCiudad &&
+            txtPais && txtCalle && txtTelefono && txtGP) return true;
     }
 
     $('#btnPt1').click(function (e) {
@@ -111,6 +123,29 @@
     $('#btnPt3').click(function (e) {
         $('#part3').hide();
         $('#part2').show();
+    });
+
+    $('#listaPais').change(function () {
+        let pai_nombre = $(this).val();
+        let regiones = $('#listaRegiones');
+        regiones.empty();
+        regiones.append('<option disabled value="">Seleccionar Región</option>');
+
+        if (pai_nombre) {
+            $.ajax({
+                url: '/Formularios/getRegionesPais',
+                type: 'GET',
+                data: { pai_nombre: pai_nombre },
+                success: function (data) {
+                    $.each(data, function (index, reg) {
+                        regiones.append(`<option value="${reg.reg_nombre}">${reg.reg_nombre}</option>`);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
     });
 
     $('#formRegistroPeluquerias').submit(function (e) {
