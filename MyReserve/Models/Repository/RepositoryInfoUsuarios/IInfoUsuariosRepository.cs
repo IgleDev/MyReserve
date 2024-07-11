@@ -1,4 +1,6 @@
-﻿using MyReserve.Models.TablasBBDD.Peluqueria;
+﻿using Dapper;
+using MyReserve.Models.TablasBBDD.Paises;
+using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
 
@@ -10,8 +12,12 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
             _conexion = conexion;
         }
 
-        public IEnumerable<Peluqueros> GetPeluqueros(Usuarios usu) {
-            throw new NotImplementedException();
+        public async Task<IEnumerable<Paises>> getPaises() {
+            var query = "SELECT pai_nombre FROM Paises";
+            using(var connection = _conexion.getConexion()) {
+                var paises = await connection.QueryAsync<Paises>(query);
+                return paises;
+            }
         }
     }
 }
