@@ -7,7 +7,8 @@ namespace MyReserve.Models.TablasBBDD.Peluqueria {
         public string pelu_correo_electronico { get; set; }
         public string pelu_contrasenha { get; set; }
         public string pelu_pais { get; set; }
-        public string pelu_ciudad { get; set; }
+        public string pelu_region { get; set; }
+        public string pelu_ciudad {  get; set; }
         public string pelu_direccion { get; set; }
         public string pelu_telefono { get; set; }
         public string pelu_gp_id_fk { get; set; }
