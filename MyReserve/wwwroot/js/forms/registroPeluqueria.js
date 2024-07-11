@@ -38,7 +38,7 @@
     }
 
     function valPais() {
-        let txtPais = $('#txtPais').val();
+        let txtPais = $('#listaPaises').val();
         let errorPais = $('.text-danger').eq(3);
         if (txtPais === 'Selecciona un país') {
             errorPais.html('<h4>* Elige un país</h4>');
@@ -48,9 +48,20 @@
         return true;
     }
 
+    function valRegion() {
+        let txtRegion = $('#listaRegiones').val();
+        let errorRegion = $('.text-danger').eq(4);
+        if (txtRegion === 'Seleccionar Región') {
+            errorRegion.html('<h4>* Elige una Región </h4>');
+            return false
+        }
+        errorRegion.text('');
+        return true;
+    }
+
     function valCiudad() {
         let txtCiudad = $('#txtCiudad').val();
-        let errorCiudad = $('.text-danger').eq(4);
+        let errorCiudad = $('.text-danger').eq(5);
         if (txtCiudad === 'Seleccionar Región') {
             errorCiudad.html('<h4>* Elige una Región </h4>');
             return false
@@ -59,14 +70,14 @@
         return true;
     }
 
-    function valCalle() {
-        let txtCalle = $('#txtCalle').val();
-        let errorCalle = $('.text-danger').eq(5);
-        if (txtCalle === undefined || txtCalle === '') {
-            errorCalle.html('<h4>* Error al escribir la calle</h4>');
+    function valDireccion() {
+        let txtDireccion = $('#txtDireccion').val();
+        let errorDireccion = $('.text-danger').eq(6);
+        if (txtDireccion === undefined || txtDireccion === '') {
+            errorDireccion.html('<h4>* Error al escribir la calle</h4>');
             return false
         }
-        errorCalle.text('');
+        errorDireccion.text('');
         return true;
     }
 
@@ -96,13 +107,14 @@
         let txtNombre = valNombre();
         let txtCorreo = valCorreo();
         let txtContrasenha = valContrasenha();
-        let txtCiudad = valCiudad();
         let txtPais = valPais();
-        let txtCalle = valCalle();
+        let txtRegion = valRegion();
+        let txtCiudad = valCiudad();
+        let txtDireccion = valDireccion();
         let txtTelefono = valTelefono();
         let txtGP = valGP();
-        if (txtNombre && txtCorreo && txtContrasenha && txtCiudad &&
-            txtPais && txtCalle && txtTelefono && txtGP) return true;
+        if (txtNombre && txtCorreo && txtContrasenha && txtPais &&
+            txtRegion && txtCiudad && txtDireccion && txtTelefono && txtGP) return true;
     }
 
     $('#btnPt1').click(function (e) {

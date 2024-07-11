@@ -58,15 +58,15 @@
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group text-start mt-1 w-100">
-                            <label asp-for="pelu_ciudad" class="control-label h4">Selecciona la Región</label>
-                            <select id="listaRegiones" asp-for="pelu_ciudad" class="form-control">
+                            <label asp-for="pelu_region" class="control-label h4">Selecciona la Región</label>
+                            <select id="listaRegiones" asp-for="pelu_region" class="form-control">
                                 <option value="">Seleccionar Región</option>
                             </select>
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group text-start mt-1 w-100">
-                            <label asp-for="pelu_direccion" class="control-label h4">Dirección</label>
-                            <input asp-for="pelu_direccion" type="text" class="form-control" placeholder="Calle..." id="txtCalle" />
+                            <label asp-for="pelu_ciudad" class="control-label h4">Ciudad</label>
+                            <input asp-for="pelu_ciudad" type="text" class="form-control" placeholder="Ciudad" id="txtCiudad" />
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group mt-4 mb-4 w-100">
@@ -77,8 +77,13 @@
                     <div id="part3">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="pelu_direccion" class="control-label h4">Dirección</label>
+                            <input asp-for="pelu_direccion" type="text" class="form-control" placeholder="Calle..." id="txtDireccion" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-start mt-1 w-100">
                             <label asp-for="pelu_telefono" class="control-label h4">Telefono</label>
-                            <input type="number" asp-for="pelu_telefono" class="form-control" placeholder="Nombre de la peluquería" id="txtTelefono" />
+                            <input type="number" asp-for="pelu_telefono" class="form-control" placeholder="Telefono de la peluqueria" id="txtTelefono" />
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group text-start mt-1 w-100">

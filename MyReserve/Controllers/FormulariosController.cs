@@ -156,6 +156,7 @@ namespace MyReserve.Controllers {
                 pelu_correo_electronico = peluqueria.pelu_correo_electronico,
                 pelu_contrasenha = peluqueria.pelu_contrasenha,
                 pelu_pais = peluqueria.pelu_pais,
+                pelu_region = peluqueria.pelu_region,
                 pelu_ciudad = peluqueria.pelu_ciudad,
                 pelu_direccion = peluqueria.pelu_direccion,
                 pelu_telefono = peluqueria.pelu_telefono,
