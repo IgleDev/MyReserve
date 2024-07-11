@@ -24,7 +24,10 @@
             </div>
             <div class="d-flex d-md-flex col-md-6 col-lg-6 d-lg-flex justify-content-center align-items-center">
                 <select class="me-5 form-select form-select-sm w-auto fs-4">
-                    <option>País</option>
+                    <option disabled value="">Selecciona un país</option>
+                    @foreach(var pais in Model.listaPaises) {
+                        <option value="@pais.pai_nombre">@pais.pai_nombre</option>
+                    }
                 </select>
                 <select class="form-select form-select-sm w-auto fs-4">
                     <option>Ciudad</option>
