@@ -9,18 +9,17 @@ namespace MyReserve.Controllers {
         public InfoUsuariosController(IInfoUsuarios usuariosRepository) {
             _usuariosRepository = usuariosRepository;
         }
-        public IActionResult Portal() {
+        public async Task<IActionResult> Portal() {
             Usuarios usuariosActual = deserializarUsuario();
+            var paises = await _usuariosRepository.getPaises();
+
             if(usuariosActual == null) {
                 return RedirectToAction("Index", "Home");
             }
+            usuariosActual = new Usuarios {
+                listaPaises = paises
+            };
             serializarUsuario(usuariosActual);
-            /*
-            var usuarios = _usuariosRepository.GetType(usuarioActual);
-            usuarios.peluquerias = grupoPeluquerias;
-            serializarGrupo(grupoActual);
-            return View(grupoPeluquerias);
-            */
             return View(usuariosActual);
         }
 
