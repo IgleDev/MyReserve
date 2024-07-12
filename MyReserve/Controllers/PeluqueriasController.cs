@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyReserve.Models.Repository.RepositoryPeluqueria;
-using MyReserve.Models.Repository.RepositoryUsuarios;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using Newtonsoft.Json;
 
@@ -32,6 +31,5 @@ namespace MyReserve.Controllers {
             peluqueria = JsonConvert.DeserializeObject<Peluqueria>(json);
             return peluqueria;
         }
-
     }
 }
