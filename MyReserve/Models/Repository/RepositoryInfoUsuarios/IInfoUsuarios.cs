@@ -5,6 +5,6 @@ using MyReserve.Models.TablasBBDD.Usuarios;
 
 namespace MyReserve.Models.Repository.RepositoryUsuario {
     public interface IInfoUsuarios {
-        Task<IEnumerable<Paises>> getPaises();
+        IEnumerable<Paises> getPaises();
     }
 }

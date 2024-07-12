@@ -12,10 +12,10 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
             _conexion = conexion;
         }
 
-        public async Task<IEnumerable<Paises>> getPaises() {
+        public IEnumerable<Paises> getPaises() {
             var query = "SELECT pai_nombre FROM Paises";
             using(var connection = _conexion.getConexion()) {
-                var paises = await connection.QueryAsync<Paises>(query);
+                var paises = connection.Query<Paises>(query);
                 return paises;
             }
         }
