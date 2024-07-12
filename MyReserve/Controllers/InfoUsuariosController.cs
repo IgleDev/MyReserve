@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Scripting;
 using MyReserve.Models.Repository.RepositoryUsuario;
 using MyReserve.Models.TablasBBDD.Usuarios;
 using Newtonsoft.Json;
@@ -9,18 +10,26 @@ namespace MyReserve.Controllers {
         public InfoUsuariosController(IInfoUsuarios usuariosRepository) {
             _usuariosRepository = usuariosRepository;
         }
-        public async Task<IActionResult> Portal() {
+        public IActionResult Portal() {
             Usuarios usuariosActual = deserializarUsuario();
-            var paises = await _usuariosRepository.getPaises();
+            var paises = _usuariosRepository.getPaises();
 
             if(usuariosActual == null) {
                 return RedirectToAction("Index", "Home");
             }
             usuariosActual = new Usuarios {
+                usu_id = usuariosActual.usu_id,
+                usu_nombre = usuariosActual.usu_nombre,
+                usu_correo_electronico = usuariosActual.usu_correo_electronico,
+                usu_contrasenha = usuariosActual.usu_contrasenha,
                 listaPaises = paises
             };
             serializarUsuario(usuariosActual);
             return View(usuariosActual);
+        }
+
+        public IActionResult Editar(Usuarios usuarios) {
+            return View(usuarios);
         }
 
         public void serializarUsuario(Usuarios usuario) {
