@@ -1,0 +1,57 @@
+﻿@model MyReserve.Models.TablasBBDD.Usuarios.Usuarios
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Editar</title>
+</head>
+<body>
+
+<h4>Usuarios</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Editar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="usu_id" class="control-label"></label>
+                <input asp-for="usu_id" class="form-control" />
+                <span asp-validation-for="usu_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="usu_nombre" class="control-label"></label>
+                <input asp-for="usu_nombre" class="form-control" />
+                <span asp-validation-for="usu_nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="usu_correo_electronico" class="control-label"></label>
+                <input asp-for="usu_correo_electronico" class="form-control" />
+                <span asp-validation-for="usu_correo_electronico" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="usu_contrasenha" class="control-label"></label>
+                <input asp-for="usu_contrasenha" class="form-control" />
+                <span asp-validation-for="usu_contrasenha" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>

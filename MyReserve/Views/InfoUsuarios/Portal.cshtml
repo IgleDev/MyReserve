@@ -20,10 +20,13 @@
     <div class="container mt-5">
         <div class="row align-items-center">
             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
-                <h1 class="text-start display-4"><span class="titlePortalUsuarios">Bienvenido </span>@Model.usu_nombre</h1>
+                <h1 class="text-start display-4">
+                    Bienvenido @Model.usu_nombre 
+                    @Html.ActionLink("", "Editar", "InfoUsuarios", new { Model.usu_id, Model.usu_nombre, Model.usu_correo_electronico, Model.usu_contrasenha }, new { @class = "fa-solid fa-user rounded-pill" })
+                </h1>
             </div>
             <div class="d-flex d-md-flex col-md-6 col-lg-6 d-lg-flex justify-content-center align-items-center">
-                <select class="me-5 form-select form-select-sm w-auto fs-4">
+                <select class="me-2 form-select form-select-sm w-auto fs-4">
                     <option disabled value="">Selecciona un país</option>
                     @foreach(var pais in Model.listaPaises) {
                         <option value="@pais.pai_nombre">@pais.pai_nombre</option>
@@ -32,7 +35,7 @@
                 <select class="form-select form-select-sm w-auto fs-4">
                     <option>Ciudad</option>
                 </select>
-                <input type="text" placeholder="Introduce tu Ciudad"/>
+                <input class="ms-2" type="text" placeholder="Introduce tu Ciudad"/>
             </div>
         </div>
         <div class="row">
