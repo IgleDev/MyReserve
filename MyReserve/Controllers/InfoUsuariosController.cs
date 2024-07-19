@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Scripting;
 using MyReserve.Models.Repository.RepositoryUsuario;
+using MyReserve.Models.Repository.RepositoryUsuarios;
 using MyReserve.Models.TablasBBDD.Usuarios;
 using Newtonsoft.Json;
 
@@ -10,6 +11,8 @@ namespace MyReserve.Controllers {
         public InfoUsuariosController(IInfoUsuarios usuariosRepository) {
             _usuariosRepository = usuariosRepository;
         }
+
+        [HttpGet]
         public IActionResult Portal() {
             Usuarios usuariosActual = deserializarUsuario();
             var paises = _usuariosRepository.getPaises();
@@ -45,6 +48,16 @@ namespace MyReserve.Controllers {
             await _usuariosRepository.Eliminar(usu_id);
             deserializarUsuario();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> getRegionesPais(string pai_nombre) {
+            if(string.IsNullOrEmpty(pai_nombre)) {
+                return Json("No hay parametros disponibles");
+            }
+
+            var regiones = await _usuariosRepository.getRegionesPais(pai_nombre);
+            return Json(regiones);
         }
 
         public void serializarUsuario(Usuarios usuario) {
