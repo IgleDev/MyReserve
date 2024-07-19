@@ -1,8 +1,7 @@
 ﻿using Dapper;
 using MyReserve.Models.TablasBBDD.Paises;
-using MyReserve.Models.TablasBBDD.Peluqueria;
-using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
+using System.Data;
 
 namespace MyReserve.Models.Repository.RepositoryUsuario {
     public class IInfoUsuariosRepository : IInfoUsuarios{
@@ -17,6 +16,29 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
             using(var connection = _conexion.getConexion()) {
                 var paises = connection.Query<Paises>(query);
                 return paises;
+            }
+        }
+
+        public async Task Editar(Usuarios usuario) {
+            var query = "UPDATE Usuarios SET usu_nombre = @usu_nombre, usu_correo_electronico = @usu_correo_electronico, " +
+                "usu_contrasenha = @usu_contrasenha WHERE usu_id = @usu_id";
+            var parametros = new DynamicParameters();
+            parametros.Add("usu_nombre", usuario.usu_nombre, DbType.String);
+            parametros.Add("usu_correo_electronico", usuario.usu_correo_electronico, DbType.String);
+            parametros.Add("usu_contrasenha", usuario.usu_contrasenha, DbType.String);
+            parametros.Add("usu_id", usuario.usu_id, DbType.Int32);
+            using(var connection = _conexion.getConexion()) {
+               await connection.ExecuteAsync(query, parametros);
+            }
+        }
+
+        public async Task Eliminar(int usu_id) {
+            var query = "DELETE FROM Usuarios WHERE usu_id = @usu_id";
+            var parametros = new DynamicParameters();
+            parametros.Add("usu_id", usu_id, DbType.Int32);
+
+            using(var connection = _conexion.getConexion()) {
+                await connection.ExecuteAsync(query, parametros);
             }
         }
     }

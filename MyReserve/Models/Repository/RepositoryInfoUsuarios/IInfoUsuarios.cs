@@ -6,5 +6,9 @@ using MyReserve.Models.TablasBBDD.Usuarios;
 namespace MyReserve.Models.Repository.RepositoryUsuario {
     public interface IInfoUsuarios {
         IEnumerable<Paises> getPaises();
+
+        Task Editar(Usuarios usuario);
+
+        Task Eliminar(int usu_id);
     }
 }
