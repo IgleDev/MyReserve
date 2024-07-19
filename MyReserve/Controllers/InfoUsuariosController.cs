@@ -28,8 +28,23 @@ namespace MyReserve.Controllers {
             return View(usuariosActual);
         }
 
-        public IActionResult Editar(Usuarios usuarios) {
-            return View(usuarios);
+        public IActionResult Editar() {
+            Usuarios usuariosActual = deserializarUsuario();
+            return View(usuariosActual);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditarUsuario(Usuarios usuarios) {
+            await _usuariosRepository.Editar(usuarios);
+            serializarUsuario(usuarios);
+            return RedirectToAction("Portal");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Eliminar(int usu_id) {
+            await _usuariosRepository.Eliminar(usu_id);
+            deserializarUsuario();
+            return RedirectToAction("Index", "Home");
         }
 
         public void serializarUsuario(Usuarios usuario) {
