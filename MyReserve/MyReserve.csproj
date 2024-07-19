@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\infousuarios\editar.css" />
     <_ContentIncludedByDefault Remove="wwwroot\js\forms\registro.js" />
     <_ContentIncludedByDefault Remove="wwwroot\js\forms\registroPeluqueria.js" />
   </ItemGroup>
