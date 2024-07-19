@@ -47,7 +47,7 @@
                     </form>
                     <form asp-action="Eliminar" method="post">
                         <input type="hidden" name="usu_id" value="@Model.usu_id" />
-                        <input type="submit" value="Eliminar Cuenta" class="btn btn-danger mt-3" />
+                        <input type="submit" value="Eliminar Cuenta" class="btn btn-danger mt-3" onclick="return confirm('¿Seguro que quieres borrar tu cuenta?');" />
                     </form>
                 </div>
             </div>

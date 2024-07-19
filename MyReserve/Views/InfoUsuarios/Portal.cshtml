@@ -25,18 +25,21 @@
                     @Html.ActionLink("", "Editar", "InfoUsuarios", new { Model.usu_id, Model.usu_nombre, Model.usu_correo_electronico, Model.usu_contrasenha }, new { @class = "fa-solid fa-user rounded-pill" })
                 </h1>
             </div>
-            <div class="d-flex d-md-flex col-md-6 col-lg-6 d-lg-flex justify-content-center align-items-center">
-                <select class="me-2 form-select form-select-sm w-auto fs-4">
-                    <option disabled value="">Selecciona un país</option>
-                    @foreach(var pais in Model.listaPaises) {
-                        <option value="@pais.pai_nombre">@pais.pai_nombre</option>
-                    }
-                </select>
-                <select class="form-select form-select-sm w-auto fs-4">
-                    <option>Ciudad</option>
-                </select>
-                <input class="ms-2" type="text" placeholder="Introduce tu Ciudad"/>
-            </div>
+            <form asp-action="BuscarPeluqueriaCerca" method="get">
+                <div class="d-flex d-md-flex col-md-6 col-lg-6 d-lg-flex justify-content-center align-items-center">
+                    <select class="me-2 form-select form-select-sm w-auto fs-4" id="listaPais">
+                        <option disabled value="">Selecciona un país</option>
+                        @foreach(var pais in Model.listaPaises) {
+                            <option value="@pais.pai_nombre">@pais.pai_nombre</option>
+                        }
+                    </select>
+                    <select class="form-select form-select-sm w-auto fs-4" id="listaRegiones">
+                        <option value="">Seleccionar Región</option>
+                    </select>
+                    <input class="ms-2" type="text" placeholder="Introduce tu Ciudad"/>
+                    <input type="submit" class="btn btn-primary" value="Buscar"/>
+                </div>
+            </form>
         </div>
         <div class="row">
             <div class="col-12 text-start mb-4">
@@ -60,10 +63,7 @@
             </div>
         </div>
     </div>
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
-    }
 </body>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/infousuarios/infoUsuarios.js"></script>
 </html>
