@@ -47,14 +47,8 @@
                     </div>
                 </form>
             </div>
-            <div class="d-flex justify-content-center col-12 p-2 register">
-                <a asp-action="LoginPeluqueros" class="text-white me-5">¿Ya eres peluquero?</a> <a asp-action="Login" class="text-white ms-5">¿Ya tienes cuenta? Inicia Sesión 💖</a>
-            </div>
         </div>
     </div>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
 </body>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/forms/registro.js"></script>
