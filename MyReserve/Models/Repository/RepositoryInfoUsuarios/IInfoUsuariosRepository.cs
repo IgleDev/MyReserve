@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using MyReserve.Models.TablasBBDD.Paises;
 using MyReserve.Models.TablasBBDD.Usuarios;
+using MyReserve.Models.TablasBBDD.Region;
 using System.Data;
 
 namespace MyReserve.Models.Repository.RepositoryUsuario {
@@ -39,6 +40,16 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
 
             using(var connection = _conexion.getConexion()) {
                 await connection.ExecuteAsync(query, parametros);
+            }
+        }
+
+        public async Task<IEnumerable<Region>> getRegionesPais(string pai_nombre) {
+            var query = "SELECT reg_nombre FROM Region " +
+                "INNER JOIN Paises AS pai ON pai.pai_id = reg_pai_id_fk " +
+                "WHERE pai_nombre = @pai_nombre";
+
+            using(var connection = _conexion.getConexion()) {
+                return await connection.QueryAsync<Region>(query, new { pai_nombre = pai_nombre });
             }
         }
     }
