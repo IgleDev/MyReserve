@@ -19,48 +19,51 @@
 <body>
     <div class="container mt-5">
         <div class="row align-items-center">
-            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
-                <h1 class="text-start display-4">
-                    Bienvenido @Model.usu_nombre 
+            <div class="col-12 col-sm-12 col-md-6 col-lg-12">
+                <h1 class="text-center display-4">
+                    Bienvenido @Model.usu_nombre
                     @Html.ActionLink("", "Editar", "InfoUsuarios", new { Model.usu_id, Model.usu_nombre, Model.usu_correo_electronico, Model.usu_contrasenha }, new { @class = "fa-solid fa-user rounded-pill" })
                 </h1>
             </div>
-            <form asp-action="BuscarPeluqueriaCerca" method="get">
-                <div class="d-flex d-md-flex col-md-6 col-lg-6 d-lg-flex justify-content-center align-items-center">
-                    <select class="me-2 form-select form-select-sm w-auto fs-4" id="listaPais">
-                        <option disabled value="">Selecciona un país</option>
-                        @foreach(var pais in Model.listaPaises) {
-                            <option value="@pais.pai_nombre">@pais.pai_nombre</option>
-                        }
-                    </select>
-                    <select class="form-select form-select-sm w-auto fs-4" id="listaRegiones">
-                        <option value="">Seleccionar Región</option>
-                    </select>
-                    <input class="ms-2" type="text" placeholder="Introduce tu Ciudad"/>
-                    <input type="submit" class="btn btn-primary" value="Buscar"/>
-                </div>
-            </form>
-        </div>
-        <div class="row">
-            <div class="col-12 text-start mb-4">
-                <h2>Encuentra tu peluquería ideal en <span id="selectCiudad"></span></h2>
+            <div class="col-12 mt-3">
+                <form asp-action="BuscarPeluqueriaCerca" method="get">
+                    <div class="d-flex flex-wrap justify-content-center align-items-center">
+                        <select class="me-2 form-select form-select-sm w-auto fs-4" id="listaPais" name="pelu_pais">
+                            <option disabled value="">Selecciona un país</option>
+                            @foreach(var pais in Model.listaPaises) {
+                                <option value="@pais.pai_nombre">@pais.pai_nombre</option>
+                            }
+                        </select>
+                        <select class="me-2 form-select form-select-sm w-auto fs-4" id="listaRegiones" name="pelu_region">
+                            <option value="">Seleccionar Región</option>
+                        </select>
+                        <input class="ms-2 form-control form-control-sm fs-4 w-auto" type="text" placeholder="Introduce tu Ciudad" id="txtPeluCiudad" name="pelu_ciudad" />
+                        <input type="submit" class="btn btn-primary ms-2" value="Buscar" id="btnFiltro"/>
+                    </div>
+                </form>
             </div>
         </div>
-        <div>
-            <div class="row d-flex flex-wrap">
-                <div class="col-12 mb-5 ms-0 peluqueriaInfo">
-                    <div class="rounded borderCustom p-3">
-                        <div class="d-flex justify-content-between align-items-center w-100 mb-4">
-                            <h2 class="text-start">Nombre peluqueria</h2>
-                            <p class="text-end">Ciudad, País</p>
-                        </div>
-                        <div class="footer d-flex opacity-50">
-                            <p class="me-3 mb-0"><i class="fa-solid fa-location-dot"></i> Avenida CampoSantos 183 B</p>
-                            <p class="mb-0"><i class="fa-solid fa-phone"></i> 633 32 73 02</p>
+        <div class="row mt-5">
+            @if (Model.listaPeluqueria != null && Model.listaPeluqueria.Any()) {
+                @foreach(var pelu in Model.listaPeluqueria) {
+                    <div class="row d-flex flex-wrap justify-content-center">
+                        <div class="col-12 mb-5 ms-0 peluqueriaInfo">
+                            <div class="rounded borderCustom p-3">
+                                <div class="d-flex justify-content-between align-items-center w-100 mb-4">
+                                    <h2 class="text-start">@pelu.pelu_nombre</h2>
+                                    <p class="text-end">@pelu.pelu_ciudad, @pelu.pelu_pais</p>
+                                </div>
+                                <div class="footer d-flex opacity-50">
+                                    <p class="me-3 mb-0"><i class="fa-solid fa-location-dot"></i> @pelu.pelu_direccion </p>
+                                    <p class="mb-0"><i class="fa-solid fa-phone"></i> @pelu.pelu_telefono </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                }
+            } else {
+                <h2 class="display-4 text-center mt-5">Aplique los filtros correspondientes</h2>
+            }
         </div>
     </div>
 </body>
