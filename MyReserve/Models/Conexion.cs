@@ -9,8 +9,8 @@ namespace MyReserve.Models {
         }
 
         public SqlConnection getConexion() {
-            var conexion = new SqlConnection(_conexion);
-            conexion.Open();
+            var conexion = new SqlConnection(_conexion);    // Nos conectamos a la BBDD
+            conexion.Open();    // Abrimos la conexion
             return conexion;
         }
     }
