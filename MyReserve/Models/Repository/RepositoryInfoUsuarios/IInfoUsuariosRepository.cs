@@ -3,6 +3,7 @@ using MyReserve.Models.TablasBBDD.Paises;
 using MyReserve.Models.TablasBBDD.Usuarios;
 using MyReserve.Models.TablasBBDD.Region;
 using System.Data;
+using MyReserve.Models.TablasBBDD.Peluqueria;
 
 namespace MyReserve.Models.Repository.RepositoryUsuario {
     public class IInfoUsuariosRepository : IInfoUsuarios{
@@ -50,6 +51,15 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
 
             using(var connection = _conexion.getConexion()) {
                 return await connection.QueryAsync<Region>(query, new { pai_nombre = pai_nombre });
+            }
+        }
+
+        public async Task<IEnumerable<Peluqueria>> getPeluqueriasFiltro(string pelu_pais, string pelu_region, string pelu_ciudad) {
+            var query = "SELECT pelu_nombre, pelu_pais, pelu_region, pelu_ciudad, pelu_telefono, pelu_direccion FROM Peluqueria " +
+                "WHERE pelu_pais = @pelu_pais AND pelu_region = @pelu_region AND pelu_ciudad = @pelu_ciudad";
+
+            using(var connection = _conexion.getConexion()) {
+                return await connection.QueryAsync<Peluqueria>(query, new { pelu_pais, pelu_region, pelu_ciudad });
             }
         }
     }
