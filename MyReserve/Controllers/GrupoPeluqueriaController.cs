@@ -11,11 +11,11 @@ namespace MyReserve.Controllers {
         }
 
         public IActionResult Portal() {
-            GrupoPeluqueria grupoActual = deserializarGrupo();
-            var grupoPeluquerias = _grupoPeluqueriasRepository.GetPeluquerias(grupoActual);
-            grupoActual.peluquerias = grupoPeluquerias;
-            serializarGrupo(grupoActual);
-            return View(grupoPeluquerias);
+            GrupoPeluqueria grupoActual = deserializarGrupo();  // Recuperamos el grupo
+            var grupoPeluquerias = _grupoPeluqueriasRepository.GetPeluquerias(grupoActual); // Recuperamos las peluquerias del grupo
+            grupoActual.peluquerias = grupoPeluquerias; // Añadimos las peluquerias a la lista del grupo
+            serializarGrupo(grupoActual);   // Guardamos en sesión
+            return View(grupoPeluquerias);  // Retornamos el grupo
         }
 
         public void serializarGrupo(GrupoPeluqueria grupo) {

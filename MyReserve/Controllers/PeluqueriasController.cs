@@ -11,13 +11,13 @@ namespace MyReserve.Controllers {
         }
 
         public IActionResult Portal() {
-            Peluqueria peluActual = deserializarPeluqueria();
-            var peluqueros = _peluqueriasRepository.GetPeluqueros(peluActual);
-            var grupoPeluqueros = _peluqueriasRepository.GrupoIdNombre(peluActual.pelu_gp_id_fk);
-            peluActual.peluqueros = peluqueros;
-            peluActual.grupoPeluqueria = grupoPeluqueros;
-            serializarPeluqueria(peluActual);
-            return View(peluActual); 
+            Peluqueria peluActual = deserializarPeluqueria();   // Recuperamos la peluqueria
+            var peluqueros = _peluqueriasRepository.GetPeluqueros(peluActual);  // Recuperamos los peluqueros
+            var grupoPeluqueros = _peluqueriasRepository.GrupoIdNombre(peluActual.pelu_gp_id_fk);   // Recuperamos el id del peluquero mediante el nombre
+            peluActual.peluqueros = peluqueros; // Le pasamos los peluqueros a la lista de la peluqueria
+            peluActual.grupoPeluqueria = grupoPeluqueros;   // Le pasamos el grupo de peluqueros al grupo
+            serializarPeluqueria(peluActual);   // Guardamos en sesión
+            return View(peluActual);    // Retornamos peluqueria
         }
 
         public void serializarPeluqueria(Peluqueria peluqueria) {
