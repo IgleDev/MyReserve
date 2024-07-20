@@ -58,6 +58,9 @@ namespace MyReserve.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> getRegionesPais(string pai_nombre) {
+            if(string.IsNullOrEmpty(pai_nombre)) {
+                return Json("No hay parametros disponibles");
+            }
             var regiones = await _usuariosRepository.getRegionesPais(pai_nombre);   // Recuperamos las regiones 
             return Json(regiones);  // Las devolvemos como JSON para ser tratadas en el archivo de JavaScript
         }
