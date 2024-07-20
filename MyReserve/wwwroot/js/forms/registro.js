@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
 
-    $('#part2').hide();
+    $('#part2').hide(); // Ocultamos la parte 2
 
-    function valNombre() {
+    function valNombre() { // Validamos campos
         let txtNombre = $('#txtNombre').val();
         let errorNombre = $('.text-danger').eq(0);
         if (txtNombre === undefined || txtNombre === '' || txtNombre.includes(' ')) {
@@ -13,7 +13,7 @@
         return true;
     }
 
-    function valCorreo() {
+    function valCorreo() { // Validamos campos
         let validaEmail = new RegExp(/^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         let txtCorreo = $('#txtCorreo').val();
         let errorCorreo = $('.text-danger').eq(1);
@@ -25,7 +25,7 @@
         return true;
     }
 
-    function valContrasenha() {
+    function valContrasenha() { // Validamos campos
         let txtContrasenha = $('#txtContrasenha').val();
         let errorContrasenha = $('.text-danger').eq(2);
         if (txtContrasenha === undefined || txtContrasenha === '' || txtContrasenha.includes(' ')) {
@@ -36,14 +36,14 @@
         return true;
     }
 
-    function validar() {
+    function validar() { // Validamos campos
         let txtNombre = valNombre();
         let txtCorreo = valCorreo();
         let txtContrasenha = valContrasenha();
         if (txtNombre && txtCorreo && txtContrasenha) return true;
     }
 
-    $('#formRegistro').submit(function (e) {
+    $('#formRegistro').submit(function (e) { // Si todo valida mandamos el formulario
         e.preventDefault();
         if (validar()) this.submit();
     });

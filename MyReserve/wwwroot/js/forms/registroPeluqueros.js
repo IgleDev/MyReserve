@@ -1,9 +1,9 @@
 ﻿$(document).ready(function () {
 
-    $('#part2').hide();
-    $('#part3').hide();
+    $('#part2').hide(); // Ocultamos la parte 2
+    $('#part3').hide(); // Ocultamos la parte 3
 
-    function valNombre() {
+    function valNombre() {  // Validamos campos
         let txtNombre = $('#txtNombre').val();
         let errorNombre = $('.text-danger').eq(0);
         if (txtNombre === undefined || txtNombre === '' || txtNombre.includes(' ')) {
@@ -14,7 +14,7 @@
         return true;
     }
 
-    function valCorreo() {
+    function valCorreo() {  // Validamos campos
         let validaEmail = new RegExp(/^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         let txtCorreo = $('#txtCorreo').val();
         let errorCorreo = $('.text-danger').eq(1);
@@ -26,7 +26,7 @@
         return true;
     }
 
-    function valContrasenha() {
+    function valContrasenha() { // Validamos campos
         let txtContrasenha = $('#txtContrasenha').val();
         let errorContrasenha = $('.text-danger').eq(2);
         if (txtContrasenha === undefined || txtContrasenha === '' || txtContrasenha.includes(' ')) {
@@ -37,7 +37,7 @@
         return true;
     }
 
-    function valExperiencia() {
+    function valExperiencia() { // Validamos campos
         let txtExperiencia = $('#txtExperiencia').val();
         let errorExperiencia = $('.text-danger').eq(3);
         if (txtExperiencia === undefined || txtExperiencia === '' || txtExperiencia.includes(' ')) {
@@ -48,7 +48,7 @@
         return true;
     }
 
-    function valRRSS() {
+    function valRRSS() { // Validamos campos
         let txtRRSS = $('#txtRRSS').val();
         let errorRRSS = $('.text-danger').eq(4);
         if (txtRRSS === undefined || txtRRSS === '' || txtRRSS.includes(' ')) {
@@ -59,7 +59,7 @@
         return true;
     }
 
-    function valNombrePeluqueria() {
+    function valNombrePeluqueria() { // Validamos campos
         let txtNombrePeluqueria = $('#txtNombrePeluqueria').val();
         let errorNombrePeluqueria = $('.text-danger').eq(5);
         if (txtNombrePeluqueria === undefined || txtNombrePeluqueria === '') {
@@ -70,7 +70,7 @@
         return true;
     }
 
-    function valGP() {
+    function valGP() { // Validamos campos
         let txtGP = $('#txtGP').val();
         let errorGP = $('.text-danger').eq(6);
         if (txtGP === undefined || txtGP === '') {
@@ -81,7 +81,7 @@
         return true;
     }
 
-    function validar() {
+    function validar() { // Validamos campos
         let txtNombre = valNombre();
         let txtCorreo = valCorreo();
         let txtContrasenha = valContrasenha();
@@ -93,27 +93,27 @@
             txtRRSS && txtNombrePeluqueria && txtGP) return true;
     }
 
-    $('#btnPt1').click(function (e) {
+    $('#btnPt1').click(function (e) {   // Mostramos la parte 2 y ocultamos la 1
         $('#part1').hide();
         $('#part2').show();
     });
 
-    $('#btnPt2').click(function (e) {
+    $('#btnPt2').click(function (e) {   // Mostramos la parte 3 y ocultamos la 2
         $('#part2').hide();
         $('#part3').show();
     });
 
-    $('#btnPtV1').click(function (e) {
+    $('#btnPtV1').click(function (e) {  // Mostramos la parte 1 y ocultamos la 2
         $('#part2').hide();
         $('#part1').show();
     });
 
-    $('#btnPt3').click(function (e) {
+    $('#btnPt3').click(function (e) {   // Mostramos la parte 2 y ocultamos la 3
         $('#part3').hide();
         $('#part2').show();
     });
 
-    $('#formRegistroPeluqueros').submit(function (e) {
+    $('#formRegistroPeluqueros').submit(function (e) {  // Si todo valida mandamos el formulario
         e.preventDefault();
         if (validar()) this.submit();
     });
