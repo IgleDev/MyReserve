@@ -55,11 +55,20 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
         }
 
         public async Task<IEnumerable<Peluqueria>> getPeluqueriasFiltro(string pelu_pais, string pelu_region, string pelu_ciudad) {
-            var query = "SELECT pelu_nombre, pelu_pais, pelu_region, pelu_ciudad, pelu_telefono, pelu_direccion FROM Peluqueria " +
+            var query = "SELECT * FROM Peluqueria " +
                 "WHERE pelu_pais = @pelu_pais AND pelu_region = @pelu_region AND pelu_ciudad = @pelu_ciudad";
 
             using(var connection = _conexion.getConexion()) {
                 return await connection.QueryAsync<Peluqueria>(query, new { pelu_pais, pelu_region, pelu_ciudad });
+            }
+        }
+
+        public async Task<Peluqueria> getPeluqueriaID(int pelu_id) {
+            var query = "SELECT * FROM Peluqueria WHERE pelu_id = @pelu_id";
+
+            using(var connection = _conexion.getConexion()) {
+                var peluqueria = connection.QueryFirstOrDefault<Peluqueria>(query, new { pelu_id });
+                return peluqueria;
             }
         }
     }

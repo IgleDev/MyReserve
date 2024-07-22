@@ -9,5 +9,6 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
         Task Eliminar(int usu_id);
         Task<IEnumerable<MyReserve.Models.TablasBBDD.Region.Region>> getRegionesPais(string pai_nombre);
         Task<IEnumerable<Peluqueria>> getPeluqueriasFiltro(string pelu_pais, string pelu_region, string pelu_ciudad);
+        Task<Peluqueria> getPeluqueriaID(int pelu_id);
     }
 }
