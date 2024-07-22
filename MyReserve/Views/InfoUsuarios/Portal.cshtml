@@ -28,16 +28,16 @@
             <div class="col-12 mt-3">
                 <form asp-action="BuscarPeluqueriaCerca" method="get">
                     <div class="d-flex flex-wrap justify-content-center align-items-center">
-                        <select class="me-2 form-select form-select-sm w-auto fs-4" id="listaPais" name="pelu_pais">
+                        <select class="me-2 form-select form-select-sm w-auto fs-4 mt-3" id="listaPais" name="pelu_pais">
                             <option disabled value="">Selecciona un país</option>
                             @foreach(var pais in Model.listaPaises) {
                                 <option value="@pais.pai_nombre">@pais.pai_nombre</option>
                             }
                         </select>
-                        <select class="me-2 form-select form-select-sm w-auto fs-4" id="listaRegiones" name="pelu_region">
+                        <select class="me-2 form-select form-select-sm w-auto fs-4 mt-3" id="listaRegiones" name="pelu_region">
                             <option value="">Seleccionar Región</option>
                         </select>
-                        <input class="ms-2 form-control form-control-sm fs-4 w-auto" type="text" placeholder="Introduce tu Ciudad" id="txtPeluCiudad" name="pelu_ciudad" />
+                        <input class="ms-2 form-control form-control-sm fs-4 w-auto mt-3" type="text" placeholder="Introduce tu Ciudad" id="txtPeluCiudad" name="pelu_ciudad" />
                         <input type="submit" class="btn btn-primary ms-2" value="Buscar" id="btnFiltro"/>
                     </div>
                 </form>
@@ -53,9 +53,14 @@
                                     <h2 class="text-start">@pelu.pelu_nombre</h2>
                                     <p class="text-end">@pelu.pelu_ciudad, @pelu.pelu_pais</p>
                                 </div>
-                                <div class="footer d-flex opacity-50">
-                                    <p class="me-3 mb-0"><i class="fa-solid fa-location-dot"></i> @pelu.pelu_direccion </p>
-                                    <p class="mb-0"><i class="fa-solid fa-phone"></i> @pelu.pelu_telefono </p>
+                                <div class="footer d-flex justify-content-between">
+                                    <div class="d-inline-flex opacity-50 mt-2">
+                                        <p class="me-2 mb-0"><i class="fa-solid fa-location-dot"></i> @pelu.pelu_direccion </p>
+                                        <p class="mb-0"><i class="fa-solid fa-phone"></i> @pelu.pelu_telefono </p>
+                                    </div>
+                                    <div>
+                                        @Html.ActionLink("Saber Más", "InfoPeluquerias", "InfoUsuarios", new { pelu.pelu_id }, new { @class = "btn btn-outline-info" })
+                                    </div>
                                 </div>
                             </div>
                         </div>

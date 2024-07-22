@@ -1,0 +1,45 @@
+﻿@model MyReserve.Models.HelpersTablasBBDD.InfoPeluqueriaModel.InfoPeluqueriaModel
+
+@{
+    Layout = "_Layout";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>InfoPeluquerias</title>
+    @section Styles {
+        <link rel="stylesheet" href="~/css/infousuarios/infopeluquerias.css" asp-append-version="true" />
+    }
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <h2 class="display-2 text-center">Bienvenido a <span>@Model.PeluqueriaInfo.pelu_nombre</span></h2>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="row">
+                <div class="col-12 d-inline-flex flex-wrap justify-content-between">
+                    <p><a href="mailto:@Model.PeluqueriaInfo.pelu_correo_electronico">@Model.PeluqueriaInfo.pelu_correo_electronico</a></p>
+                    <p>@Model.PeluqueriaInfo.pelu_direccion</p>
+                    <p>@Model.PeluqueriaInfo.pelu_telefono</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center mt-3">
+                <a asp-action="Reservar" asp-route-id="@Model.PeluqueriaInfo.pelu_id" class="btn btn-primary">Reservar como @Model.UsuarioNombre</a>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/infousuarios/infoUsuarios.js"></script>
+    }
+</body>
+</html>
