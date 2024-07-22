@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Scripting;
+using MyReserve.Models.HelpersTablasBBDD.InfoPeluqueriaModel;
 using MyReserve.Models.Repository.RepositoryUsuario;
-using MyReserve.Models.Repository.RepositoryUsuarios;
 using MyReserve.Models.TablasBBDD.Usuarios;
 using Newtonsoft.Json;
 
@@ -41,6 +40,28 @@ namespace MyReserve.Controllers {
             Usuarios usuariosActual = deserializarUsuario();    // Recuperamos el usuario
             return View(usuariosActual);    // Mostramos el usuario 
         }
+
+        public async Task<IActionResult> InfoPeluquerias(int pelu_id) {
+            Usuarios usuariosActual = deserializarUsuario(); // Recuperamos el usuario
+
+            if(usuariosActual == null) {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var peluqueria = await _usuariosRepository.getPeluqueriaID(pelu_id);
+
+            if(peluqueria == null) {
+                return RedirectToAction("Error", "Home"); // Redirigir a una página de error si la peluquería no se encuentra
+            }
+
+            var peluInfo = new InfoPeluqueriaModel {
+                PeluqueriaInfo = peluqueria,
+                UsuarioNombre = usuariosActual.usu_nombre
+            };
+
+            return View(peluInfo);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> EditarUsuario(Usuarios usuarios) {
