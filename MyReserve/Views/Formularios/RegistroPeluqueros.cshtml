@@ -65,13 +65,13 @@
                     <div id="part3">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group text-start mt-1 w-100">
-                            <label asp-for="pel_pelu_id_fk" class="control-label h4">Nombre de la peluquería</label>
-                            <input type="text" asp-for="pel_pelu_id_fk" class="form-control" placeholder="Nombre de la peluquería" id="txtNombrePeluqueria" />
+                            <label asp-for="@Model.pel_pelu_id_fk" class="control-label h4">Nombre de la peluquería</label>
+                            <input type="text" asp-for="@Model.pel_pelu_id_fk" class="form-control" placeholder="Nombre de la peluquería" id="txtNombrePeluqueria" />
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group text-start mt-1 w-100">
-                            <label asp-for="pel_grupo_id_fk" class="control-label h4">Grupo de la Peluqueria</label>
-                            <input type="text" asp-for="pel_grupo_id_fk" class="form-control" placeholder="Nombre del grupo de peluquerías" id="txtGP" />
+                            <label asp-for="@Model.pel_grupo_id_fk" class="control-label h4">Grupo de la Peluqueria</label>
+                            <input type="text" asp-for="@Model.pel_grupo_id_fk" class="form-control" placeholder="Nombre del grupo de peluquerías" id="txtGP" />
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group mt-4 mb-4 w-100">
