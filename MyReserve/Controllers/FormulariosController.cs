@@ -58,32 +58,42 @@ namespace MyReserve.Controllers {
             }
         }
 
-        public IActionResult RegistroPeluqueros() {
-            return View();  // Mostramos la vista del Registro de peluqueros
+        public async Task<IActionResult> RegistroPeluqueros() {
+            Peluqueria peluActual = deserializarPeluqueria();
+            GrupoPeluqueria grupoActual = await _formularioRepository.getGrupoPeluqueriaPeluqueriaNombre(peluActual.pelu_id); // Asegúrate de tener este método implementado correctamente
+
+            var peluquero = new Peluqueros {
+                peluqueria = peluActual,
+                pel_pelu_id_fk = peluActual.pelu_nombre,
+                pel_grupo_id_fk = grupoActual.gp_nombre
+            };
+
+            return View(peluquero);
         }
 
         [HttpPost]
         public async Task<IActionResult> RegistroPeluqueros(Peluqueros peluqueros) {
-            if(!ModelState.IsValid) {   // Comprobamos que el modelo sea válido
-                return View(peluqueros);    // Retornamos la vista con los datos que se nos han pasado
+            if(!ModelState.IsValid) {
+                return View(peluqueros);
             }
 
-            int peluqueriaId = await _formularioRepository.PeluqueriaIDNombre(peluqueros.pel_pelu_id_fk);   // Según el nombre de la peluquería recogemos el ID
-            int grupoId = await _formularioRepository.GrupoIdNombre(peluqueros.pel_grupo_id_fk);    // Según el nombre del grupo recogemos el ID
+            // Convertimos los nombres a IDs
+            int peluqueriaId = await _formularioRepository.PeluqueriaIDNombre(peluqueros.pel_pelu_id_fk);
+            int grupoId = await _formularioRepository.GrupoIdNombre(peluqueros.pel_grupo_id_fk);
 
-            var peluquero = new Peluqueros {    // Creamos al peluquero
+            var nuevoPeluquero = new Peluqueros {
                 pel_nombre = peluqueros.pel_nombre,
                 pel_correo_electronico = peluqueros.pel_correo_electronico,
                 pel_contrasenha = peluqueros.pel_contrasenha,
                 pel_experiencia = peluqueros.pel_experiencia,
                 pel_instagram = peluqueros.pel_instagram,
-                pel_pelu_id_fk = peluqueriaId.ToString(),
-                pel_grupo_id_fk = grupoId.ToString()
+                pel_pelu_id_fk = peluqueriaId.ToString(), // Convertimos a string
+                pel_grupo_id_fk = grupoId.ToString() // Convertimos a string
             };
 
-            await _formularioRepository.RegistroPeluqueros(peluquero);  // Registramos al peluquero en la BBDD
+            await _formularioRepository.RegistroPeluqueros(nuevoPeluquero);
 
-            return RedirectToAction("Portal", "Peluquerias");   // Redirigimos el peluquero a su portal
+            return RedirectToAction("Portal", "Peluquerias");
         }
 
         // Login & Registro de Grupos/Peluquerías ->
