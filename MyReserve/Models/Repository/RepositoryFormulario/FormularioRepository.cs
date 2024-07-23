@@ -157,5 +157,14 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             }
         }
 
+        public async Task<GrupoPeluqueria> getGrupoPeluqueriaPeluqueriaNombre(int pelu_id) {
+            var query = "SELECT gp.gp_nombre FROM GrupoPeluqueria AS gp " +
+                "INNER JOIN Peluqueria AS pelu ON pelu.pelu_gp_id_fk = gp.gp_id " +
+                "WHERE pelu.pelu_id = @pelu_id";
+
+            using(var connection = _conexion.getConexion()) {
+                return await connection.QueryFirstOrDefaultAsync<GrupoPeluqueria>(query, new { pelu_id = pelu_id });
+            }
+        }
     }
 }

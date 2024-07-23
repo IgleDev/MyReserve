@@ -25,5 +25,6 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         Task<int> GrupoIdNombre(string gp_nombre);
         Task<IEnumerable<Paises>> getPaises();
         Task<IEnumerable<Region>> getRegionesPais(string pai_nombre);
+        Task<GrupoPeluqueria> getGrupoPeluqueriaPeluqueriaNombre(int pelu_id);
     }
 }
