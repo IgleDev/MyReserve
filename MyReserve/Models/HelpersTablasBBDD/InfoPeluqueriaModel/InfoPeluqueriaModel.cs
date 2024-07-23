@@ -1,8 +1,10 @@
 ﻿using MyReserve.Models.TablasBBDD.Peluqueria;
+using MyReserve.Models.TablasBBDD.Peluqueros;
 
 namespace MyReserve.Models.HelpersTablasBBDD.InfoPeluqueriaModel {
     public class InfoPeluqueriaModel {
-        public Peluqueria PeluqueriaInfo { get; set; }
-        public string UsuarioNombre { get; set; }
+        public Peluqueria peluqueriaInfo { get; set; }
+        public IEnumerable<Peluqueros> peluqueroInfo { get; set; }
+        public string usu_nombre { get; set; }
     }
 }
