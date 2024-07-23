@@ -1,5 +1,6 @@
 ﻿using MyReserve.Models.TablasBBDD.Paises;
 using MyReserve.Models.TablasBBDD.Peluqueria;
+using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
 
 namespace MyReserve.Models.Repository.RepositoryUsuario {
@@ -10,5 +11,6 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
         Task<IEnumerable<MyReserve.Models.TablasBBDD.Region.Region>> getRegionesPais(string pai_nombre);
         Task<IEnumerable<Peluqueria>> getPeluqueriasFiltro(string pelu_pais, string pelu_region, string pelu_ciudad);
         Task<Peluqueria> getPeluqueriaID(int pelu_id);
+        Task<IEnumerable<Peluqueros>> getPeluquerosPeluqueriaID(int pelu_id);
     }
 }

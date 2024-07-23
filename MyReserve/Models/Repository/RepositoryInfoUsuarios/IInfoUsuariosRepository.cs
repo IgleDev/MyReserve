@@ -4,6 +4,7 @@ using MyReserve.Models.TablasBBDD.Usuarios;
 using MyReserve.Models.TablasBBDD.Region;
 using System.Data;
 using MyReserve.Models.TablasBBDD.Peluqueria;
+using MyReserve.Models.TablasBBDD.Peluqueros;
 
 namespace MyReserve.Models.Repository.RepositoryUsuario {
     public class IInfoUsuariosRepository : IInfoUsuarios{
@@ -69,6 +70,16 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
             using(var connection = _conexion.getConexion()) {
                 var peluqueria = connection.QueryFirstOrDefault<Peluqueria>(query, new { pelu_id });
                 return peluqueria;
+            }
+        }
+
+        public async Task<IEnumerable<Peluqueros>> getPeluquerosPeluqueriaID(int pelu_id) {
+            var query = "SELECT pel.* FROM Peluquero AS pel " +
+                "INNER JOIN Peluqueria AS pelu ON pelu.pelu_id = pel.pel_pelu_id_fk " +
+                "WHERE pelu_id = @pelu_id";
+
+            using(var connection = _conexion.getConexion()) {
+                return await connection.QueryAsync<Peluqueros>(query, new { pelu_id });
             }
         }
     }
