@@ -27,5 +27,6 @@ namespace MyReserve.Models.TablasBBDD.Peluqueros {
         public string? pel_grupo_id_fk { get; set; }
 
         public MyReserve.Models.TablasBBDD.Peluqueria.Peluqueria? peluqueria { get; set; }
+        public MyReserve.Models.TablasBBDD.GrupoPeluqueria.GrupoPeluqueria? grupoPeluqueria { get; set; }
     }
 }
