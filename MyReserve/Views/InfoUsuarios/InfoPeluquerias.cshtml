@@ -19,21 +19,30 @@
     <div class="container">
         <div class="row">
             <div class="col-12 mt-5">
-                <h2 class="display-2 text-center">Bienvenido a <span>@Model.PeluqueriaInfo.pelu_nombre</span></h2>
-            </div>
-        </div>
-        <div class="footer">
-            <div class="row">
-                <div class="col-12 d-inline-flex flex-wrap justify-content-between">
-                    <p><a href="mailto:@Model.PeluqueriaInfo.pelu_correo_electronico">@Model.PeluqueriaInfo.pelu_correo_electronico</a></p>
-                    <p>@Model.PeluqueriaInfo.pelu_direccion</p>
-                    <p>@Model.PeluqueriaInfo.pelu_telefono</p>
-                </div>
+                <h2 class="display-2 text-center">Bienvenido a <span>@Model.peluqueriaInfo.pelu_nombre</span></h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 text-center mt-3">
-                <a asp-action="Reservar" asp-route-id="@Model.PeluqueriaInfo.pelu_id" class="btn btn-primary">Reservar como @Model.UsuarioNombre</a>
+            <div class="col-12">
+                <h3>Escoje a tu peluquero</h3>
+            </div>
+            <div class="col-12 mt-3 d-inline-flex justify-content-center flex-wrap">
+                @if(Model.peluqueroInfo.Any() && Model.peluqueroInfo != null) {
+                    @foreach(var peluquero in Model.peluqueroInfo) {
+                        <button class="btn btn-lg btn-outline-primary rounded-pill me-3">@peluquero.pel_nombre</button>
+                    }
+                } else {
+                    <p>No hay peluqueros disponibles</p>
+                }
+            </div>
+        </div>
+        <div class="footer mt-5">
+            <div class="row">
+                <div class="col-12 d-inline-flex flex-wrap justify-content-between">
+                    <p><a href="mailto:@Model.peluqueriaInfo.pelu_correo_electronico">@Model.peluqueriaInfo.pelu_correo_electronico</a></p>
+                    <p>@Model.peluqueriaInfo.pelu_direccion</p>
+                    <p>@Model.peluqueriaInfo.pelu_telefono</p>
+                </div>
             </div>
         </div>
     </div>
