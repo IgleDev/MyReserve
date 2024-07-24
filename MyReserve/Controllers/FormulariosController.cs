@@ -185,13 +185,31 @@ namespace MyReserve.Controllers {
         }
 
         //Servicios
-        public IActionResult RegistroServicios() {
+        public async Task<IActionResult> RegistroServicios() {
             Peluqueria peluActual = deserializarPeluqueria();
-            return View(peluActual);
+            ViewBag.peluNombre = peluActual.pelu_nombre;
+            var servicios = await _formularioRepository.getServicios();
+            return View(servicios);
         }
 
-        // Helpers
+        [HttpPost]
+        public async Task<IActionResult> GuardarServicios(int[] selectedServices) {
+            Peluqueria peluActual = deserializarPeluqueria(); // Obtener la peluquería actual
+            if(selectedServices == null || !selectedServices.Any()) {
+                ModelState.AddModelError("", "No se han seleccionado servicios.");
+                return View(); // O redirige a una página adecuada
+            }
 
+            foreach(var servicioId in selectedServices) {
+                await _formularioRepository.GuardarServicios(peluActual.pelu_id, servicioId);
+            }
+
+            // Redirige o muestra un mensaje de éxito
+            return RedirectToAction("Portal", "Peluquerias"); // O la acción que desees
+        }
+
+
+        // Helper
         public void serializarUsuario(Usuarios usuario) {
             string json = JsonConvert.SerializeObject(usuario);
             HttpContext.Session.SetString("UsuarioActual", json);
