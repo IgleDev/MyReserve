@@ -4,6 +4,7 @@ using MyReserve.Models.TablasBBDD.Paises;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
+using MyReserve.Models.TablasBBDD.Servicios;
 
 namespace MyReserve.Models.Repository.RepositoryUsuarios {
     public interface IFormulario {
@@ -19,6 +20,10 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         Task RegistroPeluqueros(Peluqueros peluqueros);
         Task RegistroPeluqueria(Peluqueria peluqueria);
         Task RegistroGrupos(GrupoPeluqueria grupo);
+
+        // Registro Servicios ->
+        Task<IEnumerable<Servicios>> getServicios();
+        Task GuardarServicios(int pelu_id, int serviciosSeleccionados);
 
         // Helpers de Querys
         Task<int> PeluqueriaIDNombre(string pelu_nombre);

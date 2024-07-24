@@ -6,6 +6,8 @@ using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
 using System.Data;
+using MyReserve.Models.TablasBBDD.Servicios;
+using MyReserve.Models.TablasBBDD.Categorias;
 
 namespace MyReserve.Models.Repository.RepositoryUsuarios {
     public class FormularioRepository : IFormulario {
@@ -166,5 +168,34 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
                 return await connection.QueryFirstOrDefaultAsync<GrupoPeluqueria>(query, new { pelu_id = pelu_id });
             }
         }
+
+        public async Task<IEnumerable<Servicios>> getServicios() {
+            var query = "SELECT ser.ser_id, ser.ser_nombre, ser.ser_precio, cat.cat_nombre FROM Servicios AS ser " +
+                "INNER JOIN Categoria AS cat ON cat.cat_id = ser_cat_id_fk";
+
+            using(var connection = _conexion.getConexion()) {
+                var serviciosLista = await connection.QueryAsync<Servicios>(query);
+                return serviciosLista;
+            }
+        }
+
+        public async Task GuardarServicios(int pelu_id, int ser_id) {
+            var query = "UPDATE Servicios SET ser_pelu_id_fk = @pelu_id WHERE ser_id = @ser_id";
+
+            using(var connection = _conexion.getConexion()) {
+                await connection.ExecuteAsync(query, new { pelu_id = pelu_id, ser_id = ser_id });
+            }
+        }
+
+        public async Task<IEnumerable<Servicios>> getServiciosPeluqueria() {
+            var query = "SELECT ser.* FROM Servicios AS ser " +
+                "INNER JOIN Peluqueria AS pelu ON pelu.pelu_id = ser.ser_pelu_id_fk";
+
+            using(var connection = _conexion.getConexion()) {
+                var serviciosLista = await connection.QueryAsync<Servicios>(query);
+                return serviciosLista;
+            }
+        }
+
     }
 }
