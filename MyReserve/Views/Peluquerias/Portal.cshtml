@@ -27,9 +27,6 @@
             <div class="col-12 d-inline-flex justify-content-evenly text-center opacity-75 mt-5">
                 <p>@Model.pelu_nombre</p> <p>@Model.pelu_region</p> <p>@Model.pelu_pais</p> <p>@Model.pelu_telefono</p> <p>@Model.grupoPeluqueria.gp_nombre</p>
             </div>
-            <div class="col-auto p-0 mt-5">
-                <a asp-action="RegistroPeluqueros" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i> Añade un nuevo empleado al plantel!</a>
-            </div>
             <div class="col-12 mt-5">
                 <div class="row peluquerias d-flex flex-wrap">
                     @foreach(var item in Model.peluqueros) {
@@ -38,6 +35,11 @@
                         </div>
                     }
                 </div>
+            </div>
+            <div class="col-auto p-0 mt-5 d-flex justify-content-between flex-wrap">
+                <a asp-action="RegistroPeluqueros" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i> ¡Añade un nuevo empleado al plantel!</a>
+                <a asp-action="RegistroServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i> ¡Añade o edita tus servicios!</a>
+                <a asp-action="RegistroHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i> ¡Pon tus horarios!</a>
             </div>
         </div>
     </div>
