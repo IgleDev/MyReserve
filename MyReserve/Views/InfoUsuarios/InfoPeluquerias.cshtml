@@ -2,11 +2,10 @@
 
 @{
     Layout = "_Layout";
-
+    ViewData["Title"] = "Info Peluquerias";
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -26,7 +25,7 @@
             <div class="col-12">
                 <h3>Escoje a tu peluquero</h3>
             </div>
-            <div class="col-12 mt-3 d-inline-flex justify-content-center flex-wrap">
+            <div class="col-12 mt-3 d-inline-flex justify-content-center flex-wrap" id="peluqueros">
                 @if(Model.peluqueroInfo.Any() && Model.peluqueroInfo != null) {
                     @foreach(var peluquero in Model.peluqueroInfo) {
                         <button class="btn btn-lg btn-outline-primary rounded-pill me-3">@peluquero.pel_nombre</button>
@@ -48,7 +47,7 @@
     </div>
     @section Scripts {
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/js/infousuarios/infoUsuarios.js"></script>
+        <script src="~/js/infousuarios/infoPeluquerias.js"></script>
     }
 </body>
 </html>
