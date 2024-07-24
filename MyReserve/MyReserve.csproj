@@ -9,17 +9,20 @@
   <ItemGroup>
     <Content Remove="wwwroot\js\forms\registro.js" />
     <Content Remove="wwwroot\js\forms\registroPeluqueria.js" />
+    <Content Remove="wwwroot\js\infousuarios\infoPeluquerias.js" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\infousuarios\editar.css" />
     <_ContentIncludedByDefault Remove="wwwroot\js\forms\registro.js" />
     <_ContentIncludedByDefault Remove="wwwroot\js\forms\registroPeluqueria.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\infousuarios\infoPeluquerias.js" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\js\forms\registro.js" />
     <None Include="wwwroot\js\forms\registroPeluqueria.js" />
+    <None Include="wwwroot\js\infousuarios\infoPeluquerias.js" />
   </ItemGroup>
 
   <ItemGroup>
