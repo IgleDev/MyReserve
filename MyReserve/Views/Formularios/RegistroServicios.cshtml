@@ -1,0 +1,45 @@
+﻿@model MyReserve.Models.TablasBBDD.Peluqueria.Peluqueria
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Registro Servicios";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>InfoPeluquerias</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @section Styles {
+        <link rel="stylesheet" href="~/css/infousuarios/infopeluquerias.css" asp-append-version="true" />
+    }
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <h2 class="display-2 text-center">Bienvenido <span>@Model.pelu_nombre</span> escoge tus servicios</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mt-3 d-inline-flex justify-content-center flex-wrap" id="peluqueros">
+                @* @if(Model.peluqueroInfo.Any() && Model.peluqueroInfo != null) {
+                    @foreach(var peluquero in Model.peluqueroInfo) {
+                        <button class="btn btn-lg btn-outline-primary rounded-pill me-3">@peluquero.pel_nombre</button>
+                    }
+                } else {
+                    <p>No hay servicios disponibles</p>
+                } *@
+            </div>
+            <div class="col-auto p-0 mt-5 d-flex justify-content-between flex-wrap">
+                <a asp-action="Portal" asp-controller="Peluquerias" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i> Volver</a>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/infousuarios/infoPeluquerias.js"></script>
+    }
+</body>
+</html>
+
