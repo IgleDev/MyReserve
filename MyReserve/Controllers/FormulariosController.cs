@@ -184,6 +184,12 @@ namespace MyReserve.Controllers {
             return View("LoginGrupo", grupo);   // Redireccionamos el grupo
         }
 
+        //Servicios
+        public IActionResult RegistroServicios() {
+            Peluqueria peluActual = deserializarPeluqueria();
+            return View(peluActual);
+        }
+
         // Helpers
 
         public void serializarUsuario(Usuarios usuario) {
