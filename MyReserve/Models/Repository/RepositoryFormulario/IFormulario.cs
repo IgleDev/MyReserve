@@ -23,6 +23,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
 
         // Registro Servicios ->
         Task<IEnumerable<Servicios>> getServicios();
+        Task<IEnumerable<Servicios>> getServiciosPeluqueria(int pelu_id);
         Task GuardarServicios(int pelu_id, int serviciosSeleccionados);
 
         // Helpers de Querys

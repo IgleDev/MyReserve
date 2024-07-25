@@ -187,7 +187,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             }
         }
 
-        public async Task<IEnumerable<Servicios>> getServiciosPeluqueria() {
+        public async Task<IEnumerable<Servicios>> getServiciosPeluqueria(int pelu_id) {
             var query = "SELECT ser.* FROM Servicios AS ser " +
                 "INNER JOIN Peluqueria AS pelu ON pelu.pelu_id = ser.ser_pelu_id_fk";
 
