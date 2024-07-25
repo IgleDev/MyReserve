@@ -188,7 +188,11 @@ namespace MyReserve.Controllers {
         public async Task<IActionResult> RegistroServicios() {
             Peluqueria peluActual = deserializarPeluqueria();
             ViewBag.peluNombre = peluActual.pelu_nombre;
-            var servicios = await _formularioRepository.getServicios();
+            var servicios = await _formularioRepository.getServiciosPeluqueria(peluActual.pelu_id);
+            if(servicios == null) {
+                var serviciosCrear = await _formularioRepository.getServicios();
+                return View(serviciosCrear);
+            }
             return View(servicios);
         }
 
