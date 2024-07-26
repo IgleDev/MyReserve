@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyReserve.Models.Repository.RepositoryPeluqueria;
+using MyReserve.Models.Repository.RepositoryUsuarios;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using Newtonsoft.Json;
 
@@ -10,12 +11,14 @@ namespace MyReserve.Controllers {
             _peluqueriasRepository = peluqueriasRepository;
         }
 
-        public IActionResult Portal() {
+        public async Task<IActionResult> Portal() {
             Peluqueria peluActual = deserializarPeluqueria();   // Recuperamos la peluqueria
             var peluqueros = _peluqueriasRepository.GetPeluqueros(peluActual);  // Recuperamos los peluqueros
             var grupoPeluqueros = _peluqueriasRepository.GrupoIdNombre(peluActual.pelu_gp_id_fk);   // Recuperamos el id del peluquero mediante el nombre
+            var serviciosPeluqueria = await _peluqueriasRepository.getServiciosPeluqueria(peluActual.pelu_id);
             peluActual.peluqueros = peluqueros; // Le pasamos los peluqueros a la lista de la peluqueria
-            peluActual.grupoPeluqueria = grupoPeluqueros;   // Le pasamos el grupo de peluqueros al grupo
+            peluActual.grupoPeluqueria = grupoPeluqueros;   // Le pasamos el grupo de peluqueros a la peluqueria
+            peluActual.Servicios = serviciosPeluqueria.ToList();    // Le pasamos los servicios
             serializarPeluqueria(peluActual);   // Guardamos en sesión
             return View(peluActual);    // Retornamos peluqueria
         }
