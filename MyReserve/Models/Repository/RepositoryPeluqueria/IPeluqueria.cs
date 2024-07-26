@@ -8,7 +8,6 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
         IEnumerable<Peluqueros> GetPeluqueros(Peluqueria pelu);
 
         GrupoPeluqueria GrupoIdNombre(string gp_id);
-        Task<IEnumerable<Servicios>> getServicios();
         Task<IEnumerable<Servicios>> getServiciosPeluqueria(int pelu_id);
     }
 }

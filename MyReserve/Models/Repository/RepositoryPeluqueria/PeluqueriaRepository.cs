@@ -44,15 +44,5 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
                 return serviciosLista;
             }
         }
-
-        public async Task<IEnumerable<Servicios>> getServicios() {
-            var query = "SELECT ser.ser_id, ser.ser_nombre, ser.ser_precio, cat.cat_nombre FROM Servicios AS ser " +
-                "INNER JOIN Categoria AS cat ON cat.cat_id = ser_cat_id_fk";
-
-            using(var connection = _conexion.getConexion()) {
-                var serviciosLista = await connection.QueryAsync<Servicios>(query);
-                return serviciosLista;
-            }
-        }
     }
 }
