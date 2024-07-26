@@ -180,7 +180,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         }
 
         public async Task GuardarServicios(int pelu_id, int ser_id) {
-            var query = "UPDATE Servicios SET ser_pelu_id_fk = @pelu_id WHERE ser_id = @ser_id";
+            var query = "INSERT INTO PeluqueriaServicios (pelu_ser_pelu_id_fk, pelu_ser_ser_id_fk) VALUES (@pelu_id, @ser_id)";
 
             using(var connection = _conexion.getConexion()) {
                 await connection.ExecuteAsync(query, new { pelu_id = pelu_id, ser_id = ser_id });
