@@ -15,5 +15,6 @@ namespace MyReserve.Models.TablasBBDD.Peluqueria {
         public MyReserve.Models.TablasBBDD.GrupoPeluqueria.GrupoPeluqueria grupoPeluqueria { get; set; }
         public IEnumerable<MyReserve.Models.TablasBBDD.Peluqueros.Peluqueros> peluqueros { get; set; }
         public IEnumerable<MyReserve.Models.TablasBBDD.Paises.Paises> listaPaises { get; set; }
+        public IEnumerable<MyReserve.Models.TablasBBDD.Servicios.Servicios> Servicios { get; set; }
     }
 }
