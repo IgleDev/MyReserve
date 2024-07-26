@@ -41,7 +41,11 @@
         <div class="row d-flex justify-content-center flex-wrap">
             <div class="col-auto p-0 mt-5">
                 <a asp-action="RegistroPeluqueros" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i> ¡Añade un nuevo empleado al plantel!</a>
-                <a asp-action="RegistroServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-regular fa-hand-scissors"></i>¡Añade o edita tus servicios!</a>
+                @if(Model.Servicios == null || !Model.Servicios.Any() || Model.Servicios.All(ser => ser.ser_asociado == 0)) {
+                    <a asp-action="RegistroServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i>¡Añade tus servicios!</a>
+                } else {
+                    <a asp-action="EditarServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-regular fa-hand-scissors"></i>¡Edita tus servicios!</a>
+                }
                 <a asp-action="RegistroHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-regular fa-clock"></i> ¡Pon tus horarios!</a>
             </div>
         </div>
