@@ -188,23 +188,19 @@ namespace MyReserve.Controllers {
         public async Task<IActionResult> RegistroServicios() {
             Peluqueria peluActual = deserializarPeluqueria();
             ViewBag.peluNombre = peluActual.pelu_nombre;
-            var servicios = await _formularioRepository.getServiciosPeluqueria(peluActual.pelu_id);
-            if(servicios == null) {
-                var serviciosCrear = await _formularioRepository.getServicios();
-                return View(serviciosCrear);
-            }
-            return View(servicios);
+            var serviciosCrear = await _formularioRepository.getServicios();
+            return View(serviciosCrear);
         }
 
         [HttpPost]
         public async Task<IActionResult> GuardarServicios(int[] selectedServices) {
             Peluqueria peluActual = deserializarPeluqueria(); // Obtener la peluquería actual
             if(selectedServices == null || !selectedServices.Any()) {
-                ModelState.AddModelError("", "No se han seleccionado servicios.");
-                return View(); // O redirige a una página adecuada
+                var serviciosCrear = await _formularioRepository.getServicios();
+                return View("RegistroServicios", serviciosCrear); //
             }
 
-            foreach(var servicioId in selectedServices) {
+            foreach(var servicioId in selectedServices) {   // Por cada iteración guardamos el servicio
                 await _formularioRepository.GuardarServicios(peluActual.pelu_id, servicioId);
             }
 
