@@ -51,7 +51,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
                 "WHERE pai_nombre = @pai_nombre";
 
             using(var connection = _conexion.getConexion()) {
-                return await connection.QueryAsync<Region>(query, new { pai_nombre = pai_nombre });
+                return await connection.QueryAsync<Region>(query, new { pai_nombre });
             }
         }
 
