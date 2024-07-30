@@ -185,27 +185,54 @@ namespace MyReserve.Controllers {
         }
 
         //Servicios
+
         public async Task<IActionResult> RegistroServicios() {
-            Peluqueria peluActual = deserializarPeluqueria();
-            ViewBag.peluNombre = peluActual.pelu_nombre;
-            var serviciosCrear = await _formularioRepository.getServicios();
-            return View(serviciosCrear);
+            Peluqueria peluActual = deserializarPeluqueria();   // Recogemos la peluqueria
+            ViewBag.peluNombre = peluActual.pelu_nombre;    // Mandamos el nombre a través de un ViewBag
+            var serviciosCrear = await _formularioRepository.getServicios();    // Mandamos la lista de servicios disponibles
+            return View(serviciosCrear);    // Mandamos la vista
         }
 
         [HttpPost]
-        public async Task<IActionResult> GuardarServicios(int[] selectedServices) {
+        public async Task<IActionResult> GuardarServicios(int[] seleccionarServicios) {
             Peluqueria peluActual = deserializarPeluqueria(); // Obtener la peluquería actual
-            if(selectedServices == null || !selectedServices.Any()) {
-                var serviciosCrear = await _formularioRepository.getServicios();
-                return View("RegistroServicios", serviciosCrear); //
+            if(seleccionarServicios == null || !seleccionarServicios.Any()) {   // Comprobamos si el array está vacio
+                var serviciosCrear = await _formularioRepository.getServicios();    // Si lo está mandamos los servicios de vuelta
+                return View("RegistroServicios", serviciosCrear); // Mostramos la vista
             }
 
-            foreach(var servicioId in selectedServices) {   // Por cada iteración guardamos el servicio
-                await _formularioRepository.GuardarServicios(peluActual.pelu_id, servicioId);
+            foreach(var servicio in seleccionarServicios) {   // Por cada iteración guardamos el servicio
+                await _formularioRepository.GuardarServicios(peluActual.pelu_id, servicio);   // Guardamos los servicios
             }
 
-            // Redirige o muestra un mensaje de éxito
-            return RedirectToAction("Portal", "Peluquerias"); // O la acción que desees
+            return RedirectToAction("Portal", "Peluquerias"); // Redirrecionamos a la página del Portal
+        }
+
+        public async Task<IActionResult> EditarServicios() {
+            Peluqueria peluActual = deserializarPeluqueria();   // Obtenemos la peluqueria
+            ViewBag.peluNombre = peluActual.pelu_nombre;    // Pasamos el nombre de la peluqueria
+            var serviciosActuales = await _formularioRepository.getServiciosPeluqueria(peluActual.pelu_id); // Recogemos los servicios de la peluqueria
+            peluActual.Servicios = serviciosActuales.ToList();  // Los hacemos lista y guardamos en una variable
+            return View(peluActual);    // Retornamos la peluqueria
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarServicios(int[] serviciosActuales) {
+            Peluqueria peluActual = deserializarPeluqueria(); // Obtener la peluquería actual
+            if(serviciosActuales == null || !serviciosActuales.Any()) {
+                // Redirigir a la misma página de edición en caso de error
+                var serviciosPeluqueria = await _formularioRepository.getServiciosPeluqueria(peluActual.pelu_id);
+                peluActual.Servicios = serviciosPeluqueria.ToList();
+                return View("EditarServicios", peluActual);
+            }
+
+            await _formularioRepository.deleteServiciosPeluqueria(peluActual.pelu_id);
+
+            foreach(var ser_id in serviciosActuales) {
+                await _formularioRepository.addServicioPeluqueria(peluActual.pelu_id, ser_id);
+            }
+
+            return RedirectToAction("Portal", "Peluquerias");
         }
 
 
