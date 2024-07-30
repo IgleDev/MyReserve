@@ -3,6 +3,7 @@ using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Servicios;
+using NuGet.Protocol.Plugins;
 
 namespace MyReserve.Models.Repository.RepositoryPeluqueria {
     public class PeluqueriaRepository : IPeluqueria {
@@ -40,9 +41,10 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
                 "LEFT JOIN PeluqueriaServicios AS pelu_ser ON pelu_ser.pelu_ser_ser_id_fk = ser.ser_id AND pelu_ser.pelu_ser_pelu_id_fk = @pelu_id";
 
             using(var connection = _conexion.getConexion()) {
-                var serviciosLista = await connection.QueryAsync<Servicios>(query, new {pelu_id});
+                var serviciosLista = await connection.QueryAsync<Servicios>(query, new { pelu_id });
                 return serviciosLista;
             }
         }
+
     }
 }
