@@ -155,7 +155,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
                 "WHERE pai_nombre = @pai_nombre";
 
             using(var connection = _conexion.getConexion()) {
-                return await connection.QueryAsync<Region>(query, new { pai_nombre = pai_nombre });
+                return await connection.QueryAsync<Region>(query, new { pai_nombre });
             }
         }
 
@@ -165,7 +165,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
                 "WHERE pelu.pelu_id = @pelu_id";
 
             using(var connection = _conexion.getConexion()) {
-                return await connection.QueryFirstOrDefaultAsync<GrupoPeluqueria>(query, new { pelu_id = pelu_id });
+                return await connection.QueryFirstOrDefaultAsync<GrupoPeluqueria>(query, new { pelu_id });
             }
         }
 
@@ -183,16 +183,38 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             var query = "INSERT INTO PeluqueriaServicios (pelu_ser_pelu_id_fk, pelu_ser_ser_id_fk) VALUES (@pelu_id, @ser_id)";
 
             using(var connection = _conexion.getConexion()) {
-                await connection.ExecuteAsync(query, new { pelu_id = pelu_id, ser_id = ser_id });
+                await connection.ExecuteAsync(query, new { pelu_id, ser_id });
+            }
+        }
+
+        public async Task deleteServiciosPeluqueria(int pelu_id) {
+            var query = "DELETE FROM PeluqueriaServicios WHERE pelu_ser_pelu_id_fk = @pelu_id";
+
+            using(var connection = _conexion.getConexion()) {
+                await connection.ExecuteAsync(query, new { pelu_id });
+            }
+        }
+
+        public async Task addServicioPeluqueria(int pelu_id, int ser_id) {
+            var query = "INSERT INTO PeluqueriaServicios (pelu_ser_pelu_id_fk, pelu_ser_ser_id_fk) VALUES (@pelu_id, @ser_id)";
+
+            using(var connection = _conexion.getConexion()) {
+                await connection.ExecuteAsync(query, new { pelu_id, ser_id });
             }
         }
 
         public async Task<IEnumerable<Servicios>> getServiciosPeluqueria(int pelu_id) {
-            var query = "SELECT ser.* FROM Servicios AS ser " +
-                "INNER JOIN Peluqueria AS pelu ON pelu.pelu_id = ser.ser_pelu_id_fk";
+            var query = "SELECT ser.*, " +
+                "CASE " +
+                    "WHEN pelu_ser.pelu_ser_pelu_id_fk IS NOT NULL " +
+                    "THEN 1 " +
+                    "ELSE 0 " +
+                "END AS ser_asociado " +
+                "FROM Servicios AS ser " +
+                "LEFT JOIN PeluqueriaServicios AS pelu_ser ON pelu_ser.pelu_ser_ser_id_fk = ser.ser_id AND pelu_ser.pelu_ser_pelu_id_fk = @pelu_id";
 
             using(var connection = _conexion.getConexion()) {
-                var serviciosLista = await connection.QueryAsync<Servicios>(query);
+                var serviciosLista = await connection.QueryAsync<Servicios>(query, new { pelu_id });
                 return serviciosLista;
             }
         }
