@@ -12,7 +12,7 @@
     <title>InfoPeluquerias</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @section Styles {
-        <link rel="stylesheet" href="~/css/infousuarios/infopeluquerias.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/formulario/editarservicios.css" asp-append-version="true" />
     }
 </head>
 <body>
@@ -32,10 +32,11 @@
                         </div>
                         <div class="d-inline-flex flex-wrap mb-2" id="servicios">
                             <div class="d-inline-flex flex-wrap mb-2">
-                                @foreach(var item in cat) {
+                                @foreach(var servicio in cat) {
                                     <div class="form-check">
-                                        <input type="checkbox" name="selectedServices" value="@item.ser_id" id="service_@item.ser_id" />
-                                        <label for="service_@item.ser_id">@item.ser_nombre - @item.ser_precio</label>
+                                        <input type="checkbox" class="btn-check" autocomplete="off" name="seleccionarServicios"
+                                         value="@servicio.ser_id" id="btn-check-@servicio.ser_id" />
+                                        <label class="btn" for="btn-check-@servicio.ser_id">@servicio.ser_nombre - @servicio.ser_precio€</label>
                                     </div>
                                 }
                             </div>
