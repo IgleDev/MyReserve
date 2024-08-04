@@ -235,6 +235,33 @@ namespace MyReserve.Controllers {
             return RedirectToAction("Portal", "Peluquerias");
         }
 
+        public async Task<IActionResult> RegistroHorarios() {
+            Peluqueria peluActual = deserializarPeluqueria();   // Recogemos la peluqueria
+            ViewBag.peluNombre = peluActual.pelu_nombre;    // Mandamos el nombre a través de un ViewBag
+            var horariosCrear = await _formularioRepository.getHorarios();    // Mandamos la lista de servicios disponibles
+            return View(horariosCrear);    // Mandamos la vista
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GuardarHorarios(int[] seleccionarHorarios) {
+            // Recuperamos la peluqueria actual
+            Peluqueria peluActual = deserializarPeluqueria();
+
+            if(seleccionarHorarios == null || !seleccionarHorarios.Any()) {
+                // Si no se selecciona ningun horario, obtenemos los horarios de nuevo y mostramos la vista
+                var horarios = await _formularioRepository.getHorarios();
+                ViewBag.peluNombre = peluActual.pelu_nombre;
+                return View("RegistroHorarios", horarios);
+            }
+
+            // Guardamos las horas seleccionadas
+            foreach(var hora_id in seleccionarHorarios) {
+                await _formularioRepository.GuardarHorarios(peluActual.pelu_id, hora_id);
+            }
+
+            return RedirectToAction("Portal", "Peluquerias"); // Redirige a la página del portal
+        }
+
 
         // Helper
         public void serializarUsuario(Usuarios usuario) {
