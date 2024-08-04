@@ -10,6 +10,10 @@ h2 > span {
     font-family: 'Coffee Spark';
 }
 
+.btn-check + .btn {
+    border: 1px solid #1e5c5c; 
+}
+
 .btn-check:checked + .btn {
     border: 1px solid #2d9696;
 }

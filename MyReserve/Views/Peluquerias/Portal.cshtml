@@ -25,11 +25,12 @@
             <div class="col-12 mt-5">
                 <p class="text-center opacity-50">Bienvenido a tu <span class="text-info">portal</span> para gestionar tus empleados</p>
             </div>
-            <div class="col-12 d-inline-flex justify-content-evenly text-center opacity-75 mt-5">
-                <p>@Model.pelu_nombre</p> <p>@Model.pelu_region</p> <p>@Model.pelu_pais</p> <p>@Model.pelu_telefono</p> <p>@Model.grupoPeluqueria.gp_nombre</p>
+            <div class="col-12 d-inline-flex justify-content-evenly flex-wrap text-center opacity-75 mt-5">
+                <p class="me-3">@Model.pelu_nombre</p> <p class="me-3">@Model.pelu_region</p> <p class="me-3">@Model.pelu_pais</p> 
+                <p class="me-3">@Model.pelu_telefono</p> <p class="me-3">@Model.grupoPeluqueria.gp_nombre</p>
             </div>
             <div class="col-12 mt-5">
-                <div class="row peluquerias d-flex flex-wrap">
+                <div class="row peluquerias d-flex justify-content-center flex-wrap">
                     @foreach(var item in Model.peluqueros) {
                         <div class="col-lg-2 rounded bg-info bg-opacity-50 p-2 me-5">
                             <h3 class="text-white">@Html.DisplayFor(modelItem => item.pel_nombre) <i class="fa-solid fa-arrow-right"></i></h3>
@@ -39,14 +40,14 @@
             </div>
         </div>
         <div class="row d-flex justify-content-center flex-wrap">
-            <div class="col-auto p-0 mt-5">
-                <a asp-action="RegistroPeluqueros" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i> ¡Añade un nuevo empleado al plantel!</a>
+            <div class="col-auto p-0 mt-5 d-flex justify-content-center flex-wrap">
+                <a asp-action="RegistroPeluqueros" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-solid fa-circle-plus"></i> ¡Añade un nuevo empleado al plantel!</a>
                 @if(Model.Servicios == null || !Model.Servicios.Any() || Model.Servicios.All(ser => ser.ser_asociado == 0)) {
-                    <a asp-action="RegistroServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i>¡Añade tus servicios!</a>
+                    <a asp-action="RegistroServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-solid fa-circle-plus"></i>¡Añade tus servicios!</a>
                 } else {
-                    <a asp-action="EditarServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-regular fa-hand-scissors"></i>¡Edita tus servicios!</a>
+                    <a asp-action="EditarServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-hand-scissors"></i>¡Edita tus servicios!</a>
                 }
-                <a asp-action="RegistroHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-regular fa-clock"></i> ¡Pon tus horarios!</a>
+                <a asp-action="RegistroHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-clock"></i> ¡Pon tus horarios!</a>
             </div>
         </div>
     </div>
