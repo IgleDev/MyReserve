@@ -7,7 +7,7 @@ using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
 using System.Data;
 using MyReserve.Models.TablasBBDD.Servicios;
-using MyReserve.Models.TablasBBDD.Categorias;
+using MyReserve.Models.TablasBBDD.Horarios;
 
 namespace MyReserve.Models.Repository.RepositoryUsuarios {
     public class FormularioRepository : IFormulario {
@@ -203,6 +203,15 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             }
         }
 
+        public async Task<IEnumerable<Horarios>> getHorarios() {
+            var query = "SELECT * FROM Horarios";
+
+            using(var connection = _conexion.getConexion()) {
+                var horariosLista = await connection.QueryAsync<Horarios>(query);
+                return horariosLista;
+            }
+        }
+
         public async Task<IEnumerable<Servicios>> getServiciosPeluqueria(int pelu_id) {
             var query = "SELECT ser.*, " +
                 "CASE " +
@@ -216,6 +225,26 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             using(var connection = _conexion.getConexion()) {
                 var serviciosLista = await connection.QueryAsync<Servicios>(query, new { pelu_id });
                 return serviciosLista;
+            }
+        }
+
+        public async Task<IEnumerable<Horarios>> getHorariosPeluqueria(int pelu_id) {
+            var query = " SELECT hora.hora_id, hora.hora_fecha, pelu_hora.hora_reservado " +
+            "FROM Horarios AS hora " +
+            "INNER JOIN PeluqueriaHorarios AS pelu_hora ON hora.hora_id = pelu_hora.pelu_hora_hora_id_fk " +
+            "WHERE pelu_hora.pelu_hora_pelu_id_fk = @pelu_id";
+
+            using(var connection = _conexion.getConexion()) {
+                var horarios = await connection.QueryAsync<Horarios>(query, new { pelu_id });
+                return horarios;
+            }
+        }
+
+        public async Task GuardarHorarios(int pelu_id, int hora_id) {
+            var query = "INSERT INTO PeluqueriaHorarios (pelu_hora_pelu_id_fk, pelu_hora_hora_id_fk) VALUES (@pelu_id, @hora_id)";
+
+            using(var connection = _conexion.getConexion()) {
+                await connection.ExecuteAsync(query, new { pelu_id, hora_id });
             }
         }
 

@@ -5,6 +5,7 @@ using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
 using MyReserve.Models.TablasBBDD.Servicios;
+using MyReserve.Models.TablasBBDD.Horarios;
 
 namespace MyReserve.Models.Repository.RepositoryUsuarios {
     public interface IFormulario {
@@ -25,6 +26,11 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         Task<IEnumerable<Servicios>> getServicios();
         Task<IEnumerable<Servicios>> getServiciosPeluqueria(int pelu_id);
         Task GuardarServicios(int pelu_id, int serviciosSeleccionados);
+
+        // Registro Horarios ->
+        Task<IEnumerable<Horarios>> getHorarios();
+        Task<IEnumerable<Horarios>> getHorariosPeluqueria(int pelu_id);
+        Task GuardarHorarios(int pelu_id, int horariosSeleccionados);
 
         // Helpers de Querys
         Task<int> PeluqueriaIDNombre(string pelu_nombre);
