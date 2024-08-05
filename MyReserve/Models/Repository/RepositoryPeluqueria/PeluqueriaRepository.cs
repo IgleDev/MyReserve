@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
+using MyReserve.Models.TablasBBDD.Horarios;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Servicios;
@@ -46,5 +47,21 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
             }
         }
 
+        public async Task<IEnumerable<Horarios>> getHorariosPeluqueria(int pelu_id) {
+            var query = "SELECT hora.hora_id, hora.hora_fecha,  " +
+                "CASE " +
+                    "WHEN pelu_hora.pelu_hora_pelu_id_fk IS NOT NULL " +
+                    "THEN 1 " +
+                    "ELSE 0 " +
+                "END AS hora_asociado " +
+                "FROM Horarios AS hora " +
+                "LEFT JOIN PeluqueriaHorarios AS pelu_hora ON hora.hora_id = pelu_hora.pelu_hora_hora_id_fk " +
+                "AND pelu_hora.pelu_hora_pelu_id_fk = @pelu_id";
+
+            using(var connection = _conexion.getConexion()) {
+                var horarios = await connection.QueryAsync<Horarios>(query, new { pelu_id });
+                return horarios;
+            }
+        }
     }
 }
