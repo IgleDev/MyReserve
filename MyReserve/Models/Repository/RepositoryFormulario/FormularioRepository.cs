@@ -195,14 +195,6 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             }
         }
 
-        public async Task addServicioPeluqueria(int pelu_id, int ser_id) {
-            var query = "INSERT INTO PeluqueriaServicios (pelu_ser_pelu_id_fk, pelu_ser_ser_id_fk) VALUES (@pelu_id, @ser_id)";
-
-            using(var connection = _conexion.getConexion()) {
-                await connection.ExecuteAsync(query, new { pelu_id, ser_id });
-            }
-        }
-
         public async Task<IEnumerable<Horarios>> getHorarios() {
             var query = "SELECT * FROM Horarios";
 
@@ -229,10 +221,15 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         }
 
         public async Task<IEnumerable<Horarios>> getHorariosPeluqueria(int pelu_id) {
-            var query = " SELECT hora.hora_id, hora.hora_fecha, pelu_hora.hora_reservado " +
-            "FROM Horarios AS hora " +
-            "INNER JOIN PeluqueriaHorarios AS pelu_hora ON hora.hora_id = pelu_hora.pelu_hora_hora_id_fk " +
-            "WHERE pelu_hora.pelu_hora_pelu_id_fk = @pelu_id";
+            var query = "SELECT hora.hora_id, hora.hora_fecha,  " +
+                "CASE " +
+                    "WHEN pelu_hora.pelu_hora_pelu_id_fk IS NOT NULL " +
+                    "THEN 1 " +
+                    "ELSE 0 " +
+                "END AS hora_asociado " +
+                "FROM Horarios AS hora " +
+                "LEFT JOIN PeluqueriaHorarios AS pelu_hora ON hora.hora_id = pelu_hora.pelu_hora_hora_id_fk " +
+                "AND pelu_hora.pelu_hora_pelu_id_fk = @pelu_id";
 
             using(var connection = _conexion.getConexion()) {
                 var horarios = await connection.QueryAsync<Horarios>(query, new { pelu_id });
@@ -248,5 +245,12 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             }
         }
 
+        public async Task deleteHorariosPeluqueria(int pelu_id) {
+            var query = "DELETE FROM PeluqueriaHorarios WHERE pelu_hora_pelu_id_fk = @pelu_id";
+
+            using(var connection = _conexion.getConexion()) {
+                await connection.ExecuteAsync(query, new { pelu_id });
+            }
+        }
     }
 }
