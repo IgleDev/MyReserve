@@ -47,7 +47,11 @@
                 } else {
                     <a asp-action="EditarServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-hand-scissors"></i>¡Edita tus servicios!</a>
                 }
-                <a asp-action="RegistroHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-clock"></i> ¡Pon tus horarios!</a>
+                @if(Model.Horarios == null || !Model.Horarios.Any()) {
+                    <a asp-action="RegistroHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-clock"></i> ¡Pon tus horarios!</a>
+                } else {
+                    <a asp-action="EditarHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-clock"></i> ¡Edita tus horarios!</a>
+                }
             </div>
         </div>
     </div>
