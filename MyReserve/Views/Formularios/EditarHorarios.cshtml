@@ -5,15 +5,16 @@
     var peluNombre = ViewBag.peluNombre;
     ViewData["Title"] = "Editar Servicios";
 }
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>InfoPeluquerias</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @section Styles {
         <link rel="stylesheet" href="~/css/formulario/editarservicios.css" asp-append-version="true" />
     }
+    <title>Editar Horarios</title>
 </head>
 <body>
     <div class="container">
@@ -23,30 +24,30 @@
             </div>
         </div>
         <div class="row">
-            <h3>Servicios Actuales</h3>
-            <form asp-action="ActualizarServicios" method="post">
+            <h3>Horarios Actuales</h3>
+            <form asp-action="ActualizarHorarios" method="post">
                 <div class="col-12 mt-2 mb-2">
-                    @foreach(var servicio in Model.Servicios.Where(s => s.ser_asociado == 1)) {
+                    @foreach(var hora in Model.Horarios.Where(hora => hora.hora_asociado == 1)) {
                         <div class="d-inline-flex flex-wrap mb-2">
                             <div class="d-inline-flex flex-wrap mb-2">
                                 <div class="form-check">
-                                    <input type="checkbox" class="btn-check" autocomplete="off" name="serviciosActuales" 
-                                    value="@servicio.ser_id" checked id="btn-check-@servicio.ser_id" />
-                                    <label class="btn" for="btn-check-@servicio.ser_id">@servicio.ser_nombre - @servicio.ser_precio€</label>
+                                    <input type="checkbox" class="btn-check" autocomplete="off" name="horariosActuales"
+                                           value="@hora.hora_id" checked id="btn-check-@hora.hora_id" />
+                                    <label class="btn" for="btn-check-@hora.hora_id">@hora.hora_fecha</label>
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
-                <h3>Servicios Disponibles</h3>
+                <h3>Horarios Disponibles</h3>
                 <div>
-                    @foreach(var servicio in Model.Servicios.Where(s => s.ser_asociado == 0)) {
+                    @foreach(var hora in Model.Horarios.Where(hora => hora.hora_asociado == 0)) {
                         <div class="d-inline-flex flex-wrap mb-2">
                             <div class="d-inline-flex flex-wrap mb-2">
                                 <div class="form-check">
-                                    <input type="checkbox" class="btn-check" autocomplete="off" name="serviciosActuales"
-                                    value="@servicio.ser_id" id="btn-check-@servicio.ser_id" />
-                                    <label class="btn" for="btn-check-@servicio.ser_id">@servicio.ser_nombre - @servicio.ser_precio€</label>
+                                    <input type="checkbox" class="btn-check" autocomplete="off" name="horariosActuales"
+                                           value="@hora.hora_id" id="btn-check-@hora.hora_id" />
+                                    <label class="btn" for="btn-check-@hora.hora_id">@hora.hora_fecha</label>
                                 </div>
                             </div>
                         </div>
