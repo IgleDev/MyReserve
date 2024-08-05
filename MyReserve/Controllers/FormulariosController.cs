@@ -229,7 +229,7 @@ namespace MyReserve.Controllers {
             await _formularioRepository.deleteServiciosPeluqueria(peluActual.pelu_id);
 
             foreach(var ser_id in serviciosActuales) {
-                await _formularioRepository.addServicioPeluqueria(peluActual.pelu_id, ser_id);
+                await _formularioRepository.GuardarServicios(peluActual.pelu_id, ser_id);
             }
 
             return RedirectToAction("Portal", "Peluquerias");
@@ -260,6 +260,33 @@ namespace MyReserve.Controllers {
             }
 
             return RedirectToAction("Portal", "Peluquerias"); // Redirige a la página del portal
+        }
+
+        public async Task<IActionResult> EditarHorarios() {
+            Peluqueria peluActual = deserializarPeluqueria();   // Recogemos la peluqueria
+            ViewBag.peluNombre = peluActual.pelu_nombre;    // Mandamos el nombre a través de un ViewBag
+            var horariosEditar = await _formularioRepository.getHorariosPeluqueria(peluActual.pelu_id);    // Mandamos la lista de servicios disponibles
+            peluActual.Horarios = horariosEditar.ToList();
+            return View(peluActual);    // Mandamos la vista
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarHorarios(int[] horariosActuales) {
+            Peluqueria peluActual = deserializarPeluqueria(); // Obtener la peluquería actual
+            if(horariosActuales == null || !horariosActuales.Any()) {
+                // Redirigir a la misma página de edición en caso de error
+                var horariosPeluqueria = await _formularioRepository.getHorariosPeluqueria(peluActual.pelu_id);
+                peluActual.Horarios = horariosPeluqueria.ToList();
+                return View("EditarHorarios", peluActual);
+            }
+
+            await _formularioRepository.deleteHorariosPeluqueria(peluActual.pelu_id);
+
+            foreach(var hora_id in horariosActuales) {
+                await _formularioRepository.GuardarHorarios(peluActual.pelu_id, hora_id);
+            }
+
+            return RedirectToAction("Portal", "Peluquerias");
         }
 
 

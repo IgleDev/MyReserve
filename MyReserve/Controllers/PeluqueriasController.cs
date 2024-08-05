@@ -16,9 +16,11 @@ namespace MyReserve.Controllers {
             var peluqueros = _peluqueriasRepository.GetPeluqueros(peluActual);  // Recuperamos los peluqueros
             var grupoPeluqueros = _peluqueriasRepository.GrupoIdNombre(peluActual.pelu_gp_id_fk);   // Recuperamos el id del peluquero mediante el nombre
             var serviciosPeluqueria = await _peluqueriasRepository.getServiciosPeluqueria(peluActual.pelu_id);
+            var horariosPeluqueria = await _peluqueriasRepository.getHorariosPeluqueria(peluActual.pelu_id);
             peluActual.peluqueros = peluqueros; // Le pasamos los peluqueros a la lista de la peluqueria
             peluActual.grupoPeluqueria = grupoPeluqueros;   // Le pasamos el grupo de peluqueros a la peluqueria
             peluActual.Servicios = serviciosPeluqueria.ToList();    // Le pasamos los servicios
+            peluActual.Horarios = horariosPeluqueria.ToList();  // Le pasamos los horarios
             serializarPeluqueria(peluActual);   // Guardamos en sesión
             return View(peluActual);    // Retornamos peluqueria
         }
