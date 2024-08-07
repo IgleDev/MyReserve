@@ -45,12 +45,17 @@ namespace MyReserve.Controllers {
         public async Task<IActionResult> InfoPeluquerias(int pelu_id) {
             Usuarios usuariosActual = deserializarUsuario(); // Recuperamos el usuario
             var peluqueria = await _usuariosRepository.getPeluqueriaID(pelu_id);    // Recogemos la peluqueria según el id que pasamos
-            var peluqueros = await _usuariosRepository.getPeluquerosPeluqueriaID(pelu_id);
+            var peluqueros = await _usuariosRepository.getPeluquerosPeluqueriaID(pelu_id);  // Recogemos los peluqueros de la peluqueria
+            var servicios = await _usuariosRepository.getServiciosPeluqueria(pelu_id);
+            var horarios = await _usuariosRepository.getHorariosPeluqueria(pelu_id);
+
+            ViewBag.usuariosActual = usuariosActual.usu_nombre;
+            peluqueria.Servicios = servicios.ToList();
+            peluqueria.Horarios = horarios.ToList();
 
             var peluInfo = new InfoPeluqueriaModel {    // Creamos la peluqueria con la información que le pasamos
                 peluqueriaInfo = peluqueria,
-                peluqueroInfo = peluqueros,
-                usu_nombre = usuariosActual.usu_nombre
+                peluquerosInfo = peluqueros,
             };
 
             return View(peluInfo);  // Retornamos la vista

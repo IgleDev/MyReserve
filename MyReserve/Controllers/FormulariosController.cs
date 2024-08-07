@@ -226,7 +226,7 @@ namespace MyReserve.Controllers {
                 return View("EditarServicios", peluActual);
             }
 
-            await _formularioRepository.deleteServiciosPeluqueria(peluActual.pelu_id);
+            await _formularioRepository.borrarServiciosPeluqueria(peluActual.pelu_id);
 
             foreach(var ser_id in serviciosActuales) {
                 await _formularioRepository.GuardarServicios(peluActual.pelu_id, ser_id);
@@ -250,13 +250,13 @@ namespace MyReserve.Controllers {
             if(seleccionarHorarios == null || !seleccionarHorarios.Any()) {
                 // Si no se selecciona ningun horario, obtenemos los horarios de nuevo y mostramos la vista
                 var horarios = await _formularioRepository.getHorarios();
-                ViewBag.peluNombre = peluActual.pelu_nombre;
-                return View("RegistroHorarios", horarios);
+                ViewBag.peluNombre = peluActual.pelu_nombre;    // Pasamos el nombre de la peluqueria
+                return View("RegistroHorarios", horarios);  // Mandamos la vista
             }
 
             // Guardamos las horas seleccionadas
             foreach(var hora_id in seleccionarHorarios) {
-                await _formularioRepository.GuardarHorarios(peluActual.pelu_id, hora_id);
+                await _formularioRepository.GuardarHorarios(peluActual.pelu_id, hora_id);   // Guardamos los horarios
             }
 
             return RedirectToAction("Portal", "Peluquerias"); // Redirige a la página del portal
@@ -266,7 +266,7 @@ namespace MyReserve.Controllers {
             Peluqueria peluActual = deserializarPeluqueria();   // Recogemos la peluqueria
             ViewBag.peluNombre = peluActual.pelu_nombre;    // Mandamos el nombre a través de un ViewBag
             var horariosEditar = await _formularioRepository.getHorariosPeluqueria(peluActual.pelu_id);    // Mandamos la lista de servicios disponibles
-            peluActual.Horarios = horariosEditar.ToList();
+            peluActual.Horarios = horariosEditar.ToList();  // Le pasamos los horarios a modo de lista
             return View(peluActual);    // Mandamos la vista
         }
 
@@ -275,18 +275,18 @@ namespace MyReserve.Controllers {
             Peluqueria peluActual = deserializarPeluqueria(); // Obtener la peluquería actual
             if(horariosActuales == null || !horariosActuales.Any()) {
                 // Redirigir a la misma página de edición en caso de error
-                var horariosPeluqueria = await _formularioRepository.getHorariosPeluqueria(peluActual.pelu_id);
-                peluActual.Horarios = horariosPeluqueria.ToList();
-                return View("EditarHorarios", peluActual);
+                var horariosPeluqueria = await _formularioRepository.getHorariosPeluqueria(peluActual.pelu_id); // Pasamos todo igual para que el usuario vea lo mismo
+                peluActual.Horarios = horariosPeluqueria.ToList();  // Le pasamos los horarios a modo de lista
+                return View("EditarHorarios", peluActual);  // Mandamos la vista
             }
 
-            await _formularioRepository.deleteHorariosPeluqueria(peluActual.pelu_id);
+            await _formularioRepository.borrarHorariosPeluqueria(peluActual.pelu_id);   // Borramos todos los horarios según la peluqueria que sea
 
             foreach(var hora_id in horariosActuales) {
-                await _formularioRepository.GuardarHorarios(peluActual.pelu_id, hora_id);
+                await _formularioRepository.GuardarHorarios(peluActual.pelu_id, hora_id);   // Volvemos a guardar los horarios
             }
 
-            return RedirectToAction("Portal", "Peluquerias");
+            return RedirectToAction("Portal", "Peluquerias");   // Mandamos la vista
         }
 
 
