@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyReserve.Models;
 using MyReserve.Models.HelpersTablasBBDD.InfoPeluqueriaModel;
 using MyReserve.Models.Repository.RepositoryUsuario;
+using MyReserve.Models.TablasBBDD.Cita;
+using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace MyReserve.Controllers {
     public class InfoUsuariosController : Controller {
@@ -95,6 +99,47 @@ namespace MyReserve.Controllers {
             serializarUsuario(usuariosActual);  // Almacenamos el usuario de nuevo
             return View("Portal", usuariosActual);  // Devolvemos la vista con el filtro ya hecho
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ReservarCita(int pelu_id, int peluquerosPeluqueria, int horariosPeluqueria, string fechaCita, int[] serviciosPeluqueria) {
+            var usuariosActual = deserializarUsuario(); // Recuperamos el usuario actual
+            var peluqueria = await _usuariosRepository.getPeluqueriaID(pelu_id);    // Recuperamos la peluquería
+
+            //Pasamos la fecha en un formato que soporte la BBDD
+            if(!DateTime.TryParseExact(fechaCita, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime citaFecha)) {
+                return View("InfoPeluquerias", pelu_id);    // Si falla redireccionamos de nuevo a la página
+            }
+
+            // Creamos la cita
+            var cita = new Cita {
+                cita_usu_id_fk = usuariosActual.usu_id,
+                cita_pelu_id_fk = peluqueria.pelu_id,
+                cita_pel_id_fk = peluquerosPeluqueria,
+                cita_hora_id_fk = horariosPeluqueria,
+                cita_fecha = citaFecha,
+                servicios = serviciosPeluqueria?.ToList() ?? new List<int>()
+            };
+
+            var cita_id = await _usuariosRepository.GuardarCita(cita);  // Guardamos la cita y obtienemos su ID
+
+            if(cita_id <= 0) {
+                return View("InfoPeluquerias", pelu_id);    // Si falla redirigimos de vuelta a la zona de citas
+            }
+
+            if(cita.servicios.Any()) {
+                await _usuariosRepository.GuardarCitasServicios(cita_id, cita.servicios);   // Guardamos los servicios de la cita del usuario
+            }
+
+            return RedirectToAction("Portal");  // Redirigimos al portal
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerHorariosDisponibles(int pelu_id, DateTime fechaCita) {
+            // Recuperamos los horarios disponibles segun la fecha.if (!DateTime.TryParse(fechaCita, out DateTime fechaCitaDate))
+            var horarios = await _usuariosRepository.getHorariosDisponibles(pelu_id, fechaCita);
+            return Json(horarios);  // Devolvemos los horarios en formato JSON.
+        }
+
 
         public void serializarUsuario(Usuarios usuario) {
             string json = JsonConvert.SerializeObject(usuario); // Transformamos el usuario en json
