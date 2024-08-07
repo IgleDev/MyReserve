@@ -2,6 +2,7 @@
 
 @{
     Layout = "_Layout";
+    var usuNombre = ViewBag.usu_nombre;
     ViewData["Title"] = "Info Peluquerias";
 }
 
@@ -21,20 +22,72 @@
                 <h2 class="display-2 text-center">Bienvenido a <span>@Model.peluqueriaInfo.pelu_nombre</span></h2>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <h3>Escoje a tu peluquero</h3>
-            </div>
-            <div class="col-12 mt-3 d-inline-flex justify-content-center flex-wrap" id="peluqueros">
-                @if(Model.peluqueroInfo.Any() && Model.peluqueroInfo != null) {
-                    @foreach(var peluquero in Model.peluqueroInfo) {
-                        <button class="btn btn-lg btn-outline-primary rounded-pill me-3">@peluquero.pel_nombre</button>
+        <form asp-action="GuardarCita" method="post">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Escoje a tu peluquero</h3>
+                </div>
+                <div class="col-12 mt-3 d-inline-flex justify-content-center flex-wrap" id="peluqueros">
+                    @foreach(var peluquero in Model.peluquerosInfo) {
+                        <div class="d-inline-flex flex-wrap mb-2">
+                            <div class="d-inline-flex flex-wrap mb-2">
+                                <div class="form-check">
+                                    <input type="radio" class="btn-check" autocomplete="off" name="peluquerosPeluqueria"
+                                           value="@peluquero.pel_id" id="btn-check-@peluquero.pel_id" />
+                                    <label class="btn" for="btn-check-@peluquero.pel_id">@peluquero.pel_nombre</label>
+                                </div>
+                            </div>
+                        </div>
                     }
-                } else {
-                    <p>No hay peluqueros disponibles</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <h2>Horarios</h2>
+                </div>
+                <div class="col-12 d-flex justify-content-center">
+                    <input type="date" id="fechaCita"/>
+                </div>
+                <div class="col-12 mt-3 d-inline-flex justify-content-center flex-wrap" id="peluqueros">
+                    @foreach(var peluquerias in Model.peluqueriaInfo.Horarios.Where(hora => hora.hora_asociado == 0)) {
+                        <div class="d-inline-flex flex-wrap mb-2">
+                            <div class="d-inline-flex flex-wrap mb-2">
+                                <div class="form-check">
+                                    <input type="radio" class="btn-check" autocomplete="off" name="horariosPeluqueria"
+                                           value="@peluquerias.hora_id" id="btn-check-horarios-@peluquerias.hora_id" />
+                                    <label class="btn" for="btn-check-horarios-@peluquerias.hora_id">@peluquerias.hora_fecha</label>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-12">
+                    <h2>Servicios</h2>
+                </div>
+                @if(Model != null) {
+                    var serviciosCategoria = Model.peluqueriaInfo.Servicios.GroupBy(ser_cat => ser_cat.cat_nombre);
+                    @foreach(var pelu_cat in serviciosCategoria) {
+                        <div class="col-12 mt-2 mb-2">
+                            <h3>@pelu_cat.Key</h3>
+                        </div>
+                        <div class="d-inline-flex flex-wrap mb-2" id="servicios">
+                            <div class="d-inline-flex flex-wrap mb-2">
+                                @foreach(var servicio in pelu_cat) {
+                                    <div class="form-check">
+                                        <input type="checkbox" class="btn-check" autocomplete="off" name="serviciosPeluqueria"
+                                               value="@servicio.ser_id" id="btn-check-servicio-@servicio.ser_id" />
+                                        <label class="btn mt-2" for="btn-check-servicio-@servicio.ser_id">@servicio.ser_nombre - @servicio.ser_precio€</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
                 }
             </div>
-        </div>
+            <div class="col-12">
+                <input type="submit" value="Haz tu Cita!"/>
+            </div>
+        </form>
         <div class="footer mt-5">
             <div class="row">
                 <div class="col-12 d-inline-flex flex-wrap justify-content-between">
