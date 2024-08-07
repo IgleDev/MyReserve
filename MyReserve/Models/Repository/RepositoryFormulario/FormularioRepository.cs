@@ -187,7 +187,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             }
         }
 
-        public async Task deleteServiciosPeluqueria(int pelu_id) {
+        public async Task borrarServiciosPeluqueria(int pelu_id) {
             var query = "DELETE FROM PeluqueriaServicios WHERE pelu_ser_pelu_id_fk = @pelu_id";
 
             using(var connection = _conexion.getConexion()) {
@@ -245,7 +245,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             }
         }
 
-        public async Task deleteHorariosPeluqueria(int pelu_id) {
+        public async Task borrarHorariosPeluqueria(int pelu_id) {
             var query = "DELETE FROM PeluqueriaHorarios WHERE pelu_hora_pelu_id_fk = @pelu_id";
 
             using(var connection = _conexion.getConexion()) {
