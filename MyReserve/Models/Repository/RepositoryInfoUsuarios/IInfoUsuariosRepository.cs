@@ -5,6 +5,8 @@ using MyReserve.Models.TablasBBDD.Region;
 using System.Data;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
+using MyReserve.Models.TablasBBDD.Horarios;
+using MyReserve.Models.TablasBBDD.Servicios;
 
 namespace MyReserve.Models.Repository.RepositoryUsuario {
     public class IInfoUsuariosRepository : IInfoUsuarios{
@@ -80,6 +82,40 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
 
             using(var connection = _conexion.getConexion()) {
                 return await connection.QueryAsync<Peluqueros>(query, new { pelu_id });
+            }
+        }
+
+        public async Task<IEnumerable<Servicios>> getServiciosPeluqueria(int pelu_id) {
+            var query = "SELECT ser.ser_id, ser.ser_nombre, cat.cat_nombre, " +
+                "CASE " +
+                    "WHEN pelu_ser.pelu_ser_pelu_id_fk IS NOT NULL " +
+                    "THEN 1 " +
+                    "ELSE 0 " +
+                "END AS ser_asociado " +
+                "FROM Servicios AS ser " +
+                "INNER JOIN Categoria AS cat ON cat.cat_id = ser.ser_cat_id_fk " +
+                "LEFT JOIN PeluqueriaServicios AS pelu_ser ON pelu_ser.pelu_ser_ser_id_fk = ser.ser_id AND pelu_ser.pelu_ser_pelu_id_fk = @pelu_id";
+
+            using(var connection = _conexion.getConexion()) {
+                var serviciosLista = await connection.QueryAsync<Servicios>(query, new { pelu_id });
+                return serviciosLista;
+            }
+        }
+
+        public async Task<IEnumerable<Horarios>> getHorariosPeluqueria(int pelu_id) {
+            var query = "SELECT hora.hora_id, hora.hora_fecha,  " +
+                "CASE " +
+                    "WHEN pelu_hora.pelu_hora_pelu_id_fk IS NOT NULL " +
+                    "THEN 1 " +
+                    "ELSE 0 " +
+                "END AS hora_asociado " +
+                "FROM Horarios AS hora " +
+                "LEFT JOIN PeluqueriaHorarios AS pelu_hora ON hora.hora_id = pelu_hora.pelu_hora_hora_id_fk " +
+                "AND pelu_hora.pelu_hora_pelu_id_fk = @pelu_id";
+
+            using(var connection = _conexion.getConexion()) {
+                var horarios = await connection.QueryAsync<Horarios>(query, new { pelu_id });
+                return horarios;
             }
         }
     }
