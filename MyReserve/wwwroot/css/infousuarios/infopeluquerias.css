@@ -9,3 +9,13 @@ h2 > span {
     color: #2d9696;
     font-family: 'Coffee Spark';
 }
+
+.btn-check + .btn {
+    border: 1px solid rgba(30, 92, 92, 0.5);
+}
+
+.btn-check:checked + .btn {
+    color : white;
+    border: 1px solid #2d9696;
+    background-color : #2d9696;
+}
