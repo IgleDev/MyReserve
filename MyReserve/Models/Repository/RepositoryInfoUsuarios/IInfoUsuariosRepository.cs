@@ -7,6 +7,7 @@ using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Horarios;
 using MyReserve.Models.TablasBBDD.Servicios;
+using MyReserve.Models.TablasBBDD.Cita;
 
 namespace MyReserve.Models.Repository.RepositoryUsuario {
     public class IInfoUsuariosRepository : IInfoUsuarios{
@@ -86,7 +87,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
         }
 
         public async Task<IEnumerable<Servicios>> getServiciosPeluqueria(int pelu_id) {
-            var query = "SELECT ser.ser_id, ser.ser_nombre, cat.cat_nombre, " +
+            var query = "SELECT ser.ser_id, ser.ser_nombre, ser.ser_precio, cat.cat_nombre, " +
                 "CASE " +
                     "WHEN pelu_ser.pelu_ser_pelu_id_fk IS NOT NULL " +
                     "THEN 1 " +
@@ -116,6 +117,38 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
             using(var connection = _conexion.getConexion()) {
                 var horarios = await connection.QueryAsync<Horarios>(query, new { pelu_id });
                 return horarios;
+            }
+        }
+
+        public async Task<int> GuardarCita(Cita cita) {
+            var query = "INSERT INTO Citas (cita_usu_id_fk, cita_pel_id_fk, cita_pelu_id_fk, cita_hora_id_fk, cita_fecha) " +
+                "OUTPUT INSERTED.cita_id " +
+                "VALUES (@cita_usu_id_fk, @cita_pel_id_fk, @cita_pelu_id_fk, @cita_hora_id_fk, @cita_fecha)";
+
+            using(var connection = _conexion.getConexion()) {
+                return await connection.ExecuteScalarAsync<int>(query, new { cita.cita_usu_id_fk, cita.cita_pel_id_fk, cita.cita_pelu_id_fk, cita.cita_hora_id_fk, cita.cita_fecha });
+            }
+        }
+
+        public async Task GuardarCitasServicios(int cita_id, List<int> servicios) {
+            var query = "INSERT INTO CitasServicios (citas_ser_cita_id_fk, citas_ser_ser_id) VALUES (@cita_id, @ser_id)";
+
+            using(var connection = _conexion.getConexion()) {
+                foreach(var ser_id in servicios) {
+                    await connection.ExecuteAsync(query, new { cita_id, ser_id });
+                }
+            }
+        }
+
+        public async Task<IEnumerable<Horarios>> getHorariosDisponibles(int pelu_id, DateTime fechaCita) {
+            var query = "SELECT hora.hora_id, hora.hora_fecha FROM Horarios AS hora " +
+                "INNER JOIN PeluqueriaHorarios AS pelu_hora ON hora.hora_id = pelu_hora.pelu_hora_hora_id_fk " +
+                "AND pelu_hora.pelu_hora_pelu_id_fk = @pelu_id AND pelu_hora.hora_reservado IS NULL " +
+                "WHERE hora.hora_id NOT IN (SELECT cita_hora_id_fk FROM Citas " +
+                "WHERE cita_pelu_id_fk = @pelu_id AND cita_fecha = @fechaCita)";
+            
+            using(var connection = _conexion.getConexion()) {
+                return await connection.QueryAsync<Horarios>(query, new { pelu_id, fechaCita });
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using MyReserve.Models.TablasBBDD.Horarios;
+﻿using MyReserve.Models.TablasBBDD.Cita;
+using MyReserve.Models.TablasBBDD.Horarios;
 using MyReserve.Models.TablasBBDD.Paises;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
@@ -16,5 +17,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
         Task<IEnumerable<Peluqueros>> getPeluquerosPeluqueriaID(int pelu_id);
         Task<IEnumerable<Servicios>> getServiciosPeluqueria(int pelu_id);
         Task<IEnumerable<Horarios>> getHorariosPeluqueria(int pelu_id);
+        Task<int> GuardarCita(Cita cita);
+        Task<IEnumerable<Horarios>> getHorariosDisponibles(int pelu_id, DateTime fechaCita);
+        Task GuardarCitasServicios(int cita_id, List<int> servicios);
     }
 }
