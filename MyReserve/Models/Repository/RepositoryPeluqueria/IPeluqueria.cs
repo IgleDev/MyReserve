@@ -7,9 +7,11 @@ using MyReserve.Models.TablasBBDD.Servicios;
 namespace MyReserve.Models.Repository.RepositoryPeluqueria {
     public interface IPeluqueria {
         IEnumerable<Peluqueros> GetPeluqueros(Peluqueria pelu);
-
+        Task EditarPeluquero(Peluqueros peluquero);
         GrupoPeluqueria GrupoIdNombre(string gp_id);
         Task<IEnumerable<Servicios>> getServiciosPeluqueria(int pelu_id);
         Task<IEnumerable<Horarios>> getHorariosPeluqueria(int pelu_id);
+        Task<Peluqueros> getPeluquero(int pel_id);
+        Task EliminarPeluqueroPeluqueria(int pel_id);
     }
 }
