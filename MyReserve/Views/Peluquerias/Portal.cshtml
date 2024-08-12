@@ -33,7 +33,9 @@
                 <div class="row peluquerias d-flex justify-content-center flex-wrap">
                     @foreach(var item in Model.peluqueros) {
                         <div class="col-lg-2 rounded bg-info bg-opacity-50 p-2 me-5">
-                            <h3 class="text-white">@Html.DisplayFor(modelItem => item.pel_nombre) <i class="fa-solid fa-arrow-right"></i></h3>
+                            <h3>
+                                <a href="@Url.Action("InfoPeluqueros", new { pel_id = item.pel_id })" class="text-white" style="text-decoration:none;"> @item.pel_nombre <i class="fa-solid fa-arrow-right"></i></a>
+                            </h3>
                         </div>
                     }
                 </div>
@@ -47,7 +49,7 @@
                 } else {
                     <a asp-action="EditarServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-hand-scissors"></i>¡Edita tus servicios!</a>
                 }
-                @if(Model.Horarios == null || !Model.Horarios.Any()) {
+                @if(Model.Horarios == null || !Model.Horarios.Any() || Model.Horarios.All(hor => hor.hora_asociado == 0)) {
                     <a asp-action="RegistroHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-clock"></i> ¡Pon tus horarios!</a>
                 } else {
                     <a asp-action="EditarHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-clock"></i> ¡Edita tus horarios!</a>
