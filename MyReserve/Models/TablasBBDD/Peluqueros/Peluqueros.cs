@@ -13,6 +13,7 @@ namespace MyReserve.Models.TablasBBDD.Peluqueros {
         
         [Required]
         public string? pel_contrasenha { get; set; }
+        public string? pel_descripcion { get; set; }
 
         [Required]
         public int pel_experiencia { get; set; }
