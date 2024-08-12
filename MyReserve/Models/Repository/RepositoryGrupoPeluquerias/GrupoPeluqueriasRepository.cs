@@ -14,8 +14,8 @@ namespace MyReserve.Models.Repository.RepositoryGrupoPeluquerias {
                 "INNER JOIN GrupoPeluqueria AS gp ON gp.gp_id = pelu.pelu_gp_id_fk " +
                 "WHERE pelu_gp_id_fk = @gp_id";
 
-            using(var connection = _conexion.getConexion()) {
-                var peluquerias = connection.Query<Peluqueria>(query, new { gp.gp_id });
+            using(var conexion = _conexion.getConexion()) {
+                var peluquerias = conexion.Query<Peluqueria>(query, new { gp.gp_id });
                 return peluquerias;
             }
         }
