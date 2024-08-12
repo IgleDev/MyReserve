@@ -19,8 +19,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
 
         public IEnumerable<Paises> getPaises() {
             var query = "SELECT pai_nombre FROM Paises";
-            using(var connection = _conexion.getConexion()) {
-                var paises = connection.Query<Paises>(query);
+            using(var conexion = _conexion.getConexion()) {
+                var paises = conexion.Query<Paises>(query);
                 return paises;
             }
         }
@@ -33,8 +33,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
             parametros.Add("usu_correo_electronico", usuario.usu_correo_electronico, DbType.String);
             parametros.Add("usu_contrasenha", usuario.usu_contrasenha, DbType.String);
             parametros.Add("usu_id", usuario.usu_id, DbType.Int32);
-            using(var connection = _conexion.getConexion()) {
-               await connection.ExecuteAsync(query, parametros);
+            using(var conexion = _conexion.getConexion()) {
+               await conexion.ExecuteAsync(query, parametros);
             }
         }
 
@@ -43,8 +43,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
             var parametros = new DynamicParameters();
             parametros.Add("usu_id", usu_id, DbType.Int32);
 
-            using(var connection = _conexion.getConexion()) {
-                await connection.ExecuteAsync(query, parametros);
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, parametros);
             }
         }
 
@@ -53,8 +53,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
                 "INNER JOIN Paises AS pai ON pai.pai_id = reg_pai_id_fk " +
                 "WHERE pai_nombre = @pai_nombre";
 
-            using(var connection = _conexion.getConexion()) {
-                return await connection.QueryAsync<Region>(query, new { pai_nombre });
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.QueryAsync<Region>(query, new { pai_nombre });
             }
         }
 
@@ -62,16 +62,16 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
             var query = "SELECT * FROM Peluqueria " +
                 "WHERE pelu_pais = @pelu_pais AND pelu_region = @pelu_region AND pelu_ciudad = @pelu_ciudad";
 
-            using(var connection = _conexion.getConexion()) {
-                return await connection.QueryAsync<Peluqueria>(query, new { pelu_pais, pelu_region, pelu_ciudad });
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.QueryAsync<Peluqueria>(query, new { pelu_pais, pelu_region, pelu_ciudad });
             }
         }
 
         public async Task<Peluqueria> getPeluqueriaID(int pelu_id) {
             var query = "SELECT * FROM Peluqueria WHERE pelu_id = @pelu_id";
 
-            using(var connection = _conexion.getConexion()) {
-                var peluqueria = connection.QueryFirstOrDefault<Peluqueria>(query, new { pelu_id });
+            using(var conexion = _conexion.getConexion()) {
+                var peluqueria = conexion.QueryFirstOrDefault<Peluqueria>(query, new { pelu_id });
                 return peluqueria;
             }
         }
@@ -81,8 +81,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
                 "INNER JOIN Peluqueria AS pelu ON pelu.pelu_id = pel.pel_pelu_id_fk " +
                 "WHERE pelu_id = @pelu_id";
 
-            using(var connection = _conexion.getConexion()) {
-                return await connection.QueryAsync<Peluqueros>(query, new { pelu_id });
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.QueryAsync<Peluqueros>(query, new { pelu_id });
             }
         }
 
@@ -97,8 +97,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
                 "INNER JOIN Categoria AS cat ON cat.cat_id = ser.ser_cat_id_fk " +
                 "LEFT JOIN PeluqueriaServicios AS pelu_ser ON pelu_ser.pelu_ser_ser_id_fk = ser.ser_id AND pelu_ser.pelu_ser_pelu_id_fk = @pelu_id";
 
-            using(var connection = _conexion.getConexion()) {
-                var serviciosLista = await connection.QueryAsync<Servicios>(query, new { pelu_id });
+            using(var conexion = _conexion.getConexion()) {
+                var serviciosLista = await conexion.QueryAsync<Servicios>(query, new { pelu_id });
                 return serviciosLista;
             }
         }
@@ -114,8 +114,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
                 "LEFT JOIN PeluqueriaHorarios AS pelu_hora ON hora.hora_id = pelu_hora.pelu_hora_hora_id_fk " +
                 "AND pelu_hora.pelu_hora_pelu_id_fk = @pelu_id";
 
-            using(var connection = _conexion.getConexion()) {
-                var horarios = await connection.QueryAsync<Horarios>(query, new { pelu_id });
+            using(var conexion = _conexion.getConexion()) {
+                var horarios = await conexion.QueryAsync<Horarios>(query, new { pelu_id });
                 return horarios;
             }
         }
@@ -125,17 +125,17 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
                 "OUTPUT INSERTED.cita_id " +
                 "VALUES (@cita_usu_id_fk, @cita_pel_id_fk, @cita_pelu_id_fk, @cita_hora_id_fk, @cita_fecha)";
 
-            using(var connection = _conexion.getConexion()) {
-                return await connection.ExecuteScalarAsync<int>(query, new { cita.cita_usu_id_fk, cita.cita_pel_id_fk, cita.cita_pelu_id_fk, cita.cita_hora_id_fk, cita.cita_fecha });
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.ExecuteScalarAsync<int>(query, new { cita.cita_usu_id_fk, cita.cita_pel_id_fk, cita.cita_pelu_id_fk, cita.cita_hora_id_fk, cita.cita_fecha });
             }
         }
 
         public async Task GuardarCitasServicios(int cita_id, List<int> servicios) {
             var query = "INSERT INTO CitasServicios (citas_ser_cita_id_fk, citas_ser_ser_id) VALUES (@cita_id, @ser_id)";
 
-            using(var connection = _conexion.getConexion()) {
+            using(var conexion = _conexion.getConexion()) {
                 foreach(var ser_id in servicios) {
-                    await connection.ExecuteAsync(query, new { cita_id, ser_id });
+                    await conexion.ExecuteAsync(query, new { cita_id, ser_id });
                 }
             }
         }
@@ -147,8 +147,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
                 "WHERE hora.hora_id NOT IN (SELECT cita_hora_id_fk FROM Citas " +
                 "WHERE cita_pelu_id_fk = @pelu_id AND cita_fecha = @fechaCita)";
             
-            using(var connection = _conexion.getConexion()) {
-                return await connection.QueryAsync<Horarios>(query, new { pelu_id, fechaCita });
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.QueryAsync<Horarios>(query, new { pelu_id, fechaCita });
             }
         }
     }
