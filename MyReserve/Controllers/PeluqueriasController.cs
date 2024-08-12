@@ -2,6 +2,8 @@
 using MyReserve.Models.Repository.RepositoryPeluqueria;
 using MyReserve.Models.Repository.RepositoryUsuarios;
 using MyReserve.Models.TablasBBDD.Peluqueria;
+using MyReserve.Models.TablasBBDD.Peluqueros;
+using MyReserve.Models.TablasBBDD.Usuarios;
 using Newtonsoft.Json;
 
 namespace MyReserve.Controllers {
@@ -25,6 +27,27 @@ namespace MyReserve.Controllers {
             return View(peluActual);    // Retornamos peluqueria
         }
 
+        public async Task<IActionResult> InfoPeluqueros(int pel_id) {
+            var infoPeluqueros = await _peluqueriasRepository.getPeluquero(pel_id);   // Según el ID del peluquero mandamos a la vista del peluquero correspondiente
+            return View(infoPeluqueros);    //  Mandamos la vista
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GuardarDatosPeluqueriaPeluqueros(Peluqueros peluquero) {
+            await _peluqueriasRepository.EditarPeluquero(peluquero); // Pasamos el peluquero a modificar
+            serializarPeluquero(peluquero);    // Guardamos el usuario modificado en la sesión
+            return RedirectToAction("Portal");  //  Redirigimos al usuario
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EliminarDatosPeluqueriaPeluqueros(int pel_id) {
+            var peluActual = deserializarPeluqueria();
+            await _peluqueriasRepository.EliminarPeluqueroPeluqueria(pel_id);
+            var peluqueros = _peluqueriasRepository.GetPeluqueros(peluActual);
+            peluActual.peluqueros = peluqueros;
+            return View("Portal", peluActual);
+        }
+
         public void serializarPeluqueria(Peluqueria peluqueria) {
             string json = JsonConvert.SerializeObject(peluqueria);
             HttpContext.Session.SetString("PeluqueriaActual", json);
@@ -35,6 +58,18 @@ namespace MyReserve.Controllers {
             string json = HttpContext.Session.GetString("PeluqueriaActual");
             peluqueria = JsonConvert.DeserializeObject<Peluqueria>(json);
             return peluqueria;
+        }
+
+        public void serializarPeluquero(Peluqueros peluquero) {
+            string json = JsonConvert.SerializeObject(peluquero);
+            HttpContext.Session.SetString("PeluqueroActual", json);
+        }
+
+        public Peluqueros deserializarPeluquero() {
+            Peluqueros peluquero = new Peluqueros();
+            string json = HttpContext.Session.GetString("PeluqueroActual");
+            peluquero = JsonConvert.DeserializeObject<Peluqueros>(json);
+            return peluquero;
         }
     }
 }

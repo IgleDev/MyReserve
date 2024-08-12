@@ -54,7 +54,7 @@ namespace MyReserve.Controllers {
                 return View("LoginPeluqueros");
             } else {
                 serializarPeluquero(peluquero); // Guardamos el peluquero en sesion
-                return RedirectToAction("Portal", "Peluqueros", peluquero); // Lo redireccionamos a su portal
+                return RedirectToAction("InfoPeluqueros", "Peluquerias", peluquero); // Lo redireccionamos a su portal
             }
         }
 
