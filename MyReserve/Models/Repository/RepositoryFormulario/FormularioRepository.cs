@@ -21,8 +21,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         public async Task<Usuarios> Login(string usu_correo_electronico, string usu_contrasenha) {
             var query = "SELECT * FROM Usuarios WHERE usu_correo_electronico = @usu_correo_electronico " +
                 "AND usu_contrasenha = @usu_contrasenha";
-            using(var connection = _conexion.getConexion()) {
-                var usuario = await connection.QueryFirstOrDefaultAsync<Usuarios>(query, new { usu_correo_electronico, usu_contrasenha });
+            using(var conexion = _conexion.getConexion()) {
+                var usuario = await conexion.QueryFirstOrDefaultAsync<Usuarios>(query, new { usu_correo_electronico, usu_contrasenha });
                 return usuario;
             }
         }
@@ -30,8 +30,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         public async Task<Peluqueros> LoginPeluquero(string pel_correo_electronico, string pel_contrasenha) {
             var query = "SELECT * FROM Peluquero WHERE pel_correo_electronico = @pel_correo_electronico " +
                 "AND pel_contrasenha = @pel_contrasenha";
-            using(var connection = _conexion.getConexion()) {
-                var peluquero = await connection.QueryFirstOrDefaultAsync<Peluqueros>(query, new { pel_correo_electronico, pel_contrasenha });
+            using(var conexion = _conexion.getConexion()) {
+                var peluquero = await conexion.QueryFirstOrDefaultAsync<Peluqueros>(query, new { pel_correo_electronico, pel_contrasenha });
                 return peluquero;
             }
         }
@@ -39,8 +39,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         public async Task<Peluqueria> LoginPeluqueria(string pelu_correo_electronico, string pelu_contrasenha) {
             var query = "SELECT * FROM Peluqueria WHERE pelu_correo_electronico = @pelu_correo_electronico " +
                 "AND pelu_contrasenha = @pelu_contrasenha";
-            using(var connection = _conexion.getConexion()) {
-                var peluqueria = await connection.QueryFirstOrDefaultAsync<Peluqueria>(query, new { pelu_correo_electronico, pelu_contrasenha });
+            using(var conexion = _conexion.getConexion()) {
+                var peluqueria = await conexion.QueryFirstOrDefaultAsync<Peluqueria>(query, new { pelu_correo_electronico, pelu_contrasenha });
                 return peluqueria;
             }
         }
@@ -49,8 +49,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             var query = "SELECT * FROM GrupoPeluqueria WHERE gp_correo_electronico = @gp_correo_electronico " +
                 "AND gp_contrasenha = @gp_contrasenha";
 
-            using(var connection = _conexion.getConexion()) {
-                var grupoPeluqueria = await connection.QueryFirstOrDefaultAsync<GrupoPeluqueria>(query, new { gp_correo_electronico, gp_contrasenha });
+            using(var conexion = _conexion.getConexion()) {
+                var grupoPeluqueria = await conexion.QueryFirstOrDefaultAsync<GrupoPeluqueria>(query, new { gp_correo_electronico, gp_contrasenha });
                 return grupoPeluqueria;
             }
         }
@@ -65,8 +65,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             parametros.Add("usu_correo_electronico", usuarios.usu_correo_electronico, DbType.String);
             parametros.Add("usu_contrasenha", usuarios.usu_contrasenha, DbType.String);
 
-            using(var connection = _conexion.getConexion()) {
-                await connection.ExecuteAsync(query, parametros);
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, parametros);
             }
         }
 
@@ -85,8 +85,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             parametros.Add("pel_pelu_id_fk", peluqueros.pel_pelu_id_fk, DbType.Int32);
             parametros.Add("pel_grupo_id_fk", peluqueros.pel_grupo_id_fk, DbType.Int32);
 
-            using(var connection = _conexion.getConexion()) {
-                await connection.ExecuteAsync(query, parametros);
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, parametros);
             }
         }
 
@@ -107,8 +107,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             parametros.Add("pelu_telefono", peluqueria.pelu_telefono, DbType.String);
             parametros.Add("pelu_gp_id_fk", peluqueria.pelu_gp_id_fk, DbType.String);
 
-            using(var connection = _conexion.getConexion()) {
-                await connection.ExecuteAsync(query, parametros);
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, parametros);
             }
         }
 
@@ -121,30 +121,30 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             parametros.Add("gp_correo_electronico", grupo.gp_correo_electronico, DbType.String);
             parametros.Add("gp_contrasenha", grupo.gp_contrasenha, DbType.String);
 
-            using(var connection = _conexion.getConexion()) {
-                await connection.ExecuteAsync(query, parametros);
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, parametros);
             }
         }
 
         // Helpers de Querys
         public async Task<int> PeluqueriaIDNombre(string pelu_nombre) {
             var query = "SELECT pelu_id FROM Peluqueria WHERE pelu_nombre = @pelu_nombre";
-            using(var connection = _conexion.getConexion()) {
-                return await connection.ExecuteScalarAsync<int>(query, new { pelu_nombre });
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.ExecuteScalarAsync<int>(query, new { pelu_nombre });
             }
         }
 
         public async Task<int> GrupoIdNombre(string gp_nombre) {
             var query = "SELECT gp_id FROM GrupoPeluqueria WHERE gp_nombre = @gp_nombre";
-            using(var connection = _conexion.getConexion()) {
-                return await connection.ExecuteScalarAsync<int>(query, new { gp_nombre });
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.ExecuteScalarAsync<int>(query, new { gp_nombre });
             }
         }
 
         public async Task<IEnumerable<Paises>> getPaises() {
             var query = "SELECT pai_nombre FROM Paises";
-            using (var connection = _conexion.getConexion()) {
-                var paises = await connection.QueryAsync<Paises>(query);
+            using (var conexion = _conexion.getConexion()) {
+                var paises = await conexion.QueryAsync<Paises>(query);
                 return paises;
             }
         }
@@ -154,8 +154,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
                 "INNER JOIN Paises AS pai ON pai.pai_id = reg_pai_id_fk " +
                 "WHERE pai_nombre = @pai_nombre";
 
-            using(var connection = _conexion.getConexion()) {
-                return await connection.QueryAsync<Region>(query, new { pai_nombre });
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.QueryAsync<Region>(query, new { pai_nombre });
             }
         }
 
@@ -164,8 +164,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
                 "INNER JOIN Peluqueria AS pelu ON pelu.pelu_gp_id_fk = gp.gp_id " +
                 "WHERE pelu.pelu_id = @pelu_id";
 
-            using(var connection = _conexion.getConexion()) {
-                return await connection.QueryFirstOrDefaultAsync<GrupoPeluqueria>(query, new { pelu_id });
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.QueryFirstOrDefaultAsync<GrupoPeluqueria>(query, new { pelu_id });
             }
         }
 
@@ -173,8 +173,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             var query = "SELECT ser.ser_id, ser.ser_nombre, ser.ser_precio, cat.cat_nombre FROM Servicios AS ser " +
                 "INNER JOIN Categoria AS cat ON cat.cat_id = ser_cat_id_fk";
 
-            using(var connection = _conexion.getConexion()) {
-                var serviciosLista = await connection.QueryAsync<Servicios>(query);
+            using(var conexion = _conexion.getConexion()) {
+                var serviciosLista = await conexion.QueryAsync<Servicios>(query);
                 return serviciosLista;
             }
         }
@@ -182,24 +182,24 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         public async Task GuardarServicios(int pelu_id, int ser_id) {
             var query = "INSERT INTO PeluqueriaServicios (pelu_ser_pelu_id_fk, pelu_ser_ser_id_fk) VALUES (@pelu_id, @ser_id)";
 
-            using(var connection = _conexion.getConexion()) {
-                await connection.ExecuteAsync(query, new { pelu_id, ser_id });
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, new { pelu_id, ser_id });
             }
         }
 
         public async Task borrarServiciosPeluqueria(int pelu_id) {
             var query = "DELETE FROM PeluqueriaServicios WHERE pelu_ser_pelu_id_fk = @pelu_id";
 
-            using(var connection = _conexion.getConexion()) {
-                await connection.ExecuteAsync(query, new { pelu_id });
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, new { pelu_id });
             }
         }
 
         public async Task<IEnumerable<Horarios>> getHorarios() {
             var query = "SELECT * FROM Horarios";
 
-            using(var connection = _conexion.getConexion()) {
-                var horariosLista = await connection.QueryAsync<Horarios>(query);
+            using(var conexion = _conexion.getConexion()) {
+                var horariosLista = await conexion.QueryAsync<Horarios>(query);
                 return horariosLista;
             }
         }
@@ -214,8 +214,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
                 "FROM Servicios AS ser " +
                 "LEFT JOIN PeluqueriaServicios AS pelu_ser ON pelu_ser.pelu_ser_ser_id_fk = ser.ser_id AND pelu_ser.pelu_ser_pelu_id_fk = @pelu_id";
 
-            using(var connection = _conexion.getConexion()) {
-                var serviciosLista = await connection.QueryAsync<Servicios>(query, new { pelu_id });
+            using(var conexion = _conexion.getConexion()) {
+                var serviciosLista = await conexion.QueryAsync<Servicios>(query, new { pelu_id });
                 return serviciosLista;
             }
         }
@@ -231,8 +231,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
                 "LEFT JOIN PeluqueriaHorarios AS pelu_hora ON hora.hora_id = pelu_hora.pelu_hora_hora_id_fk " +
                 "AND pelu_hora.pelu_hora_pelu_id_fk = @pelu_id";
 
-            using(var connection = _conexion.getConexion()) {
-                var horarios = await connection.QueryAsync<Horarios>(query, new { pelu_id });
+            using(var conexion = _conexion.getConexion()) {
+                var horarios = await conexion.QueryAsync<Horarios>(query, new { pelu_id });
                 return horarios;
             }
         }
@@ -240,16 +240,16 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         public async Task GuardarHorarios(int pelu_id, int hora_id) {
             var query = "INSERT INTO PeluqueriaHorarios (pelu_hora_pelu_id_fk, pelu_hora_hora_id_fk) VALUES (@pelu_id, @hora_id)";
 
-            using(var connection = _conexion.getConexion()) {
-                await connection.ExecuteAsync(query, new { pelu_id, hora_id });
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, new { pelu_id, hora_id });
             }
         }
 
         public async Task borrarHorariosPeluqueria(int pelu_id) {
             var query = "DELETE FROM PeluqueriaHorarios WHERE pelu_hora_pelu_id_fk = @pelu_id";
 
-            using(var connection = _conexion.getConexion()) {
-                await connection.ExecuteAsync(query, new { pelu_id });
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, new { pelu_id });
             }
         }
     }
