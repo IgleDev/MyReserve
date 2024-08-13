@@ -205,13 +205,14 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         }
 
         public async Task<IEnumerable<Servicios>> getServiciosPeluqueria(int pelu_id) {
-            var query = "SELECT ser.*, " +
+            var query = "SELECT ser.*, cat.cat_nombre, " +
                 "CASE " +
                     "WHEN pelu_ser.pelu_ser_pelu_id_fk IS NOT NULL " +
                     "THEN 1 " +
                     "ELSE 0 " +
                 "END AS ser_asociado " +
                 "FROM Servicios AS ser " +
+                "INNER JOIN Categoria AS cat ON cat.cat_id = ser_cat_id_fk " +
                 "LEFT JOIN PeluqueriaServicios AS pelu_ser ON pelu_ser.pelu_ser_ser_id_fk = ser.ser_id AND pelu_ser.pelu_ser_pelu_id_fk = @pelu_id";
 
             using(var conexion = _conexion.getConexion()) {

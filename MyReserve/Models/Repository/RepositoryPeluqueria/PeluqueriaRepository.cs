@@ -1,9 +1,11 @@
 ﻿using Dapper;
+using MyReserve.Models.TablasBBDD.Cita;
 using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
 using MyReserve.Models.TablasBBDD.Horarios;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Servicios;
+using System;
 using System.Data;
 
 namespace MyReserve.Models.Repository.RepositoryPeluqueria {
@@ -102,6 +104,34 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
                await conexion.ExecuteAsync(query, parametros);
             }
 
+        }
+
+        public Peluqueria PeluqueriaIDNombre(string pelu_id) {
+            var query = "SELECT * FROM Peluqueria WHERE pelu_id = @pelu_id";
+            using(var conexion = _conexion.getConexion()) {
+                return conexion.QueryFirstOrDefault<Peluqueria>(query, new { pelu_id });
+            }
+        }
+
+        public async Task<IEnumerable<Cita>> getCitasPeluquero(int pel_id) {
+            var query = "SELECT cita.*, pel.*, hora.*, pelu.pelu_nombre, usu.usu_nombre, STRING_AGG(ser.ser_nombre, ', ') AS ser_nombres, SUM(ser.ser_precio) AS ser_precio_total " +
+                "FROM Citas AS cita " +
+                "INNER JOIN Usuarios AS usu ON usu.usu_id = cita.cita_usu_id_fk " +
+                "INNER JOIN Peluqueria AS pelu ON pelu.pelu_id = cita.cita_pelu_id_fk " +
+                "INNER JOIN Peluquero AS pel ON pel.pel_id = cita.cita_pel_id_fk " +
+                "INNER JOIN Horarios AS hora ON hora.hora_id = cita.cita_hora_id_fk " +
+                "LEFT JOIN CitasServicios AS citas_ser ON citas_ser.citas_ser_cita_id_fk = cita.cita_id " +
+                "LEFT JOIN Servicios AS ser ON ser.ser_id = citas_ser.citas_ser_ser_id " +
+                "WHERE cita.cita_pel_id_fk = @pel_id " +
+                "GROUP BY cita.cita_id, cita.cita_usu_id_fk, cita.cita_pelu_id_fk, cita.cita_pel_id_fk, cita.cita_hora_id_fk, " +
+                "cita.cita_fecha, pelu.pelu_nombre, usu.usu_nombre, pel.pel_id, pel.pel_nombre, pel.pel_correo_electronico, pel.pel_contrasenha, " +
+                "pel.pel_descripcion, pel.pel_experiencia, pel.pel_instagram, pel.pel_pelu_id_fk, pel.pel_grupo_id_fk," +
+                "hora.hora_id, hora.hora_fecha " +
+                "ORDER BY cita.cita_fecha";
+
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.QueryAsync<Cita>(query, new { pel_id });
+            }
         }
     }
 }
