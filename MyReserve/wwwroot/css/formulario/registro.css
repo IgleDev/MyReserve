@@ -34,6 +34,10 @@ html, body {
     font-family: 'Coffee Spark';
 }
 
+.container-fluid:nth-of-type(1) ul > li {
+    color: #2d9696;
+}
+
 .container-fluid:nth-of-type(1) .titleSection {
     padding: 20px;
     display: flex;
