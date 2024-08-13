@@ -1,4 +1,6 @@
 ﻿$(document).ready(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip();  // Activamos el tooltip para mostrar más información al usuario.
+
     var diaActualEntero = new Date(); // Cogemos la fecha de hoy
     var anhoActual = diaActualEntero.getFullYear();   // Cogemos el año actual
     var mesActual = String(diaActualEntero.getMonth() + 1).padStart(2, '0'); // Lo pasamos a String para poder mostrarlo y le sumamos uno porque Enero es el mes 0 y lo formateamos a 2 dígitos
@@ -6,23 +8,22 @@
     var fechaFinal = anhoActual + '-' + mesActual + '-' + diaActual;    // Montamos la fecha
     $('#fechaCita').attr('min', fechaFinal);    // Mandamos la fehca atraves del campo min indicando que la fecha que introduzcamos tiene que ser menor
 
-    var pelu_id = $('#pelu_id').val(); // Verifica que esto esté inyectando el valor correcto
+    var pelu_id = $('#pelu_id').val(); // Verifica que esto esté inyectando el valor 
 
-    $('#fechaCita').change(function () {
-        var fechaCita = $(this).val();
-        console.log("Fecha de cita: " + fechaCita);
+    $('#fechaCita').change(function () {    // Hacemos una funcion que se ejecute cuando el datepicker cambie
+        var fechaCita = $(this).val();  // Recogemos la fecha
 
-        $.ajax({
-            url: '/InfoUsuarios/ObtenerHorariosDisponibles',
-            type: 'GET',
-            data: { pelu_id: pelu_id, fechaCita: fechaCita },
-            success: function (response) {
-                $('#horariosDisponibles').empty(); // Limpia los horarios actuales
-                if (!response || response.length === 0) {
+        $.ajax({    // Función AJAX para no tener que actualizar la página al hacer una petición GET
+            url: '/InfoUsuarios/getHorariosDisponibles',    // Mandamos la URL
+            type: 'GET',    // Específicamos el tipo
+            data: { pelu_id: pelu_id, fechaCita:- fechaCita },   // Pasamos la información
+            success: function (response) {  // Si esta bién
+                $('#horariosDisponibles').empty(); // Limpiamos los horarios actuales
+                if (!response || response.length === 0) {   // EN caso de que no haya horarios devolvemos un mensaje
                     $('#horariosDisponibles').append(`<p>No hay horarios disponibles para esta fecha.</p>`);
                     return;
                 }
-                $.each(response, function (index, horario) {
+                $.each(response, function (index, horario) {    // Si no hacemos un bucle donde le pasamos toda la información
                     $('#horariosDisponibles').append(
                         `<div class="d-inline-flex flex-wrap mb-2">
                                 <div class="d-inline-flex flex-wrap mb-2">
@@ -37,7 +38,7 @@
                 });
             },
             error: function (xhr, status, error) {
-                console.error("Error al obtener los horarios disponibles:", error);
+                console.error("Error al obtener los horarios disponibles:", error); // Específicamos el error en caso de fallo
             }
         });
     });
