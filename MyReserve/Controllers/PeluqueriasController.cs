@@ -35,8 +35,25 @@ namespace MyReserve.Controllers {
         [HttpPost]
         public async Task<IActionResult> GuardarDatosPeluqueriaPeluqueros(Peluqueros peluquero) {
             await _peluqueriasRepository.EditarPeluquero(peluquero); // Pasamos el peluquero a modificar
-            serializarPeluquero(peluquero);    // Guardamos el usuario modificado en la sesión
-            return RedirectToAction("Portal");  //  Redirigimos al usuario
+            serializarPeluquero(peluquero);    // Guardamos el peluquero modificado en la sesión
+            return RedirectToAction("Portal");  //  Redirigimos a la vista
+        }
+
+        public async Task<IActionResult> PeluqueroPortal(int pel_id) {
+            var peluqueroEditar = await _peluqueriasRepository.getPeluquero(pel_id);
+            var peluqueroPeluqueria = _peluqueriasRepository.PeluqueriaIDNombre(peluqueroEditar.pel_pelu_id_fk);
+            var peluqueroGrupo = _peluqueriasRepository.GrupoIdNombre(peluqueroEditar.pel_grupo_id_fk);
+            peluqueroEditar.peluqueria = peluqueroPeluqueria;
+            peluqueroEditar.grupoPeluqueria = peluqueroGrupo;
+            return View(peluqueroEditar);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GuardarDatosPeluqueros(Peluqueros peluquero) {
+            await _peluqueriasRepository.EditarPeluquero(peluquero); // Pasamos el peluquero a modificar
+            serializarPeluquero(peluquero);    // Guardamos el peluquero modificado en la sesión
+            var peluqueroEditar = await _peluqueriasRepository.getPeluquero(peluquero.pel_id);
+            return View("PeluqueroPortal", peluqueroEditar);  //  Redirigimos a la vista
         }
 
         [HttpPost]
@@ -46,6 +63,11 @@ namespace MyReserve.Controllers {
             var peluqueros = _peluqueriasRepository.GetPeluqueros(peluActual);
             peluActual.peluqueros = peluqueros;
             return View("Portal", peluActual);
+        }
+
+        public async Task<IActionResult> citasPeluquero(int pel_id) {
+            var peluqueroCitas = await _peluqueriasRepository.getCitasPeluquero(pel_id);
+            return View(peluqueroCitas.ToList());
         }
 
         public void serializarPeluqueria(Peluqueria peluqueria) {
