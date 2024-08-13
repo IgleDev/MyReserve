@@ -11,6 +11,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>InfoPeluquerias</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @section Styles {
         <link rel="stylesheet" href="~/css/infousuarios/infopeluquerias.css" asp-append-version="true" />
     }
@@ -40,6 +41,10 @@
                             </div>
                         </div>
                     }
+                    <button asp-action="VerPeluqueros" class="rounded-circle btn btn-outline-info ms-3"
+                            data-bs-toggle="tooltip" data-bs-title="Ver más" style="width: 40px; height: 40px;">
+                            <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
             <div class="row">
@@ -68,7 +73,7 @@
                     <h2>Servicios</h2>
                 </div>
                 @if(Model != null) {
-                    var serviciosCategoria = Model.peluqueriaInfo.Servicios.GroupBy(ser_cat => ser_cat.cat_nombre);
+                    var serviciosCategoria = Model.peluqueriaInfo.Servicios.Where(ser => ser.ser_asociado == 1).GroupBy(ser_cat => ser_cat.cat_nombre);
                     @foreach(var pelu_cat in serviciosCategoria) {
                         <div class="col-12 mt-2 mb-2">
                             <h3>@pelu_cat.Key</h3>
@@ -88,15 +93,15 @@
                 }
             </div>
             <div class="col-12">
-                <input type="submit" value="Haz tu Cita!"/>
+                <input type="submit" value="Haz tu Cita!" class="btn btn-outline-info text-center rounded-pill"/>
             </div>
         </form>
         <div class="footer mt-5">
             <div class="row">
                 <div class="col-12 d-inline-flex flex-wrap justify-content-between">
-                    <p><a href="mailto:@Model.peluqueriaInfo.pelu_correo_electronico">@Model.peluqueriaInfo.pelu_correo_electronico</a></p>
-                    <p>@Model.peluqueriaInfo.pelu_direccion</p>
-                    <p>@Model.peluqueriaInfo.pelu_telefono</p>
+                    <p><i class="fa-solid fa-envelope me-1"></i><a href="mailto:@Model.peluqueriaInfo.pelu_correo_electronico">@Model.peluqueriaInfo.pelu_correo_electronico</a></p>
+                    <p><i class="fa-solid fa-location-dot me-1"></i>@Model.peluqueriaInfo.pelu_direccion</p>
+                    <p><i class="fa-solid fa-phone me-1"></i>@Model.peluqueriaInfo.pelu_telefono</p>
                 </div>
             </div>
         </div>

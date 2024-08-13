@@ -26,15 +26,15 @@
                 <p class="text-center opacity-50">Bienvenido a tu <span class="text-info">portal</span> para gestionar tus empleados</p>
             </div>
             <div class="col-12 d-inline-flex justify-content-evenly flex-wrap text-center opacity-75 mt-5">
-                <p class="me-3">@Model.pelu_nombre</p> <p class="me-3">@Model.pelu_region</p> <p class="me-3">@Model.pelu_pais</p> 
-                <p class="me-3">@Model.pelu_telefono</p> <p class="me-3">@Model.grupoPeluqueria.gp_nombre</p>
+                <p class="me-3"><i class="fa-solid fa-store me-1"></i>@Model.pelu_nombre</p> <p class="me-3"><i class="fa-solid fa-location-dot me-1"></i>@Model.pelu_region</p> <p class="me-3"><i class="fa-solid fa-earth-europe me-1"></i>@Model.pelu_pais</p>
+                <p class="me-3"><i class="fa-solid fa-phone me-1"></i>@Model.pelu_telefono</p> <p class="me-3"><i class="fa-solid fa-building me-1"></i>@Model.grupoPeluqueria.gp_nombre</p>
             </div>
             <div class="col-12 mt-5">
                 <div class="row peluquerias d-flex justify-content-center flex-wrap">
                     @foreach(var item in Model.peluqueros) {
-                        <div class="col-lg-2 rounded bg-info bg-opacity-50 p-2 me-5">
+                        <div class="col-lg-2 bg-opacity-50 p-2 me-5 text-center">
                             <h3>
-                                <a href="@Url.Action("InfoPeluqueros", new { pel_id = item.pel_id })" class="text-white" style="text-decoration:none;"> @item.pel_nombre <i class="fa-solid fa-arrow-right"></i></a>
+                                <a href="@Url.Action("InfoPeluqueros", new { pel_id = item.pel_id })" class="btn btn-outline-info rounded-pill" style="text-decoration:none;"> @item.pel_nombre <i class="fa-solid fa-arrow-right"></i></a>
                             </h3>
                         </div>
                     }

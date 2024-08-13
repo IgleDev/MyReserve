@@ -26,30 +26,46 @@
             <h3>Servicios Actuales</h3>
             <form asp-action="ActualizarServicios" method="post">
                 <div class="col-12 mt-2 mb-2">
-                    @foreach(var servicio in Model.Servicios.Where(s => s.ser_asociado == 1)) {
-                        <div class="d-inline-flex flex-wrap mb-2">
-                            <div class="d-inline-flex flex-wrap mb-2">
-                                <div class="form-check">
-                                    <input type="checkbox" class="btn-check" autocomplete="off" name="serviciosActuales" 
-                                    value="@servicio.ser_id" checked id="btn-check-@servicio.ser_id" />
-                                    <label class="btn" for="btn-check-@servicio.ser_id">@servicio.ser_nombre - @servicio.ser_precio€</label>
+                    @if(Model != null) {
+                        var serviciosCategoria = Model.Servicios.Where(ser => ser.ser_asociado == 1).GroupBy(ser_cat => ser_cat.cat_nombre);
+                        @foreach(var cat in serviciosCategoria) {
+                            <div class="col-12 mt-2 mb-2">
+                                <h3>@cat.Key</h3>
+                            </div>
+                            <div class="d-inline-flex flex-wrap mb-2" id="servicios">
+                                <div class="d-inline-flex flex-wrap mb-2">
+                                    @foreach(var servicio in cat) {
+                                        <div class="form-check">
+                                            <input type="checkbox" class="btn-check" checked autocomplete="off" name="serviciosActuales"
+                                                   value="@servicio.ser_id" id="btn-check-@servicio.ser_id" />
+                                            <label class="btn" for="btn-check-@servicio.ser_id">@servicio.ser_nombre - @servicio.ser_precio€</label>
+                                        </div>
+                                    }
                                 </div>
                             </div>
-                        </div>
+                        }
                     }
                 </div>
                 <h3>Servicios Disponibles</h3>
                 <div>
-                    @foreach(var servicio in Model.Servicios.Where(s => s.ser_asociado == 0)) {
-                        <div class="d-inline-flex flex-wrap mb-2">
-                            <div class="d-inline-flex flex-wrap mb-2">
-                                <div class="form-check">
-                                    <input type="checkbox" class="btn-check" autocomplete="off" name="serviciosActuales"
-                                    value="@servicio.ser_id" id="btn-check-@servicio.ser_id" />
-                                    <label class="btn" for="btn-check-@servicio.ser_id">@servicio.ser_nombre - @servicio.ser_precio€</label>
+                    @if(Model != null) {
+                        var serviciosCategoria = Model.Servicios.Where(ser => ser.ser_asociado == 0).GroupBy(ser_cat => ser_cat.cat_nombre);
+                        @foreach(var cat in serviciosCategoria) {
+                            <div class="col-12 mt-2 mb-2">
+                                <h3>@cat.Key</h3>
+                            </div>
+                            <div class="d-inline-flex flex-wrap mb-2" id="servicios">
+                                <div class="d-inline-flex flex-wrap mb-2">
+                                    @foreach(var servicio in cat) {
+                                        <div class="form-check">
+                                            <input type="checkbox" class="btn-check" autocomplete="off" name="serviciosActuales"
+                                                   value="@servicio.ser_id" id="btn-check-@servicio.ser_id" />
+                                            <label class="btn" for="btn-check-@servicio.ser_id">@servicio.ser_nombre - @servicio.ser_precio€</label>
+                                        </div>
+                                    }
                                 </div>
                             </div>
-                        </div>
+                        }
                     }
                 </div>
                 <div class="col-12 d-flex justify-content-center">
