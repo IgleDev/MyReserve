@@ -65,9 +65,16 @@ namespace MyReserve.Controllers {
             return View("Portal", peluActual);
         }
 
-        public async Task<IActionResult> citasPeluquero(int pel_id) {
+        public async Task<IActionResult> CitasPeluquero(int pel_id) {
             var peluqueroCitas = await _peluqueriasRepository.getCitasPeluquero(pel_id);
             return View(peluqueroCitas.ToList());
+        }
+
+        public async Task<IActionResult> CitasPeluqueria(int pelu_id) {
+            var peluActual = deserializarPeluqueria();
+            ViewBag.peluNombre = peluActual.pelu_nombre;
+            var peluqueriaCitas = await _peluqueriasRepository.getCitasPeluqueria(pelu_id);
+            return View(peluqueriaCitas.ToList());
         }
 
         public void serializarPeluqueria(Peluqueria peluqueria) {
