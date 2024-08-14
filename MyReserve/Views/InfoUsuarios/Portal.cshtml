@@ -23,6 +23,7 @@
                 <h1 class="text-center display-4">
                     Bienvenido @Model.usu_nombre
                     @Html.ActionLink("", "Editar", "InfoUsuarios", new { Model.usu_id, Model.usu_nombre, Model.usu_correo_electronico, Model.usu_contrasenha }, new { @class = "fa-solid fa-user rounded-pill" })
+                    @Html.ActionLink("Mirar mis citas", "VerCitas", "InfoUsuarios", new { Model.usu_id }, new { @class = "btn btn-outline-info rounded-pill" })
                 </h1>
             </div>
             <div class="col-12 mt-3">

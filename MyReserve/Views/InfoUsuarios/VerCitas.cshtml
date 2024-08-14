@@ -1,0 +1,81 @@
+﻿@model IEnumerable<MyReserve.Models.TablasBBDD.Cita.Cita>
+
+@{
+    Layout = "_Layout";
+    var usuNombre = ViewBag.usuNombre;
+    ViewData["Title"] = "Tus Citas";
+}
+
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+@section Styles {
+    <!--El style que renderizamos-->
+    <link rel="stylesheet" href="~/css/peluqueria/citas.css" asp-append-version="true" />
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>citasPeluquero</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mt-5">
+                <h1>Hola <span>@usuNombre</span> tus citas son las siguiente</h1>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-sm table-striped mt-5">
+                <thead>
+                    <tr>
+                        <th><i class="fa-regular fa-clipboard me-1"></i> Nº Cita</th>
+                        <th><i class="fa-solid fa-user me-1"></i> Cliente</th>
+                        <th><i class="fa-solid fa-scissors me-1"></i>Peluquero</th>
+                        <th><i class="fa-solid fa-store me-1"></i>Peluquería</th>
+                        <th><i class="fa-solid fa-clock me-1"></i>Hora</th>
+                        <th><i class="fa-solid fa-paper-plane me-1"></i>Servicios Seleccionados</th>
+                        <th><i class="fa-solid fa-dollar-sign me-1"></i>Precio Total</th>
+                        <th><i class="fa-regular fa-calendar-check me-1"></i>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cita_id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.usu_nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.pel_nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.pelu_nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.hora_fecha)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ser_nombres)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ser_precio_total)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cita_fecha)
+                            </td>
+                            <td>
+                                <form asp-action="EliminarCitas" asp-controller="InfoUsuarios" method="post" onsubmit="return confirm('¿Seguro que quieres eliminar tu cita?');">
+                                    <input type="hidden" name="cita_id" value="@item.cita_id" />
+                                    <button type="submit" class="btn btn-transparent fa-regular fa-circle-xmark text-dark text-decoration-none"></button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
