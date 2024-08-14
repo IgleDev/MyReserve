@@ -41,21 +41,23 @@
                 </div>
             </div>
         </div>
-        <div class="row d-flex justify-content-center flex-wrap">
-            <div class="col-auto p-0 mt-5 d-flex justify-content-center flex-wrap">
-                <a asp-action="RegistroPeluqueros" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-solid fa-circle-plus"></i> ¡Añade un nuevo empleado al plantel!</a>
+        <div class="row justify-content-center mt-5">
+            <div class="col-0 p-0 d-flex justify-content-center flex-wrap gap-3">
+                <a asp-action="RegistroPeluqueros" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-solid fa-circle-plus me-2"></i>¡Añade un nuevo empleado al plantel!</a>
                 @if(Model.Servicios == null || !Model.Servicios.Any() || Model.Servicios.All(ser => ser.ser_asociado == 0)) {
-                    <a asp-action="RegistroServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-solid fa-circle-plus"></i>¡Añade tus servicios!</a>
+                    <a asp-action="RegistroServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-solid fa-circle-plus me-2"></i>¡Añade tus servicios! </a>
                 } else {
-                    <a asp-action="EditarServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-hand-scissors"></i>¡Edita tus servicios!</a>
+                    <a asp-action="EditarServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-hand-scissors me-2"></i>¡Edita tus servicios!</a>
                 }
                 @if(Model.Horarios == null || !Model.Horarios.Any() || Model.Horarios.All(hor => hor.hora_asociado == 0)) {
-                    <a asp-action="RegistroHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-clock"></i> ¡Pon tus horarios!</a>
+                    <a asp-action="RegistroHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-clock me-2"></i>¡Pon tus horarios!</a>
                 } else {
-                    <a asp-action="EditarHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-clock"></i> ¡Edita tus horarios!</a>
+                    <a asp-action="EditarHorarios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill me-2 mt-2"><i class="fa-regular fa-clock me-2"></i>¡Edita tus horarios!</a>
                 }
+                @Html.ActionLink("Mirar tus citas programadas", "CitasPeluqueria", "Peluquerias", new { Model.pelu_id }, new { @class = "rounded-pill btn btn-outline-info mt-2 me-2" })
             </div>
         </div>
+
     </div>
 </body>
 </html>
