@@ -20,5 +20,7 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
         Task<int> GuardarCita(Cita cita);
         Task<IEnumerable<Horarios>> getHorariosDisponibles(int pelu_id, DateTime fechaCita);
         Task GuardarCitasServicios(int cita_id, List<int> servicios);
+        Task<IEnumerable<Cita>> getCitasUsuario(int usu_id);
+        Task EliminarCita(int cita_id);
     }
 }
