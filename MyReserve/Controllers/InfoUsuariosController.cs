@@ -3,6 +3,7 @@ using MyReserve.Models;
 using MyReserve.Models.HelpersTablasBBDD.InfoPeluqueriaModel;
 using MyReserve.Models.Repository.RepositoryUsuario;
 using MyReserve.Models.TablasBBDD.Cita;
+using MyReserve.Models.TablasBBDD.Paises;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
@@ -131,6 +132,35 @@ namespace MyReserve.Controllers {
             }
 
             return RedirectToAction("Portal");  // Redirigimos al portal
+        }
+
+        public async Task<IActionResult> VerCitas(int usu_id) {
+            var usuarioActual = deserializarUsuario();
+            ViewBag.usuNombre = usuarioActual.usu_nombre;
+            var citasUsuario = await _usuariosRepository.getCitasUsuario(usu_id);
+            return View(citasUsuario.ToList());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EliminarCitas(int cita_id) {
+            await _usuariosRepository.EliminarCita(cita_id);
+            Usuarios usuariosActual = deserializarUsuario(); // Recogemos el usuario
+            var paises = _usuariosRepository.getPaises();   // Recogemos los países
+
+            if(usuariosActual.listaPeluqueria == null) { // Si la lista es null que no las cree por defecto
+                usuariosActual.listaPeluqueria = new List<MyReserve.Models.TablasBBDD.Peluqueria.Peluqueria>();
+            }
+
+            usuariosActual = new Usuarios { // Creamos el usuario Actual
+                usu_id = usuariosActual.usu_id,
+                usu_nombre = usuariosActual.usu_nombre,
+                usu_correo_electronico = usuariosActual.usu_correo_electronico,
+                usu_contrasenha = usuariosActual.usu_contrasenha,
+                listaPaises = paises
+            };
+
+            serializarUsuario(usuariosActual);  // Lo guardamos en la sesión
+            return View("Portal", usuariosActual);
         }
 
         [HttpGet]
