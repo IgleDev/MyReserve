@@ -16,5 +16,6 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
         Task<Peluqueros> getPeluquero(int pel_id);
         Task EliminarPeluqueroPeluqueria(int pel_id);
         Task<IEnumerable<Cita>> getCitasPeluquero(int pel_id);
+        Task<IEnumerable<Cita>> getCitasPeluqueria(int pelu_id);
     }
 }
