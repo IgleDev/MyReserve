@@ -42,4 +42,62 @@
             }
         });
     });
+
+    function valPeluquero() {
+        let peluqueroSeleccionado = $('input[name="peluquerosPeluqueria"]:checked').val();
+        let errorPeluquero = $('.text-danger').eq(0);
+        if (!peluqueroSeleccionado) {
+            errorPeluquero.html('<h4>* Por favor, selecciona un peluquero.</h4>');
+            return false;
+        }
+        errorPeluquero.text('');
+        return true;
+    }
+
+    function valFechaCita() {
+        let fechaCita = $('#fechaCita').val();
+        let errorFecha = $('.text-danger').eq(1);
+        if (fechaCita === undefined || fechaCita === '') {
+            errorFecha.html('<h4>* Por favor, selecciona una fecha para la cita.</h4>');
+            return false;
+        }
+        errorFecha.text('');
+        return true;
+    }
+
+    function valHorario() {
+        let horarioSeleccionado = $('input[name="horariosPeluqueria"]:checked').val();
+        let errorHorario = $('.text-danger').eq(2);
+        if (!horarioSeleccionado) {
+            errorHorario.html('<h4>* Por favor, selecciona un horario.</h4>');
+            return false;
+        }
+        errorHorario.text('');
+        return true;
+    }
+
+    function valServicios() {
+        let servicioSeleccionado = $('input[name="serviciosPeluqueria"]:checked').length > 0;
+        let errorServicios = $('.text-danger').eq(3);
+        if (!servicioSeleccionado) {
+            errorServicios.html('<h4>* Por favor, selecciona un servicio.</h4>');
+            return false;
+        }
+        errorServicios.text('');
+        return true;
+    }
+
+    function validar() {
+        let validoPeluquero = valPeluquero();
+        let validoFecha = valFechaCita();
+        let validoHorario = valHorario();
+        let validoServicios = valServicios();
+        return validoPeluquero && validoFecha && validoHorario && validoServicios;
+    }
+
+    $('#reservarCita').submit(function (e) {
+        e.preventDefault();  // Previene el envío del formulario si no es válido
+        if (validar()) this.submit();  // Envía el formulario solo si todas las validaciones son exitosas
+    });
+
 });
