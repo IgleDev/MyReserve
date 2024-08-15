@@ -108,7 +108,7 @@ namespace MyReserve.Controllers {
 
             //Pasamos la fecha en un formato que soporte la BBDD
             if(!DateTime.TryParseExact(fechaCita, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime citaFecha)) {
-                return View("InfoPeluquerias", pelu_id);    // Si falla redireccionamos de nuevo a la página
+                return View("InfoPeluquerias", pelu_id);    // Si falla redirigimos de nuevo a la página
             }
 
             // Creamos la cita
@@ -135,15 +135,15 @@ namespace MyReserve.Controllers {
         }
 
         public async Task<IActionResult> VerCitas(int usu_id) {
-            var usuarioActual = deserializarUsuario();
-            ViewBag.usuNombre = usuarioActual.usu_nombre;
-            var citasUsuario = await _usuariosRepository.getCitasUsuario(usu_id);
-            return View(citasUsuario.ToList());
+            var usuarioActual = deserializarUsuario();  // Recuperamos los usuarios
+            ViewBag.usuNombre = usuarioActual.usu_nombre;   // Pasamos el nombre mediante un ViewBag
+            var citasUsuario = await _usuariosRepository.getCitasUsuario(usu_id);   // Recuperamos las citas del usuario gracias al ID
+            return View(citasUsuario.ToList()); // // Mandamos la vista convertida en un ToList();
         }
 
         [HttpPost]
         public async Task<IActionResult> EliminarCitas(int cita_id) {
-            await _usuariosRepository.EliminarCita(cita_id);
+            await _usuariosRepository.EliminarCita(cita_id);    // Eliminamos la cita gracias a su propio ID
             Usuarios usuariosActual = deserializarUsuario(); // Recogemos el usuario
             var paises = _usuariosRepository.getPaises();   // Recogemos los países
 

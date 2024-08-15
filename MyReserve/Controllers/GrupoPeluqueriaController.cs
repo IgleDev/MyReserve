@@ -21,25 +21,25 @@ namespace MyReserve.Controllers {
 
         public async Task<IActionResult> EditarPeluqueria(int pelu_id) {
             GrupoPeluqueria grupoActual = deserializarGrupo();  // Recuperamos el grupo
-            ViewBag.grupoNombre = grupoActual.gp_nombre;
-            var peluEditar = await _grupoPeluqueriasRepository.getPeluqueriaID(pelu_id);
-            return View(peluEditar);
+            ViewBag.grupoNombre = grupoActual.gp_nombre;    // Mandamos el nombre del grupo mediante un ViewBag
+            var peluEditar = await _grupoPeluqueriasRepository.getPeluqueriaID(pelu_id);    // Recuperamos la peluqueria
+            return View(peluEditar);    // Retornamos la vista
         }
 
         [HttpPost]
         public async Task<IActionResult> Editar(Peluqueria peluqueria) {
-            GrupoPeluqueria grupoActual = deserializarGrupo();
-            await _grupoPeluqueriasRepository.Editar(peluqueria);
+            GrupoPeluqueria grupoActual = deserializarGrupo();  // Recuperamos el grupo
+            await _grupoPeluqueriasRepository.Editar(peluqueria);   // Editamos la peluqueria
             var grupoPeluquerias = _grupoPeluqueriasRepository.GetPeluquerias(grupoActual); // Recuperamos las peluquerias del grupo
-            return View("Portal", grupoPeluquerias);
+            return View("Portal", grupoPeluquerias);    // Retornamos la vista
         }
 
         [HttpPost]
         public async Task<IActionResult> Eliminar(Peluqueria peluqueria) {
-            GrupoPeluqueria grupoActual = deserializarGrupo();
-            await _grupoPeluqueriasRepository.Eliminar(peluqueria);
+            GrupoPeluqueria grupoActual = deserializarGrupo();  // Recuperamos el grupo
+            await _grupoPeluqueriasRepository.Eliminar(peluqueria); // Eliminamos la peluqueria
             var grupoPeluquerias = _grupoPeluqueriasRepository.GetPeluquerias(grupoActual); // Recuperamos las peluquerias del grupo
-            return View("Portal", grupoPeluquerias);
+            return View("Portal", grupoPeluquerias);    // Retornamos la vista
         }
 
         public void serializarGrupo(GrupoPeluqueria grupo) {

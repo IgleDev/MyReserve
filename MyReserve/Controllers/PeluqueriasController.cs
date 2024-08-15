@@ -40,12 +40,12 @@ namespace MyReserve.Controllers {
         }
 
         public async Task<IActionResult> PeluqueroPortal(int pel_id) {
-            var peluqueroEditar = await _peluqueriasRepository.getPeluquero(pel_id);
-            var peluqueroPeluqueria = _peluqueriasRepository.PeluqueriaIDNombre(peluqueroEditar.pel_pelu_id_fk);
-            var peluqueroGrupo = _peluqueriasRepository.GrupoIdNombre(peluqueroEditar.pel_grupo_id_fk);
-            peluqueroEditar.peluqueria = peluqueroPeluqueria;
+            var peluqueroEditar = await _peluqueriasRepository.getPeluquero(pel_id);    // Recuperamos el peluquero
+            var peluqueroPeluqueria = _peluqueriasRepository.PeluqueriaIDNombre(peluqueroEditar.pel_pelu_id_fk);    // Recuperamos el nombre de la peluqueria
+            var peluqueroGrupo = _peluqueriasRepository.GrupoIdNombre(peluqueroEditar.pel_grupo_id_fk); // Recuperamos el nombre del grupo
+            peluqueroEditar.peluqueria = peluqueroPeluqueria;   // se los añadismos a la propiedad de la clase
             peluqueroEditar.grupoPeluqueria = peluqueroGrupo;
-            return View(peluqueroEditar);
+            return View(peluqueroEditar);   // Mandamos la vista
         }
 
         [HttpPost]
@@ -58,23 +58,23 @@ namespace MyReserve.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> EliminarDatosPeluqueriaPeluqueros(int pel_id) {
-            var peluActual = deserializarPeluqueria();
-            await _peluqueriasRepository.EliminarPeluqueroPeluqueria(pel_id);
-            var peluqueros = _peluqueriasRepository.GetPeluqueros(peluActual);
-            peluActual.peluqueros = peluqueros;
-            return View("Portal", peluActual);
+            var peluActual = deserializarPeluqueria();  // Recuperamos la peluqueria
+            await _peluqueriasRepository.EliminarPeluqueroPeluqueria(pel_id);   // Eliminamos el peluquero por su ID
+            var peluqueros = _peluqueriasRepository.GetPeluqueros(peluActual);  // Volvemos a recuperar todos los peluqueros
+            peluActual.peluqueros = peluqueros; // Los añadidos a la propiedad de la clase
+            return View("Portal", peluActual);  // Mandamos la peluquerias
         }
 
         public async Task<IActionResult> CitasPeluquero(int pel_id) {
-            var peluqueroCitas = await _peluqueriasRepository.getCitasPeluquero(pel_id);
-            return View(peluqueroCitas.ToList());
+            var peluqueroCitas = await _peluqueriasRepository.getCitasPeluquero(pel_id);    // Recuperamos las citas del peluquero por su ID
+            return View(peluqueroCitas.ToList());   // Mandamos la vista convertida en un ToList();
         }
 
-        public async Task<IActionResult> CitasPeluqueria(int pelu_id) {
-            var peluActual = deserializarPeluqueria();
-            ViewBag.peluNombre = peluActual.pelu_nombre;
-            var peluqueriaCitas = await _peluqueriasRepository.getCitasPeluqueria(pelu_id);
-            return View(peluqueriaCitas.ToList());
+        public async Task<IActionResult> CitasPeluqueria(int pelu_id) { 
+            var peluActual = deserializarPeluqueria();  // Recuperamos la peluqueria
+            ViewBag.peluNombre = peluActual.pelu_nombre;    // Pasamos el nombre de la peluqueria mediante un ViewBag
+            var peluqueriaCitas = await _peluqueriasRepository.getCitasPeluqueria(pelu_id); // Recuperamos las citas
+            return View(peluqueriaCitas.ToList());  // Mandamos la vista convertida en un ToList();
         }
 
         public void serializarPeluqueria(Peluqueria peluqueria) {
