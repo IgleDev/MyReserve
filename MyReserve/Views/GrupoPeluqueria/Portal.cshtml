@@ -30,10 +30,10 @@
                 <a asp-action="RegistroPeluqueria" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i> Añade una nueva peluquería</a>
             </div>
         </div>
-        <div class="row mt-5 peluquerias d-flex flex-wrap">
+        <div class="row mt-5 peluquerias d-flex justify-content-center flex-wrap">
             @foreach(var item in Model) {
-                <div class="col-lg-2 rounded bg-info bg-opacity-50 p-2 me-5">
-                    <h3 class="text-white">@Html.DisplayFor(modelItem => item.pelu_nombre) <i class="fa-solid fa-arrow-right"></i></h3>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-2 p-2 d-flex justify-content-center">
+                    @Html.ActionLink(item.pelu_nombre, "EditarPeluqueria", "GrupoPeluqueria", new { item.pelu_id }, new { @class = "btn btn-outline-info rounded-pill fs-5" })
                 </div>
             }
         </div>
