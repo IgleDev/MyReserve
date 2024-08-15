@@ -34,6 +34,7 @@
                         <div class="form-group text-start mt-2 w-100">
                             <label asp-for="usu_correo_electronico" class="control-label h4">Correo Electrónico</label>
                             <input asp-for="usu_correo_electronico" class="form-control" placeholder="Correo Electrónico" id="txtCorreo" />
+                            @Html.ValidationMessage("usu_correo_electronico")
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group text-start mt-2 w-100">
