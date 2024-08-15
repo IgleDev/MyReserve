@@ -185,5 +185,12 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
                 await conexion.ExecuteAsync(queryCita, parametros);
             }
         }
+
+        public async Task<bool> comprobarCorreoUsuario(string usu_correo_electronico) {
+            var query = "SELECT COUNT(1) FROM Usuarios WHERE usu_correo_electronico = @usu_correo_electronico";
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.ExecuteScalarAsync<bool>(query, new { usu_correo_electronico });
+            }
+        }
     }
 }

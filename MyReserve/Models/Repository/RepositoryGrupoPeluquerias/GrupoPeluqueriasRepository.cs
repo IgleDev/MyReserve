@@ -59,5 +59,28 @@ namespace MyReserve.Models.Repository.RepositoryGrupoPeluquerias {
                 await conexion.ExecuteAsync(query, parametros);
             }
         }
+
+        public async Task<bool> comprobarCorreoGrupo(string gp_correo_electronico) {
+            var query = "SELECT COUNT(1) FROM GrupoPeluqueria WHERE gp_correo_electronico = @gp_correo_electronico";
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.ExecuteScalarAsync<bool>(query, new { gp_correo_electronico });
+            }
+        }
+
+        public async Task<bool> comprobarCorreoPeluquerias(string pelu_correo_electronico) {
+            var query = "SELECT COUNT(1) FROM Peluqueria WHERE pelu_correo_electronico = @pelu_correo_electronico";
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.ExecuteScalarAsync<bool>(query, new { pelu_correo_electronico });
+            }
+        }
+
+        public async Task<GrupoPeluqueria> getGrupoPeluqueria(int gp_id) {
+            var query = "SELECT * FROM GrupoPeluqueria WHERE gp_id = @gp_id";
+
+            using(var conexion = _conexion.getConexion()) {
+                var grupo = await conexion.QueryFirstOrDefaultAsync<GrupoPeluqueria>(query, new { gp_id });
+                return grupo;
+            }
+        }
     }
 }

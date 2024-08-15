@@ -26,10 +26,10 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
             }
         }
 
-        public GrupoPeluqueria GrupoIdNombre(string gp_id) {
+        public async Task<GrupoPeluqueria> GrupoIdNombre(string gp_id) {
             var query = "SELECT * FROM GrupoPeluqueria WHERE gp_id = @gp_id";
             using(var conexion = _conexion.getConexion()) {
-                return conexion.QueryFirstOrDefault<GrupoPeluqueria>(query, new { gp_id });
+                return await conexion.QueryFirstOrDefaultAsync<GrupoPeluqueria>(query, new { gp_id });
             }
         }
 
@@ -106,10 +106,10 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
 
         }
 
-        public Peluqueria PeluqueriaIDNombre(string pelu_id) {
+        public async Task<Peluqueria> PeluqueriaIDNombre(string pelu_id) {
             var query = "SELECT * FROM Peluqueria WHERE pelu_id = @pelu_id";
             using(var conexion = _conexion.getConexion()) {
-                return conexion.QueryFirstOrDefault<Peluqueria>(query, new { pelu_id });
+                return await conexion.QueryFirstOrDefaultAsync<Peluqueria>(query, new { pelu_id });
             }
         }
 
@@ -152,6 +152,13 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
 
             using(var conexion = _conexion.getConexion()) {
                 return await conexion.QueryAsync<Cita>(query, new { pelu_id });
+            }
+        }
+
+        public async Task<bool> comprobarCorreoPeluquero(string pel_correo_electronico) {
+            var query = "SELECT COUNT(1) FROM Peluquero WHERE pel_correo_electronico = @pel_correo_electronico";
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.ExecuteScalarAsync<bool>(query, new { pel_correo_electronico });
             }
         }
     }

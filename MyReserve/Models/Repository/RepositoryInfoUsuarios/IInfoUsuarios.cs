@@ -22,5 +22,6 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
         Task GuardarCitasServicios(int cita_id, List<int> servicios);
         Task<IEnumerable<Cita>> getCitasUsuario(int usu_id);
         Task EliminarCita(int cita_id);
+        Task<bool> comprobarCorreoUsuario(string usu_correo_electronico);
     }
 }
