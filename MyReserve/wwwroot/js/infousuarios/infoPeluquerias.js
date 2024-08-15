@@ -43,7 +43,7 @@
         });
     });
 
-    function valPeluquero() {
+    function valPeluquero() {   // Validamos Campos
         let peluqueroSeleccionado = $('input[name="peluquerosPeluqueria"]:checked').val();
         let errorPeluquero = $('.text-danger').eq(0);
         if (!peluqueroSeleccionado) {
@@ -54,7 +54,7 @@
         return true;
     }
 
-    function valFechaCita() {
+    function valFechaCita() {   // Validamos campos
         let fechaCita = $('#fechaCita').val();
         let errorFecha = $('.text-danger').eq(1);
         if (fechaCita === undefined || fechaCita === '') {
@@ -65,7 +65,7 @@
         return true;
     }
 
-    function valHorario() {
+    function valHorario() { // Validamos campos
         let horarioSeleccionado = $('input[name="horariosPeluqueria"]:checked').val();
         let errorHorario = $('.text-danger').eq(2);
         if (!horarioSeleccionado) {
@@ -76,7 +76,7 @@
         return true;
     }
 
-    function valServicios() {
+    function valServicios() {   // Validamos campos
         let servicioSeleccionado = $('input[name="serviciosPeluqueria"]:checked').length > 0;
         let errorServicios = $('.text-danger').eq(3);
         if (!servicioSeleccionado) {
@@ -87,7 +87,7 @@
         return true;
     }
 
-    function validar() {
+    function validar() {   // Validamos campos 
         let validoPeluquero = valPeluquero();
         let validoFecha = valFechaCita();
         let validoHorario = valHorario();
@@ -95,9 +95,9 @@
         return validoPeluquero && validoFecha && validoHorario && validoServicios;
     }
 
-    $('#reservarCita').submit(function (e) {
-        e.preventDefault();  // Previene el envío del formulario si no es válido
-        if (validar()) this.submit();  // Envía el formulario solo si todas las validaciones son exitosas
+    $('#reservarCita').submit(function (e) {    // Si todo va bien mandamos el formulario
+        e.preventDefault(); 
+        if (validar()) this.submit();
     });
 
 });
