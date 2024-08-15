@@ -5,7 +5,6 @@ using MyReserve.Models.TablasBBDD.Usuarios;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueria;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MyReserve.Controllers {
     public class FormulariosController : Controller {
@@ -27,7 +26,7 @@ namespace MyReserve.Controllers {
                 return View("Login");
             } else {
                 serializarUsuario(usuario); // Guardamos al usuario en sesion
-                return RedirectToAction("Portal", "InfoUsuarios", usuario); // Redirigimos el usuario a su respectivo Portal
+                return RedirectToAction("Portal", "InfoUsuarios"); // Redirigimos el usuario a su respectivo Portal
             }
         }
 

@@ -102,7 +102,7 @@ namespace MyReserve.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> ReservarCita(int pelu_id, int peluquerosPeluqueria, int horariosPeluqueria, string fechaCita, int[] serviciosPeluqueria) {
+        public async Task<IActionResult> ReservarCita(int pelu_id, int usu_id, int peluquerosPeluqueria, int horariosPeluqueria, string fechaCita, int[] serviciosPeluqueria) {
             var usuariosActual = deserializarUsuario(); // Recuperamos el usuario actual
             var peluqueria = await _usuariosRepository.getPeluqueriaID(pelu_id);    // Recuperamos la peluquería
 
