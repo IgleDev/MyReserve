@@ -16,7 +16,7 @@ namespace MyReserve.Controllers {
         public async Task<IActionResult> Portal() {
             Peluqueria peluActual = deserializarPeluqueria();   // Recuperamos la peluqueria
             var peluqueros = _peluqueriasRepository.GetPeluqueros(peluActual);  // Recuperamos los peluqueros
-            var grupoPeluqueros = _peluqueriasRepository.GrupoIdNombre(peluActual.pelu_gp_id_fk);   // Recuperamos el id del peluquero mediante el nombre
+            var grupoPeluqueros = await _peluqueriasRepository.GrupoIdNombre(peluActual.pelu_gp_id_fk);   // Recuperamos el id del peluquero mediante el nombre
             var serviciosPeluqueria = await _peluqueriasRepository.getServiciosPeluqueria(peluActual.pelu_id);
             var horariosPeluqueria = await _peluqueriasRepository.getHorariosPeluqueria(peluActual.pelu_id);
             peluActual.peluqueros = peluqueros; // Le pasamos los peluqueros a la lista de la peluqueria
@@ -34,15 +34,25 @@ namespace MyReserve.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> GuardarDatosPeluqueriaPeluqueros(Peluqueros peluquero) {
+            var peluqueroCorreo = await _peluqueriasRepository.getPeluquero(peluquero.pel_id);  // Recuperamos el peluquero para conseguir el correo
+            
+            if(peluquero.pel_correo_electronico != peluqueroCorreo.pel_correo_electronico) {    // Comparamos el correo que le estamos pasando con el actual
+                var correo = await _peluqueriasRepository.comprobarCorreoPeluquero(peluquero.pel_correo_electronico);   // Comprovamos el correo que le pasamos
+                if(correo) {    // Comprobamos si el correo está en uso
+                    ModelState.AddModelError("pel_correo_electronico", "El correo electrónico ya está en uso.");    // Mandamos mensaje informativo
+                    return View("InfoPeluqueros", peluquero);   // Retornamos la vista
+                }
+            }
             await _peluqueriasRepository.EditarPeluquero(peluquero); // Pasamos el peluquero a modificar
             serializarPeluquero(peluquero);    // Guardamos el peluquero modificado en la sesión
             return RedirectToAction("Portal");  //  Redirigimos a la vista
         }
 
         public async Task<IActionResult> PeluqueroPortal(int pel_id) {
+            var peluActual = deserializarPeluquero();   // Recuperamos el peluquero en sesion
             var peluqueroEditar = await _peluqueriasRepository.getPeluquero(pel_id);    // Recuperamos el peluquero
-            var peluqueroPeluqueria = _peluqueriasRepository.PeluqueriaIDNombre(peluqueroEditar.pel_pelu_id_fk);    // Recuperamos el nombre de la peluqueria
-            var peluqueroGrupo = _peluqueriasRepository.GrupoIdNombre(peluqueroEditar.pel_grupo_id_fk); // Recuperamos el nombre del grupo
+            var peluqueroPeluqueria = await _peluqueriasRepository.PeluqueriaIDNombre(peluqueroEditar.pel_pelu_id_fk);    // Recuperamos el nombre de la peluqueria
+            var peluqueroGrupo = await _peluqueriasRepository.GrupoIdNombre(peluqueroEditar.pel_grupo_id_fk); // Recuperamos el nombre del grupo
             peluqueroEditar.peluqueria = peluqueroPeluqueria;   // se los añadismos a la propiedad de la clase
             peluqueroEditar.grupoPeluqueria = peluqueroGrupo;
             return View(peluqueroEditar);   // Mandamos la vista
@@ -50,9 +60,27 @@ namespace MyReserve.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> GuardarDatosPeluqueros(Peluqueros peluquero) {
+            var peluqueroCorreo = await _peluqueriasRepository.getPeluquero(peluquero.pel_id);  // Recuperamos el peluquero para conseguir el correo
+
+            if(peluquero.pel_correo_electronico != peluqueroCorreo.pel_correo_electronico) {    // Comparamos el correo que le estamos pasando con el actual
+                var correo = await _peluqueriasRepository.comprobarCorreoPeluquero(peluquero.pel_correo_electronico);   // Comprobamos el correo que le pasamos
+                if(correo) {    // Si el correo está en uso
+                    ModelState.AddModelError("pel_correo_electronico", "El correo electrónico introducido ya está en uso.");    // Mandamos mensaje informativo
+                    var peluqueroPeluqueriaError = await _peluqueriasRepository.PeluqueriaIDNombre(peluqueroCorreo.pel_pelu_id_fk); // Volvemos a enviar la información pertinente a la vista
+                    var peluqueroGrupoError = await _peluqueriasRepository.GrupoIdNombre(peluqueroCorreo.pel_grupo_id_fk);
+                    peluqueroCorreo.peluqueria = peluqueroPeluqueriaError;  
+                    peluqueroCorreo.grupoPeluqueria = peluqueroGrupoError;
+                    return View("PeluqueroPortal", peluqueroCorreo);    // Retornamos la vista
+                }
+            }
+
             await _peluqueriasRepository.EditarPeluquero(peluquero); // Pasamos el peluquero a modificar
             serializarPeluquero(peluquero);    // Guardamos el peluquero modificado en la sesión
             var peluqueroEditar = await _peluqueriasRepository.getPeluquero(peluquero.pel_id);
+            var peluqueroPeluqueria = await _peluqueriasRepository.PeluqueriaIDNombre(peluqueroEditar.pel_pelu_id_fk);
+            var peluqueroGrupo =  await _peluqueriasRepository.GrupoIdNombre(peluqueroEditar.pel_grupo_id_fk);
+            peluqueroEditar.peluqueria = peluqueroPeluqueria;
+            peluqueroEditar.grupoPeluqueria = peluqueroGrupo;
             return View("PeluqueroPortal", peluqueroEditar);  //  Redirigimos a la vista
         }
 

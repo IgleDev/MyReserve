@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyReserve.Models.Repository.RepositoryGrupoPeluquerias;
+using MyReserve.Models.Repository.RepositoryUsuarios;
 using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueria;
+using MyReserve.Models.TablasBBDD.Usuarios;
 using Newtonsoft.Json;
 
 namespace MyReserve.Controllers {
@@ -13,6 +15,7 @@ namespace MyReserve.Controllers {
 
         public IActionResult Portal() {
             GrupoPeluqueria grupoActual = deserializarGrupo();  // Recuperamos el grupo
+            ViewBag.grupoID = grupoActual.gp_id;
             var grupoPeluquerias = _grupoPeluqueriasRepository.GetPeluquerias(grupoActual); // Recuperamos las peluquerias del grupo
             grupoActual.peluquerias = grupoPeluquerias; // Añadimos las peluquerias a la lista del grupo
             serializarGrupo(grupoActual);   // Guardamos en sesión
@@ -29,6 +32,16 @@ namespace MyReserve.Controllers {
         [HttpPost]
         public async Task<IActionResult> Editar(Peluqueria peluqueria) {
             GrupoPeluqueria grupoActual = deserializarGrupo();  // Recuperamos el grupo
+            var peluCorreo = await _grupoPeluqueriasRepository.getPeluqueriaID(peluqueria.pelu_id);
+
+            if(peluCorreo.pelu_correo_electronico != peluqueria.pelu_correo_electronico) {
+                var correo = await _grupoPeluqueriasRepository.comprobarCorreoPeluquerias(peluqueria.pelu_correo_electronico);
+                if(correo) {
+                    ModelState.AddModelError("pelu_correo_electronico", "El correo electrónico ya está en uso.");
+                    return View("EditarPeluqueria", peluqueria);
+                }
+            }
+
             await _grupoPeluqueriasRepository.Editar(peluqueria);   // Editamos la peluqueria
             var grupoPeluquerias = _grupoPeluqueriasRepository.GetPeluquerias(grupoActual); // Recuperamos las peluquerias del grupo
             return View("Portal", grupoPeluquerias);    // Retornamos la vista
@@ -40,6 +53,11 @@ namespace MyReserve.Controllers {
             await _grupoPeluqueriasRepository.Eliminar(peluqueria); // Eliminamos la peluqueria
             var grupoPeluquerias = _grupoPeluqueriasRepository.GetPeluquerias(grupoActual); // Recuperamos las peluquerias del grupo
             return View("Portal", grupoPeluquerias);    // Retornamos la vista
+        }
+
+        public async Task<IActionResult> EditarGrupo(int gp_id) {
+            var grupoEditar = await _grupoPeluqueriasRepository.getGrupoPeluqueria(gp_id);    // Recuperamos la peluqueria
+            return View(grupoEditar);    // Retornamos la vista
         }
 
         public void serializarGrupo(GrupoPeluqueria grupo) {

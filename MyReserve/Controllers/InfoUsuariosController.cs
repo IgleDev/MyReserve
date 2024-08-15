@@ -2,10 +2,8 @@
 using MyReserve.Models;
 using MyReserve.Models.HelpersTablasBBDD.InfoPeluqueriaModel;
 using MyReserve.Models.Repository.RepositoryUsuario;
+using MyReserve.Models.Repository.RepositoryUsuarios;
 using MyReserve.Models.TablasBBDD.Cita;
-using MyReserve.Models.TablasBBDD.Paises;
-using MyReserve.Models.TablasBBDD.Peluqueria;
-using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Usuarios;
 using Newtonsoft.Json;
 using System.Globalization;
@@ -68,6 +66,16 @@ namespace MyReserve.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> EditarUsuario(Usuarios usuarios) {
+            var usuarioCorreo = deserializarUsuario();
+
+            if(usuarioCorreo.usu_correo_electronico != usuarios.usu_correo_electronico) {
+                var correo = await _usuariosRepository.comprobarCorreoUsuario(usuarios.usu_correo_electronico);
+                if(correo) {
+                    ModelState.AddModelError("usu_correo_electronico", "El correo electrónico ya está en uso.");
+                    return View("Editar", usuarios);
+                }
+            }
+
             await _usuariosRepository.Editar(usuarios); // Pasamos el usuario a modificar
             serializarUsuario(usuarios);    // Guardamos el usuario modificado en la sesión
             return RedirectToAction("Portal");  //  Redirigimos al usuario
