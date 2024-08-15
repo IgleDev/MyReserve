@@ -23,7 +23,7 @@
                 <h2 class="display-2 text-center">Bienvenido a <span>@Model.peluqueriaInfo.pelu_nombre</span></h2>
             </div>
         </div>
-        <form asp-action="ReservarCita" method="post">
+        <form asp-action="ReservarCita" method="post" id="reservarCita">
             <input type="hidden" name="pelu_id" id="pelu_id" value="@Model.peluqueriaInfo.pelu_id" />
             <div class="row">
                 <div class="col-12">
@@ -41,6 +41,7 @@
                             </div>
                         </div>
                     }
+                    <div class="text-danger"></div>
                     <button asp-action="VerPeluqueros" class="rounded-circle btn btn-outline-info ms-3"
                             data-bs-toggle="tooltip" data-bs-title="Ver más" style="width: 40px; height: 40px;">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -53,6 +54,7 @@
                 </div>
                 <div class="col-12 d-flex justify-content-center">
                     <input type="date" id="fechaCita" name="fechaCita" />
+                    <div class="text-danger"></div>
                 </div>
                 <div class="col-12 mt-3 d-inline-flex justify-content-center flex-wrap" id="horarios">
                     <div id="horariosDisponibles">
@@ -67,6 +69,7 @@
                                 </div>
                             </div>
                         }
+                        <div class="text-danger"></div>
                     </div>
                 </div>
                 <div class="col-12">
@@ -90,6 +93,7 @@
                             </div>
                         </div>
                     }
+                    <div class="text-danger"></div>
                 }
             </div>
             <div class="col-12 text-center">
