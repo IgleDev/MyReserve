@@ -253,5 +253,31 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
                 await conexion.ExecuteAsync(query, new { pelu_id });
             }
         }
+
+        public async Task<bool> comprobarCorreoUsuario(string usu_correo_electronico) {
+            var query = "SELECT COUNT(1) FROM Usuarios WHERE usu_correo_electronico = @usu_correo_electronico";
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.ExecuteScalarAsync<bool>(query, new { usu_correo_electronico });
+            }
+        }
+        public async Task<bool> comprobarCorreoPeluquero(string pel_correo_electronico) {
+            var query = "SELECT COUNT(1) FROM Peluquero WHERE pel_correo_electronico = @pel_correo_electronico";
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.ExecuteScalarAsync<bool>(query, new { pel_correo_electronico });
+            }
+        }
+        public async Task<bool> comprobarCorreoPeluqueria(string pelu_correo_electronico) {
+            var query = "SELECT COUNT(1) FROM Peluqueria WHERE pelu_correo_electronico = @pelu_correo_electronico";
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.ExecuteScalarAsync<bool>(query, new { pelu_correo_electronico });
+            }
+        }
+
+        public async Task<bool> comprobarCorreoGrupo(string gp_correo_electronico) {
+            var query = "SELECT COUNT(1) FROM GrupoPeluqueria WHERE gp_correo_electronico = @gp_correo_electronico";
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.ExecuteScalarAsync<bool>(query, new { gp_correo_electronico });
+            }
+        }
     }
 }

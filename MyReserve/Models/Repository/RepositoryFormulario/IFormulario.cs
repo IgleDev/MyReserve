@@ -40,5 +40,9 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
         Task<GrupoPeluqueria> getGrupoPeluqueriaPeluqueriaNombre(int pelu_id);
         Task borrarServiciosPeluqueria(int pelu_id);
         Task borrarHorariosPeluqueria(int pelu_id);
+        Task<bool> comprobarCorreoUsuario(string usu_correo);
+        Task<bool> comprobarCorreoPeluquero(string pel_correo);
+        Task<bool> comprobarCorreoPeluqueria(string pelu_correo);
+        Task<bool> comprobarCorreoGrupo(string gp_correo);
     }
 }
