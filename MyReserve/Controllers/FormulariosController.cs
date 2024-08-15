@@ -25,7 +25,7 @@ namespace MyReserve.Controllers {
             if(usuario == null) {
                 return View("Login");
             } else {
-                serializarUsuario(usuario); // Guardamos al usuario en sesion
+                serializarUsuario(usuario); // Guardamos al usuario
                 return RedirectToAction("Portal", "InfoUsuarios"); // Redirigimos el usuario a su respectivo Portal
             }
         }
@@ -36,6 +36,10 @@ namespace MyReserve.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Registro(Usuarios usuario) {
+            if(await _formularioRepository.comprobarCorreoUsuario(usuario.usu_correo_electronico)) {
+                ModelState.AddModelError("usu_correo_electronico", "El correo electrónico ya está en uso.");
+                return View(usuario);
+            }
             await _formularioRepository.RegistroUsuario(usuario);   // Registramos el usuario que le pasamos en la BBDD
             return View("Login", usuario);  // Redirigimos al usuario al login
         }
@@ -49,30 +53,35 @@ namespace MyReserve.Controllers {
         [HttpPost]
         public async Task<IActionResult> LoginPeluqueros(string pel_correo_electronico, string pel_contrasenha) {
             var peluquero = await _formularioRepository.LoginPeluquero(pel_correo_electronico, pel_contrasenha);    // Pasamos el correo y contraseña del peluquero
-            if(peluquero == null) {
+            if(peluquero == null) { // Si es null devolvemos la vista
                 return View("LoginPeluqueros");
             } else {
-                serializarPeluquero(peluquero); // Guardamos el peluquero en sesion
+                serializarPeluquero(peluquero); // Guardamos el peluquero
                 return RedirectToAction("PeluqueroPortal", "Peluquerias", peluquero); // Lo redireccionamos a su portal
             }
         }
 
         public async Task<IActionResult> RegistroPeluqueros() {
-            Peluqueria peluActual = deserializarPeluqueria();
-            GrupoPeluqueria grupoActual = await _formularioRepository.getGrupoPeluqueriaPeluqueriaNombre(peluActual.pelu_id); // Asegúrate de tener este método implementado correctamente
+            Peluqueria peluActual = deserializarPeluqueria();   // Recogemos la peluqueria
+            GrupoPeluqueria grupoActual = await _formularioRepository.getGrupoPeluqueriaPeluqueriaNombre(peluActual.pelu_id); // Sacamos el grupo actual
 
-            var peluquero = new Peluqueros {
+            var peluquero = new Peluqueros {    // Creamos una peluqueria
                 peluqueria = peluActual,
                 pel_pelu_id_fk = peluActual.pelu_nombre,
                 pel_grupo_id_fk = grupoActual.gp_nombre
             };
 
-            return View(peluquero);
+            return View(peluquero); // Devolvemos vista
         }
 
         [HttpPost]
         public async Task<IActionResult> RegistroPeluqueros(Peluqueros peluqueros) {
-            if(!ModelState.IsValid) {
+            if(await _formularioRepository.comprobarCorreoPeluquero(peluqueros.pel_correo_electronico)) {   // Comprobamos si el gmail esta en la BBDD
+                ModelState.AddModelError("pel_correo_electronico", "El correo electrónico ya está en uso.");    // Mandamos mensaje de error
+                return View(peluqueros);    // Retornamos vista
+            }
+
+            if(!ModelState.IsValid) {   // Si el modelo no vale retornamos la vista con la informacion del peluquero
                 return View(peluqueros);
             }
 
@@ -80,7 +89,7 @@ namespace MyReserve.Controllers {
             int peluqueriaId = await _formularioRepository.PeluqueriaIDNombre(peluqueros.pel_pelu_id_fk);
             int grupoId = await _formularioRepository.GrupoIdNombre(peluqueros.pel_grupo_id_fk);
 
-            var nuevoPeluquero = new Peluqueros {
+            var nuevoPeluquero = new Peluqueros {   // Creamos el peluquero
                 pel_nombre = peluqueros.pel_nombre,
                 pel_correo_electronico = peluqueros.pel_correo_electronico,
                 pel_contrasenha = peluqueros.pel_contrasenha,
@@ -90,9 +99,9 @@ namespace MyReserve.Controllers {
                 pel_grupo_id_fk = grupoId.ToString() // Convertimos a string
             };
 
-            await _formularioRepository.RegistroPeluqueros(nuevoPeluquero);
+            await _formularioRepository.RegistroPeluqueros(nuevoPeluquero); // Registramos peluqueros
 
-            return RedirectToAction("Portal", "Peluquerias");
+            return RedirectToAction("Portal", "Peluquerias");   // Redireccionamos la vista
         }
 
         // Login & Registro de Grupos/Peluquerías ->
@@ -154,6 +163,21 @@ namespace MyReserve.Controllers {
                 peluqueria.pelu_gp_id_fk = grupoActual.gp_nombre;   // Le pasamos el nombre del grupo
             }
 
+            if(await _formularioRepository.comprobarCorreoPeluqueria(peluqueria.pelu_correo_electronico)) {
+                GrupoPeluqueria grupoActual = deserializarGrupo();  // Recuperamos el grupo
+                ModelState.AddModelError("pelu_correo_electronico", "El correo electrónico ya está en uso.");   // Mandamos el mensaje de error
+                var paises = await _formularioRepository.getPaises();   // Recuperamos los países
+
+                var peluqueriaError = new Peluqueria {  // Volvemos a crear la peluqueria
+                    grupoPeluqueria = grupoActual,
+                    pelu_gp_id_fk = grupoActual.gp_nombre,
+                    listaPaises = paises    // Mandamos los paises de la BBDD
+                };
+
+                return View(peluqueriaError);    // Devolvemos la vista
+            }
+
+
             int pelu_gp_id_fk = await _formularioRepository.GrupoIdNombre(peluqueria.pelu_gp_id_fk);    // Según el nombre del grupo nos devuelve su ID
 
             var nuevaPeluqueria = new Peluqueria {  // Creamos la peluqueria
@@ -179,6 +203,10 @@ namespace MyReserve.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> RegistroGrupos(GrupoPeluqueria grupo) {
+            if(await _formularioRepository.comprobarCorreoGrupo(grupo.gp_correo_electronico)) { // Comprobamos que el gmail no se repita con uno de la BBDD
+                ModelState.AddModelError("gp_correo_electronico", "El correo electrónico ya está en uso."); // Mandamos mensaje de error
+                return View("RegistroGrupo", grupo);    // Devolvemos vista
+            }
             await _formularioRepository.RegistroGrupos(grupo);  // Registramos el grupo en la BBDD
             return View("LoginGrupo", grupo);   // Redireccionamos el grupo
         }
@@ -225,13 +253,13 @@ namespace MyReserve.Controllers {
                 return View("EditarServicios", peluActual);
             }
 
-            await _formularioRepository.borrarServiciosPeluqueria(peluActual.pelu_id);
+            await _formularioRepository.borrarServiciosPeluqueria(peluActual.pelu_id);  // Borramos lo servicios
 
-            foreach(var ser_id in serviciosActuales) {
+            foreach(var ser_id in serviciosActuales) {  // Añadimos los servicios
                 await _formularioRepository.GuardarServicios(peluActual.pelu_id, ser_id);
             }
 
-            return RedirectToAction("Portal", "Peluquerias");
+            return RedirectToAction("Portal", "Peluquerias");   // Redireccionamos la vista
         }
 
         public async Task<IActionResult> RegistroHorarios() {
