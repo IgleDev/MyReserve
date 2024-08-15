@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Portal";
+    var gp_id = ViewBag.grupoID;
     Layout = "_Layout";
 }
 
@@ -28,6 +29,9 @@
             </div>
             <div class="col-auto p-0">
                 <a asp-action="RegistroPeluqueria" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i> Añade una nueva peluquería</a>
+            </div>
+            <div class="col-auto p-0 ms-3">
+                @Html.ActionLink("Editar Información", "EditarGrupo", new { gp_id }, new { @class = "btn btn-outline-info rounded-pill" })
             </div>
         </div>
         <div class="row mt-5 peluquerias d-flex justify-content-center flex-wrap">
