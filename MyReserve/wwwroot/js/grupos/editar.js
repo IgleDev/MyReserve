@@ -47,7 +47,7 @@
 
     function valTelefono() { // Validamos campos
         let txtTel = $('#txtTel').val();
-        let errorTel = $('.text-danger').eq(3);
+        let errorTel = $('.text-danger').eq(4);
         if (txtTel === undefined || txtTel === '') {
             errorTel.html('<h4>* Error al escribir la contraseña</h4>');
             return false
@@ -60,8 +60,8 @@
         let txtNombre = valNombre();
         let txtCorreo = valCorreo();
         let txtContrasenha = valContrasenha();
-        let txtDireccion = valContrasenha();
-        let txtTel = valContrasenha();
+        let txtDireccion = valDireccion();
+        let txtTel = valTelefono();
         if (txtNombre && txtCorreo && txtContrasenha && txtDireccion && txtTel) return true;
     }
 
