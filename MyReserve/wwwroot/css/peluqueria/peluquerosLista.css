@@ -1,0 +1,15 @@
+﻿@font-face {
+    font-style: normal;
+    font-weight: normal;
+    font-family: 'Coffee Spark';
+    src: url('../fonts/Coffee Spark.ttf');
+}
+
+.container h1 > span {
+    color: #2d9696;
+    font-family: 'Coffee Spark';
+}
+
+.container .row .col-md-6 .card .card-body{
+    border: 1px solid #2d9696 !important;
+}
