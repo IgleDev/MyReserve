@@ -17,7 +17,7 @@
         let txtCorreo = $('#txtCorreo').val();
         let errorCorreo = $('.text-danger').eq(1);
         if (!validaEmail.test(txtCorreo)) {
-            errorCorreo.html('<h4>* Error en el correo electrónico o en uso</h4>');
+            errorCorreo.html('<h4>* Error en el correo electrónico</h4>');
             return false
         }
         errorCorreo.text('');
@@ -38,7 +38,7 @@
     function valPais() { // Validamos campos
         let txtPais = $('#listaPaises').val();
         let errorPais = $('.text-danger').eq(3);
-        if (txtPais === 'Selecciona un país') {
+        if (txtPais === '' || txtPais === null) {
             errorPais.html('<h4>* Elige un país</h4>');
             return false
         }
@@ -49,7 +49,7 @@
     function valRegion() { // Validamos campos
         let txtRegion = $('#listaRegiones').val();
         let errorRegion = $('.text-danger').eq(4);
-        if (txtRegion === 'Seleccionar Región') {
+        if (txtRegion === '' || txtRegion === null) {
             errorRegion.html('<h4>* Elige una Región </h4>');
             return false
         }
@@ -60,8 +60,8 @@
     function valCiudad() { // Validamos campos
         let txtCiudad = $('#txtCiudad').val();
         let errorCiudad = $('.text-danger').eq(5);
-        if (txtCiudad === 'Seleccionar Región') {
-            errorCiudad.html('<h4>* Elige una Región </h4>');
+        if (txtCiudad === '' || txtCiudad === null) {
+            errorCiudad.html('<h4>* Elige una Ciudad </h4>');
             return false
         }
         errorCiudad.text('');
@@ -81,7 +81,7 @@
 
     function valTelefono() { // Validamos campos
         let txtTelefono = $('#txtTelefono').val();
-        let errorTelefono = $('.text-danger').eq(6);
+        let errorTelefono = $('.text-danger').eq(7);
         if (txtTelefono === undefined || txtTelefono === '') {
             errorTelefono.html('<h4>* Error al escribir el teléfono</h4>');
             return false
@@ -92,7 +92,7 @@
 
     function valGP() { // Validamos campos
         let txtGP = $('#txtGP').val();
-        let errorGP = $('.text-danger').eq(7);
+        let errorGP = $('.text-danger').eq(8);
         if (txtGP === undefined || txtGP === '') {
             errorGP.html('<h4>* Error al escribir el grupo de peluquerías</h4>');
             return false

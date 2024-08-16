@@ -10,6 +10,14 @@
     font-family: 'Coffee Spark';
 }
 
-.container .row .col-md-6 .card .card-body{
+.container .row .col-md-6 .card {
     border: 1px solid #2d9696 !important;
+}
+
+.container .row .col-md-6 .card .card-body > p{
+    margin-bottom: 0px;
+}
+
+.container .row .col-md-6 .card .card-body p > span {
+    color : #2d9696; 
 }
