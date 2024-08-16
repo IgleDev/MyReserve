@@ -2,8 +2,9 @@
 using MyReserve.Models;
 using MyReserve.Models.HelpersTablasBBDD.InfoPeluqueriaModel;
 using MyReserve.Models.Repository.RepositoryUsuario;
-using MyReserve.Models.Repository.RepositoryUsuarios;
 using MyReserve.Models.TablasBBDD.Cita;
+using MyReserve.Models.TablasBBDD.Horarios;
+using MyReserve.Models.TablasBBDD.Servicios;
 using MyReserve.Models.TablasBBDD.Usuarios;
 using Newtonsoft.Json;
 using System.Globalization;
@@ -53,12 +54,12 @@ namespace MyReserve.Controllers {
             var horarios = await _usuariosRepository.getHorariosPeluqueria(pelu_id);
 
             ViewBag.usuariosActual = usuariosActual.usu_nombre;
-            peluqueria.Servicios = servicios.ToList();
-            peluqueria.Horarios = horarios.ToList();
+            peluqueria.Servicios = servicios?.ToList() ?? new List<Servicios>();
+            peluqueria.Horarios = horarios?.ToList() ?? new List<Horarios>();
 
             var peluInfo = new InfoPeluqueriaModel {    // Creamos la peluqueria con la información que le pasamos
                 peluqueriaInfo = peluqueria,
-                peluquerosInfo = peluqueros,
+                peluquerosInfo = peluqueros ?? new List<MyReserve.Models.TablasBBDD.Peluqueros.Peluqueros>(),
             };
 
             return View(peluInfo);  // Retornamos la vista

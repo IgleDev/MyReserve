@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyReserve.Models.Repository.RepositoryPeluqueria;
-using MyReserve.Models.Repository.RepositoryUsuarios;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
-using MyReserve.Models.TablasBBDD.Usuarios;
 using Newtonsoft.Json;
 
 namespace MyReserve.Controllers {
