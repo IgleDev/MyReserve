@@ -3,6 +3,7 @@
 @{
     Layout = "_Layout";
     var usuNombre = ViewBag.usu_nombre;
+    var url = Url.Action("VerPeluqueros", "Peluquerias", new { pelu_id = Model.peluqueriaInfo.pelu_id }); // La utilizamos para poder usar iconos en el boton.
     ViewData["Title"] = "Info Peluquerias";
 }
 
@@ -43,9 +44,10 @@
                             </div>
                         }
                         <div class="text-danger"></div>
-                        <button asp-action="VerPeluqueros" class="rounded-circle btn btn-outline-info ms-3"
-                                data-bs-toggle="tooltip" data-bs-title="Ver más" style="width: 40px; height: 40px;">
-                                <i class="fa-solid fa-arrow-right"></i>
+                        <button type="button" class="rounded-circle btn btn-outline-info ms-3"
+                                data-bs-toggle="tooltip" data-bs-title="Ver más" style="width: 40px; height: 40px;"
+                                onclick="window.location.href='@url'">
+                            <i class="fa-solid fa-arrow-right"></i>
                         </button>
                     } else {
                         <p>No hay peluqueros disponibles</p>

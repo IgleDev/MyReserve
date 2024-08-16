@@ -1,0 +1,66 @@
+﻿@model MyReserve.Models.TablasBBDD.Peluqueria.Peluqueria
+
+@{
+    Layout = "_Layout";
+    int contador = 0;
+    ViewData["Title"] = "Ver Peluqueros";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @section Styles {
+        <!--El style que renderizamos-->
+        <link rel="stylesheet" href="~/css/peluqueria/peluquerosLista.css" asp-append-version="true" />
+    }
+    <meta name="viewport" content="width=device-width" />
+    <title>VerPeluqueros</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="btn btn-outline-info rounded-pill text-decoration-none" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-arrow-left"></i>Volver al inicio</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h1 class="text-center">Estos son los peluqueros de <span>@Model.pelu_nombre</span></h1>
+        <div class="row">
+            <div class="col-md-6">
+                @if(Model.peluqueros != null && Model.peluqueros.Any()) {
+                    @foreach (var peluquero in Model.peluqueros) {
+                        @if (contador % 2 == 0) {
+                            <div class="card mb-3 mt-5">
+                                <div class="card-body">
+                                    <h5 class="card-title">@peluquero.pel_nombre</h5>
+                                    <p class="card-text">@peluquero.pel_descripcion</p>
+                                </div>
+                            </div>
+                        }
+                        contador++;
+                    }
+                } else {
+                    <p>No se encontraron peluqueros.</p>
+                }
+            </div>
+            <div class="col-md-6">
+                @if(Model.peluqueros != null && Model.peluqueros.Any()) {
+                    @foreach(var peluquero in Model.peluqueros) {
+                        @if(contador % 2 != 0) {
+                            <div class="card mb-3 mt-5">
+                                <div class="card-body">
+                                    <h5 class="card-title">@peluquero.pel_nombre</h5>
+                                    <p class="card-text">@peluquero.pel_descripcion</p>
+                                </div>
+                            </div>
+                        }
+                        contador++;
+                    }
+                } else {
+                    <p>No se encontraron peluqueros.</p>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -24,52 +24,56 @@
                 <h1>Lista de las citas de <span>@peluNombre</span></h1>
             </div>
         </div>
-        <div class="table-responsive">
-            <table class="table table-sm table-striped mt-5">
-                <thead>
-                    <tr>
-                        <th><i class="fa-regular fa-clipboard me-1"></i> Nº Cita</th>
-                        <th><i class="fa-solid fa-user me-1"></i> Cliente</th>
-                        <th><i class="fa-solid fa-scissors me-1"></i>Peluquero</th>
-                        <th><i class="fa-solid fa-store me-1"></i>Peluquería</th>
-                        <th><i class="fa-solid fa-clock me-1"></i>Hora</th>
-                        <th><i class="fa-solid fa-paper-plane me-1"></i>Servicios Seleccionados</th>
-                        <th><i class="fa-solid fa-dollar-sign me-1"></i>Precio Total</th>
-                        <th><i class="fa-regular fa-calendar-check me-1"></i>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach(var item in Model) {
+        @if(Model != null && Model.Any()) {
+            <div class="table-responsive">
+                <table class="table table-sm table-striped mt-5">
+                    <thead>
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.cita_id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.usu_nombre)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.pel_nombre)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.pelu_nombre)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.hora_fecha)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ser_nombres)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ser_precio_total)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.cita_fecha)
-                            </td>
+                            <th><i class="fa-regular fa-clipboard me-1"></i> Nº Cita</th>
+                            <th><i class="fa-solid fa-user me-1"></i> Cliente</th>
+                            <th><i class="fa-solid fa-scissors me-1"></i>Peluquero</th>
+                            <th><i class="fa-solid fa-store me-1"></i>Peluquería</th>
+                            <th><i class="fa-solid fa-clock me-1"></i>Hora</th>
+                            <th><i class="fa-solid fa-paper-plane me-1"></i>Servicios Seleccionados</th>
+                            <th><i class="fa-solid fa-dollar-sign me-1"></i>Precio Total</th>
+                            <th><i class="fa-regular fa-calendar-check me-1"></i>Fecha</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model) {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.cita_id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.usu_nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.pel_nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.pelu_nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.hora_fecha)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ser_nombres)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ser_precio_total)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.cita_fecha)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        } else {
+            <h2 class="text-center mt-5">No tienes citas pendientes</h2>
+        }
     </div>
 </body>
 </html>
