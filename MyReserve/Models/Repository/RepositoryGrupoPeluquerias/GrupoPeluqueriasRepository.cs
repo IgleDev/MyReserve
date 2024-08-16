@@ -1,10 +1,7 @@
 ﻿using Dapper;
 using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueria;
-using MyReserve.Models.TablasBBDD.Usuarios;
 using System.Data;
-using System.Data.Common;
-using System.Transactions;
 
 namespace MyReserve.Models.Repository.RepositoryGrupoPeluquerias {
     public class GrupoPeluqueriasRepository : IGrupoPeluquerias{

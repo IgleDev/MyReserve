@@ -7,7 +7,7 @@ using MyReserve.Models.TablasBBDD.Servicios;
 
 namespace MyReserve.Models.Repository.RepositoryPeluqueria {
     public interface IPeluqueria {
-        IEnumerable<Peluqueros> GetPeluqueros(Peluqueria pelu);
+        IEnumerable<Peluqueros> getPeluqueros(Peluqueria pelu);
         Task EditarPeluquero(Peluqueros peluquero);
         Task<GrupoPeluqueria> GrupoIdNombre(string gp_id);
         Task<Peluqueria> PeluqueriaIDNombre(string pelu_id);
@@ -18,5 +18,6 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
         Task<IEnumerable<Cita>> getCitasPeluquero(int pel_id);
         Task<IEnumerable<Cita>> getCitasPeluqueria(int pelu_id);
         Task<bool> comprobarCorreoPeluquero(string pel_correo_electronico);
+        Task<Peluqueria> getPeluqueria(int pelu_id);
     }
 }

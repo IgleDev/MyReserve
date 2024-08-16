@@ -5,10 +5,7 @@ using MyReserve.Models.TablasBBDD.Horarios;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Servicios;
-using System;
 using System.Data;
-using System.Data.Common;
-using System.Transactions;
 
 namespace MyReserve.Models.Repository.RepositoryPeluqueria {
     public class PeluqueriaRepository : IPeluqueria {
@@ -17,7 +14,7 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
             _conexion = conexion;
         }
 
-        public IEnumerable<Peluqueros> GetPeluqueros(Peluqueria pelu) {
+        public IEnumerable<Peluqueros> getPeluqueros(Peluqueria pelu) {
             var query = "SELECT pel.* FROM Peluquero AS pel " +
                 "INNER JOIN Peluqueria AS pelu ON pelu.pelu_id = pel.pel_pelu_id_fk " +
                 "WHERE pel.pel_pelu_id_fk = @pelu_id";
@@ -172,6 +169,14 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
             var query = "SELECT COUNT(1) FROM Peluquero WHERE pel_correo_electronico = @pel_correo_electronico";
             using(var conexion = _conexion.getConexion()) {
                 return await conexion.ExecuteScalarAsync<bool>(query, new { pel_correo_electronico });
+            }
+        }
+
+        public async Task<Peluqueria> getPeluqueria(int pelu_id) {
+            var query = "SELECT * FROM Peluqueria WHERE pelu_id = @pelu_id";
+
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.QueryFirstOrDefaultAsync<Peluqueria>(query, new { pelu_id });
             }
         }
     }
