@@ -7,6 +7,8 @@ using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Servicios;
 using System;
 using System.Data;
+using System.Data.Common;
+using System.Transactions;
 
 namespace MyReserve.Models.Repository.RepositoryPeluqueria {
     public class PeluqueriaRepository : IPeluqueria {
@@ -95,13 +97,24 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
         }
 
         public async Task EliminarPeluqueroPeluqueria(int pel_id) {
-            var query = "DELETE FROM Peluquero WHERE pel_id = @pel_id";
+            var queryCitas = "SELECT cita_id FROM Citas WHERE cita_pel_id_fk = @pel_id";
+            var queryServiciosCita = "DELETE FROM CitasServicios WHERE citas_ser_cita_id_fk = @cita_id";
+            var queryCita = "DELETE FROM Citas WHERE cita_pel_id_fk = @pel_id";
+            var queryPeluquero = "DELETE FROM Peluquero WHERE pel_id = @pel_id";
 
             var parametros = new DynamicParameters();
             parametros.Add("pel_id", pel_id, DbType.Int32);
 
             using(var conexion = _conexion.getConexion()) {
-               await conexion.ExecuteAsync(query, parametros);
+                var cita_ids = await conexion.QueryAsync<int>(queryCitas, parametros);
+
+                foreach(var cita_id in cita_ids) {
+                    await conexion.ExecuteAsync(queryServiciosCita, new { cita_id });
+                }
+
+                await conexion.ExecuteAsync(queryCita, parametros);
+
+                await conexion.ExecuteAsync(queryPeluquero, parametros);
             }
 
         }

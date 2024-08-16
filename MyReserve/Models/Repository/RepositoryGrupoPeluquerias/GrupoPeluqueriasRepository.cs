@@ -3,6 +3,8 @@ using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Usuarios;
 using System.Data;
+using System.Data.Common;
+using System.Transactions;
 
 namespace MyReserve.Models.Repository.RepositoryGrupoPeluquerias {
     public class GrupoPeluqueriasRepository : IGrupoPeluquerias{
@@ -51,12 +53,22 @@ namespace MyReserve.Models.Repository.RepositoryGrupoPeluquerias {
         }
 
         public async Task Eliminar(Peluqueria peluqueria) {
-            var query = "DELETE FROM Peluqueria WHERE pelu_id = @pelu_id";
+            var queryCitas = "SELECT cita_id FROM Citas WHERE cita_pelu_id_fk = @pelu_id";
+            var queryServiciosCita = "DELETE FROM CitasServicios WHERE citas_ser_cita_id_fk = @cita_id";
+            var queryCita = "DELETE FROM Citas WHERE cita_pelu_id_fk = @pelu_id";
+            var queryPeluqueria = "DELETE FROM Peluqueria WHERE pelu_id = @pelu_id";
             var parametros = new DynamicParameters();
             parametros.Add("pelu_id", peluqueria.pelu_id, DbType.Int32);
 
             using(var conexion = _conexion.getConexion()) {
-                await conexion.ExecuteAsync(query, parametros);
+                var cita_ids = await conexion.QueryAsync<int>(queryCitas, parametros);
+
+                foreach(var cita_id in cita_ids) {
+                    await conexion.ExecuteAsync(queryServiciosCita, new { cita_id });
+                }
+
+                await conexion.ExecuteAsync(queryCita, parametros);
+                await conexion.ExecuteAsync(queryPeluqueria, parametros);
             }
         }
 

@@ -39,12 +39,23 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
         }
 
         public async Task Eliminar(int usu_id) {
-            var query = "DELETE FROM Usuarios WHERE usu_id = @usu_id";
+            var queryCitas = "SELECT cita_id FROM Citas WHERE cita_usu_id_fk = @usu_id";
+            var queryUsuario = "DELETE FROM Usuarios WHERE usu_id = @usu_id";
+            var queryCita = "DELETE FROM Citas WHERE cita_usu_id_fk = @usu_id";
+            var queryServiciosCita = "DELETE FROM CitasServicios WHERE citas_ser_cita_id_fk = @cita_id";
+
             var parametros = new DynamicParameters();
             parametros.Add("usu_id", usu_id, DbType.Int32);
 
             using(var conexion = _conexion.getConexion()) {
-                await conexion.ExecuteAsync(query, parametros);
+                var citas_id = await conexion.QueryAsync<int>(queryCitas, parametros);  // Recogemos los IDs de las citas del usuario
+
+                foreach(var cita_id in citas_id) {
+                    await conexion.ExecuteAsync(queryServiciosCita, new { cita_id });   // Eliminamos los servicios del usuario
+                }
+
+                await conexion.ExecuteAsync(queryCita, parametros); // Eliminamos la cita
+                await conexion.ExecuteAsync(queryUsuario, parametros);  // Eliminamos el usuario
             }
         }
 
