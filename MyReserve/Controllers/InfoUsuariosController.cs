@@ -145,6 +145,7 @@ namespace MyReserve.Controllers {
 
         public async Task<IActionResult> VerCitas(int usu_id) {
             var usuarioActual = deserializarUsuario();  // Recuperamos los usuarios
+            ViewBag.usu_id = usuarioActual.usu_id;   // Pasamos el ID mediante un ViewBag
             ViewBag.usuNombre = usuarioActual.usu_nombre;   // Pasamos el nombre mediante un ViewBag
             var citasUsuario = await _usuariosRepository.getCitasUsuario(usu_id);   // Recuperamos las citas del usuario gracias al ID
             return View(citasUsuario.ToList()); // // Mandamos la vista convertida en un ToList();

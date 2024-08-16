@@ -92,12 +92,15 @@ namespace MyReserve.Controllers {
         }
 
         public async Task<IActionResult> CitasPeluquero(int pel_id) {
+            var pelActual = deserializarPeluquero();
+            ViewBag.pel_id = pelActual.pel_id;
             var peluqueroCitas = await _peluqueriasRepository.getCitasPeluquero(pel_id);    // Recuperamos las citas del peluquero por su ID
             return View(peluqueroCitas.ToList());   // Mandamos la vista convertida en un ToList();
         }
 
         public async Task<IActionResult> CitasPeluqueria(int pelu_id) { 
             var peluActual = deserializarPeluqueria();  // Recuperamos la peluqueria
+            ViewBag.pelu_id = peluActual.pelu_id;
             ViewBag.peluNombre = peluActual.pelu_nombre;    // Pasamos el nombre de la peluqueria mediante un ViewBag
             var peluqueriaCitas = await _peluqueriasRepository.getCitasPeluqueria(pelu_id); // Recuperamos las citas
             return View(peluqueriaCitas.ToList());  // Mandamos la vista convertida en un ToList();
