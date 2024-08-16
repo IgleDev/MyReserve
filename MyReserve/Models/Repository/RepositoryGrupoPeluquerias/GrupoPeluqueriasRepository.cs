@@ -82,5 +82,34 @@ namespace MyReserve.Models.Repository.RepositoryGrupoPeluquerias {
                 return grupo;
             }
         }
+
+        public async Task EditarGrupo(GrupoPeluqueria gp) {
+            var query = "UPDATE GrupoPeluqueria SET gp_nombre = @gp_nombre, gp_correo_electronico = @gp_correo_electronico, " +
+                "gp_contrasenha = @gp_contrasenha WHERE gp_id = @gp_id";
+
+            var parametros = new DynamicParameters();
+            parametros.Add("gp_nombre", gp.gp_nombre, DbType.String);
+            parametros.Add("gp_correo_electronico", gp.gp_correo_electronico, DbType.String);
+            parametros.Add("gp_contrasenha", gp.gp_contrasenha, DbType.String);
+            parametros.Add("gp_id", gp.gp_id, DbType.Int32);
+
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, parametros);
+            }
+        }
+
+        public async Task EliminarGrupo(GrupoPeluqueria gp) {
+            var queryPeluquerias = "DELETE FROM Peluqueria WHERE pelu_gp_id_fk = @gp_id";
+            var queryGrupo = "DELETE FROM GrupoPeluqueria WHERE gp_id = @gp_id";
+
+            var parametros = new DynamicParameters();
+            parametros.Add("gp_id", gp.gp_id, DbType.Int32);
+
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(queryPeluquerias, parametros);
+                await conexion.ExecuteAsync(queryGrupo, parametros);
+            }
+        }
+
     }
 }

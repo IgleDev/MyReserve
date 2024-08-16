@@ -10,5 +10,7 @@ namespace MyReserve.Models.Repository.RepositoryGrupoPeluquerias {
         Task<bool> comprobarCorreoGrupo(string gp_correo_electronico);
         Task<bool> comprobarCorreoPeluquerias(string pelu_correo_electronico);
         Task<GrupoPeluqueria> getGrupoPeluqueria(int gp_id);
+        Task EditarGrupo(GrupoPeluqueria gp);
+        Task EliminarGrupo(GrupoPeluqueria gp);
     }
 }
