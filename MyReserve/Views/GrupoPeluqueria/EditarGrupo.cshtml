@@ -22,7 +22,7 @@
                 <h1 class="display-1">My Reserve</h1>
             </div>
             <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
-                <form asp-action="EditarInfoGrupo" method="post" id="editarinfoPeluqueria">
+                <form asp-action="EditarGP" method="post" id="editarinfoPeluqueria">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input asp-for="gp_id" type="hidden" class="form-control" />
                     <div class="form-group">
@@ -50,11 +50,13 @@
     <div class="container">
         <div class="row">
             <div class="col-12 d-flex justify-content-center">
-                <form asp-action="EliminarGrupo" method="post" class="d-flex justify-content-between" onclick="return confirm(¿Quieres eliminar la cuenta y con eso todas tus peluquerias?)">
+                <div class="d-flex justify-content-between">
                     <a asp-action="Portal" class="btn btn-outline-info rounded-pill me-5">Volver</a>
-                    <input asp-for="gp_id" type="hidden" class="form-control" />
-                    <input type="submit" value="Eliminar Peluqueria" class="btn btn-outline-danger rounded-pill" />
-                </form>
+                    <form asp-action="EliminarGP" method="post" onclick="return confirm('¿Seguro que quieres borrar el grupo, eliminando todas tus peluquerías?');">
+                        <input asp-for="gp_id" type="hidden" class="form-control" />
+                        <input type="submit" value="Eliminar Grupo Peluquerias" class="btn btn-outline-danger rounded-pill" />
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -1,8 +1,9 @@
-﻿@model IEnumerable<MyReserve.Models.TablasBBDD.Peluqueria.Peluqueria>
+﻿@model MyReserve.Models.TablasBBDD.GrupoPeluqueria.GrupoPeluqueria
 
 @{
     ViewData["Title"] = "Portal";
     var gp_id = ViewBag.grupoID;
+    var gp_nombre = ViewBag.grupoNombre;
     Layout = "_Layout";
 }
 
@@ -22,7 +23,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1 class="text-center display-1 mt-5">My Reserve</h1>
+                <h1 class="text-center display-1 mt-5">My Reserve - @Model.gp_nombre</h1>
             </div>
             <div class="col-12">
                 <p class="text-center opacity-50">Bienvenido a tu <span class="text-info">portal</span> para gestionar tus peluquerías</p>
@@ -31,11 +32,11 @@
                 <a asp-action="RegistroPeluqueria" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-circle-plus"></i> Añade una nueva peluquería</a>
             </div>
             <div class="col-auto p-0 ms-3">
-                @Html.ActionLink("Editar Información", "EditarGrupo", new { gp_id }, new { @class = "btn btn-outline-info rounded-pill" })
+                @Html.ActionLink("Editar Información", "EditarGrupo", new { @Model.gp_id }, new { @class = "btn btn-outline-info rounded-pill" })
             </div>
         </div>
         <div class="row mt-5 peluquerias d-flex justify-content-center flex-wrap">
-            @foreach(var item in Model) {
+            @foreach(var item in Model.peluquerias) {
                 <div class="col-12 col-sm-6 col-md-4 col-lg-2 p-2 d-flex justify-content-center">
                     @Html.ActionLink(item.pelu_nombre, "EditarPeluqueria", "GrupoPeluqueria", new { item.pelu_id }, new { @class = "btn btn-outline-info rounded-pill fs-5" })
                 </div>
