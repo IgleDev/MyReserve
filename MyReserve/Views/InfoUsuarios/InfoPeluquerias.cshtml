@@ -30,53 +30,69 @@
                     <h3>Escoje a tu peluquero</h3>
                 </div>
                 <div class="col-12 mt-3 d-inline-flex justify-content-center flex-wrap" id="peluqueros">
-                    @foreach(var peluquero in Model.peluquerosInfo) {
-                        <div class="d-inline-flex flex-wrap mb-2">
+                    @if(Model.peluquerosInfo != null && Model.peluquerosInfo.Any()) {
+                        @foreach(var peluquero in Model.peluquerosInfo) {
                             <div class="d-inline-flex flex-wrap mb-2">
-                                <div class="form-check">
-                                    <input type="radio" class="btn-check" autocomplete="off" name="peluquerosPeluqueria"
-                                           value="@peluquero.pel_id" id="btn-check-@peluquero.pel_id" />
-                                    <label class="btn" for="btn-check-@peluquero.pel_id">@peluquero.pel_nombre</label>
+                                <div class="d-inline-flex flex-wrap mb-2">
+                                    <div class="form-check">
+                                        <input type="radio" class="btn-check" autocomplete="off" name="peluquerosPeluqueria"
+                                               value="@peluquero.pel_id" id="btn-check-@peluquero.pel_id" />
+                                        <label class="btn" for="btn-check-@peluquero.pel_id">@peluquero.pel_nombre</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+                        <div class="text-danger"></div>
+                        <button asp-action="VerPeluqueros" class="rounded-circle btn btn-outline-info ms-3"
+                                data-bs-toggle="tooltip" data-bs-title="Ver más" style="width: 40px; height: 40px;">
+                                <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    } else {
+                        <p>No hay peluqueros disponibles</p>
                     }
-                    <div class="text-danger"></div>
-                    <button asp-action="VerPeluqueros" class="rounded-circle btn btn-outline-info ms-3"
-                            data-bs-toggle="tooltip" data-bs-title="Ver más" style="width: 40px; height: 40px;">
-                            <i class="fa-solid fa-arrow-right"></i>
-                    </button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <h2>Horarios</h2>
                 </div>
+                @{
+                    var horariosAsociados = Model.peluqueriaInfo?.Horarios.Where(hora => hora.hora_asociado == 1);
+                    bool horariosAsociadosComprobar = horariosAsociados != null && horariosAsociados.Any();
+                }
                 <div class="col-12 d-flex justify-content-center">
                     <input type="date" id="fechaCita" name="fechaCita" />
                     <div class="text-danger"></div>
                 </div>
                 <div class="col-12 mt-3 d-inline-flex justify-content-center flex-wrap" id="horarios">
-                    <div id="horariosDisponibles">
-                        @foreach(var peluquerias in Model.peluqueriaInfo.Horarios.Where(hora => hora.hora_asociado == 1)) {
-                            <div class="d-inline-flex flex-wrap mb-2">
+                    @if(horariosAsociadosComprobar) {
+                        <div id="horariosDisponibles">
+                            @foreach(var peluquerias in horariosAsociados) {
                                 <div class="d-inline-flex flex-wrap mb-2">
-                                    <div class="form-check">
-                                        <input type="radio" class="btn-check" autocomplete="off" name="horariosPeluqueria"
-                                               value="@peluquerias.hora_id" id="btn-check-horarios-@peluquerias.hora_id" />
-                                        <label class="btn" for="btn-check-horarios-@peluquerias.hora_id">@peluquerias.hora_fecha</label>
+                                    <div class="d-inline-flex flex-wrap mb-2">
+                                        <div class="form-check">
+                                            <input type="radio" class="btn-check" autocomplete="off" name="horariosPeluqueria"
+                                                   value="@peluquerias.hora_id" id="btn-check-horarios-@peluquerias.hora_id" />
+                                            <label class="btn" for="btn-check-horarios-@peluquerias.hora_id">@peluquerias.hora_fecha</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        }
-                        <div class="text-danger"></div>
-                    </div>
+                            }
+                            <div class="text-danger"></div>
+                        </div>
+                    } else {
+                        <p class="text-center">No hay horarios disponibles</p>
+                    }
                 </div>
                 <div class="col-12">
                     <h2>Servicios</h2>
                 </div>
-                @if(Model != null) {
-                    var serviciosCategoria = Model.peluqueriaInfo.Servicios.Where(ser => ser.ser_asociado == 1).GroupBy(ser_cat => ser_cat.cat_nombre);
+                @{
+                    var serviciosAsociados = Model.peluqueriaInfo?.Servicios.Where(ser => ser.ser_asociado == 1);
+                    bool serviciosAsociadosComprobar = serviciosAsociados != null && serviciosAsociados.Any();
+                }
+                @if(serviciosAsociadosComprobar) {
+                    var serviciosCategoria = serviciosAsociados.GroupBy(ser_cat => ser_cat.cat_nombre);
                     @foreach(var pelu_cat in serviciosCategoria) {
                         <div class="col-12 mt-2 mb-2">
                             <h3>@pelu_cat.Key</h3>
@@ -94,6 +110,8 @@
                         </div>
                     }
                     <div class="text-danger"></div>
+                } else {
+                    <p class="text-center">No hay servicios disponibles</p>
                 }
             </div>
             <div class="col-12 text-center">
