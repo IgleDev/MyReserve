@@ -32,8 +32,14 @@
                         @if (contador % 2 == 0) {
                             <div class="card mb-3 mt-5">
                                 <div class="card-body">
-                                    <h5 class="card-title">@peluquero.pel_nombre</h5>
+                                    <h5 class="card-title">@peluquero.pel_nombre
+                                        (<a class="text-decoration-none text-info" target="_blank"
+                                            href="https://www.instagram.com/@peluquero.pel_instagram/">
+                                            @peluquero.pel_instagram
+                                        </a>)
+                                    </h5>
                                     <p class="card-text">@peluquero.pel_descripcion</p>
+                                    <p class="text-end"><span>@peluquero.pel_experiencia</span> años</p>
                                 </div>
                             </div>
                         }
@@ -49,8 +55,15 @@
                         @if(contador % 2 != 0) {
                             <div class="card mb-3 mt-5">
                                 <div class="card-body">
-                                    <h5 class="card-title">@peluquero.pel_nombre</h5>
+                                    <h5 class="card-title">
+                                        @peluquero.pel_nombre
+                                        (<a class="text-decoration-none text-info" target="_blank"
+                                            href="https://www.instagram.com/@peluquero.pel_instagram/">
+                                            @peluquero.pel_instagram
+                                        </a>)
+                                    </h5>
                                     <p class="card-text">@peluquero.pel_descripcion</p>
+                                    <p class="text-end"><span>@peluquero.pel_experiencia</span> años</p>
                                 </div>
                             </div>
                         }
