@@ -13,7 +13,7 @@ namespace MyReserve.Controllers {
 
         public async Task<IActionResult> Portal() {
             Peluqueria peluActual = deserializarPeluqueria();   // Recuperamos la peluqueria
-            var peluqueros = _peluqueriasRepository.GetPeluqueros(peluActual);  // Recuperamos los peluqueros
+            var peluqueros = _peluqueriasRepository.getPeluqueros(peluActual);  // Recuperamos los peluqueros
             var grupoPeluqueros = await _peluqueriasRepository.GrupoIdNombre(peluActual.pelu_gp_id_fk);   // Recuperamos el id del peluquero mediante el nombre
             var serviciosPeluqueria = await _peluqueriasRepository.getServiciosPeluqueria(peluActual.pelu_id);
             var horariosPeluqueria = await _peluqueriasRepository.getHorariosPeluqueria(peluActual.pelu_id);
@@ -86,7 +86,7 @@ namespace MyReserve.Controllers {
         public async Task<IActionResult> EliminarDatosPeluqueriaPeluqueros(int pel_id) {
             var peluActual = deserializarPeluqueria();  // Recuperamos la peluqueria
             await _peluqueriasRepository.EliminarPeluqueroPeluqueria(pel_id);   // Eliminamos el peluquero por su ID
-            var peluqueros = _peluqueriasRepository.GetPeluqueros(peluActual);  // Volvemos a recuperar todos los peluqueros
+            var peluqueros = _peluqueriasRepository.getPeluqueros(peluActual);  // Volvemos a recuperar todos los peluqueros
             peluActual.peluqueros = peluqueros; // Los añadidos a la propiedad de la clase
             return View("Portal", peluActual);  // Mandamos la peluquerias
         }
@@ -101,6 +101,13 @@ namespace MyReserve.Controllers {
             ViewBag.peluNombre = peluActual.pelu_nombre;    // Pasamos el nombre de la peluqueria mediante un ViewBag
             var peluqueriaCitas = await _peluqueriasRepository.getCitasPeluqueria(pelu_id); // Recuperamos las citas
             return View(peluqueriaCitas.ToList());  // Mandamos la vista convertida en un ToList();
+        }
+
+        public async Task<IActionResult> VerPeluqueros(int pelu_id) {
+            Peluqueria peluqueriaActual = await _peluqueriasRepository.getPeluqueria(pelu_id);
+            var peluquerosPeluqueria = _peluqueriasRepository.getPeluqueros(peluqueriaActual);
+            peluqueriaActual.peluqueros = peluquerosPeluqueria;
+            return View(peluqueriaActual);
         }
 
         public void serializarPeluqueria(Peluqueria peluqueria) {
