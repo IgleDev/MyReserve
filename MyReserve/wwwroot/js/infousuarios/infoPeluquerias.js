@@ -16,7 +16,7 @@
         $.ajax({    // Función AJAX para no tener que actualizar la página al hacer una petición GET
             url: '/InfoUsuarios/getHorariosDisponibles',    // Mandamos la URL
             type: 'GET',    // Específicamos el tipo
-            data: { pelu_id: pelu_id, fechaCita:- fechaCita },   // Pasamos la información
+            data: { pelu_id: pelu_id, fechaCita: fechaCita },   // Pasamos la información
             success: function (response) {  // Si esta bién
                 $('#horariosDisponibles').empty(); // Limpiamos los horarios actuales
                 if (!response || response.length === 0) {   // EN caso de que no haya horarios devolvemos un mensaje
