@@ -3,6 +3,7 @@
 @{
     Layout = "_Layout";
     var peluNombre = ViewBag.peluNombre;
+    var pelu_id = ViewBag.peluID;
     ViewData["Title"] = "Registro Servicios";
 }
 <!DOCTYPE html>
@@ -44,6 +45,7 @@
                     }
                 }
                 <input type="submit" value="Guardar" class="btn btn-primary" />
+                @Html.ActionLink("Crear Servicios", "CrearServicios" , "Peluquerias", new { pelu_id } , new { @class = "btn btn-outline-info rounded-pill" })
             </form>
             <div class="col-auto p-0 mt-5 d-flex justify-content-between flex-wrap">
                 <a asp-action="Portal" asp-controller="Peluquerias" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-arrow-left"></i> Volver</a>

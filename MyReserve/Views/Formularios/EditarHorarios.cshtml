@@ -26,17 +26,17 @@
             <h3>Horarios Actuales</h3>
             <form asp-action="ActualizarHorarios" method="post">
                 <div class="col-12 mt-2 mb-2">
-                    @foreach(var hora in Model.Horarios.Where(hora => hora.hora_asociado == 1)) {
-                        <div class="d-inline-flex flex-wrap mb-2">
+                        @foreach(var hora in Model.Horarios.Where(hora => hora.hora_asociado == 1)) {
                             <div class="d-inline-flex flex-wrap mb-2">
-                                <div class="form-check">
-                                    <input type="checkbox" class="btn-check" autocomplete="off" name="horariosActuales"
-                                           value="@hora.hora_id" checked id="btn-check-@hora.hora_id" />
-                                    <label class="btn" for="btn-check-@hora.hora_id">@hora.hora_fecha</label>
+                                <div class="d-inline-flex flex-wrap mb-2">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="btn-check" autocomplete="off" name="horariosActuales"
+                                               value="@hora.hora_id" checked id="btn-check-@hora.hora_id" />
+                                        <label class="btn" for="btn-check-@hora.hora_id">@hora.hora_fecha</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+                        }
                 </div>
                 <h3>Horarios Disponibles</h3>
                 <div>

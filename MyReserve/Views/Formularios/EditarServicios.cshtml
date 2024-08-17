@@ -1,8 +1,9 @@
-﻿@model MyReserve.Models.TablasBBDD.Peluqueria.Peluqueria
+﻿@model MyReserve.Models.TablasBBDD.Servicios.Servicios
 
 @{
     Layout = "_Layout";
     var peluNombre = ViewBag.peluNombre;
+    var pelu_id = ViewBag.pelu_id;
     ViewData["Title"] = "Editar Servicios";
 }
 <!DOCTYPE html>
@@ -26,8 +27,8 @@
             <h3>Servicios Actuales</h3>
             <form asp-action="ActualizarServicios" method="post">
                 <div class="col-12 mt-2 mb-2">
-                    @if(Model != null) {
-                        var serviciosCategoria = Model.Servicios.Where(ser => ser.ser_asociado == 1).GroupBy(ser_cat => ser_cat.cat_nombre);
+                    @if(Model.ServiciosAsociados != null && Model.ServiciosAsociados.Any()) {
+                        var serviciosCategoria = Model.ServiciosAsociados.GroupBy(ser_cat => ser_cat.cat_nombre);
                         @foreach(var cat in serviciosCategoria) {
                             <div class="col-12 mt-2 mb-2">
                                 <h3>@cat.Key</h3>
@@ -44,12 +45,14 @@
                                 </div>
                             </div>
                         }
+                    } else {
+                        <h2 class="text-center">No hay servicios actuales</h2>
                     }
                 </div>
                 <h3>Servicios Disponibles</h3>
                 <div>
-                    @if(Model != null) {
-                        var serviciosCategoria = Model.Servicios.Where(ser => ser.ser_asociado == 0).GroupBy(ser_cat => ser_cat.cat_nombre);
+                    @if(Model.ServiciosDisponibles != null && Model.ServiciosDisponibles.Any()) {
+                        var serviciosCategoria = Model.ServiciosDisponibles.GroupBy(ser_cat => ser_cat.cat_nombre);
                         @foreach(var cat in serviciosCategoria) {
                             <div class="col-12 mt-2 mb-2">
                                 <h3>@cat.Key</h3>
@@ -66,6 +69,8 @@
                                 </div>
                             </div>
                         }
+                    } else {
+                        <h2 class="text-center">No hay servicios disponibles</h2>
                     }
                 </div>
                 <div class="col-12 d-flex justify-content-center">
