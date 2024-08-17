@@ -8,39 +8,46 @@
     var fechaFinal = anhoActual + '-' + mesActual + '-' + diaActual;    // Montamos la fecha
     $('#fechaCita').attr('min', fechaFinal);    // Mandamos la fehca atraves del campo min indicando que la fecha que introduzcamos tiene que ser menor
 
-    var pelu_id = $('#pelu_id').val(); // Verifica que esto esté inyectando el valor 
-
-    $('#fechaCita').change(function () {    // Hacemos una funcion que se ejecute cuando el datepicker cambie
-        var fechaCita = $(this).val();  // Recogemos la fecha
+    function actualizarHorarios() {
+        var pel_id = $('input[name="peluquerosPeluqueria"]:checked').val(); // ID del peluquero seleccionado
+        var fechaCita = $('#fechaCita').val(); // Fecha seleccionada
 
         $.ajax({    // Función AJAX para no tener que actualizar la página al hacer una petición GET
             url: '/InfoUsuarios/getHorariosDisponibles',    // Mandamos la URL
-            type: 'GET',    // Específicamos el tipo
-            data: { pelu_id: pelu_id, fechaCita: fechaCita },   // Pasamos la información
+            type: 'GET',   // Específicamos el tipo 
+            data: { pel_id: pel_id, fechaCita: fechaCita }, // Pasamos la información
             success: function (response) {  // Si esta bién
-                $('#horariosDisponibles').empty(); // Limpiamos los horarios actuales
+                $('#horariosDisponibles').empty();  // Limpiamos los horarios actuales
+
                 if (!response || response.length === 0) {   // EN caso de que no haya horarios devolvemos un mensaje
-                    $('#horariosDisponibles').append(`<p>No hay horarios disponibles para esta fecha.</p>`);
+                    $('#horariosDisponibles').html('<p>No hay horarios disponibles para esta fecha y peluquero.</p>');
                     return;
                 }
+
                 $.each(response, function (index, horario) {    // Si no hacemos un bucle donde le pasamos toda la información
                     $('#horariosDisponibles').append(
                         `<div class="d-inline-flex flex-wrap mb-2">
-                                <div class="d-inline-flex flex-wrap mb-2">
-                                    <div class="form-check">
-                                        <input type="radio" class="btn-check" autocomplete="off" name="horariosPeluqueria"
-                                               value="${horario.hora_id}" id="btn-check-horarios-${horario.hora_id}" />
-                                        <label class="btn" for="btn-check-horarios-${horario.hora_id}">${horario.hora_fecha}</label>
-                                    </div>
-                                </div>
-                            </div>`
+                        <div class="form-check">
+                            <input type="radio" class="btn-check" autocomplete="off" name="horariosPeluqueria"
+                                   value="${horario.hora_id}" id="btn-check-horarios-${horario.hora_id}" />
+                            <label class="btn" for="btn-check-horarios-${horario.hora_id}">${horario.hora_fecha}</label>
+                        </div>
+                    </div>`
                     );
                 });
             },
             error: function (xhr, status, error) {
-                console.error("Error al obtener los horarios disponibles:", error); // Específicamos el error en caso de fallo
+                console.error("Error al obtener los horarios disponibles:", error);  // Específicamos el error en caso de fallo
             }
         });
+    }
+
+    $('#fechaCita').change(function () {    // Cada vez que cambie llamamos de nuevo a la función
+        actualizarHorarios();
+    });
+
+    $('input[name="peluquerosPeluqueria"]').change(function () {    // Cada vez que cambie llamamos de nuevo a la función
+        actualizarHorarios();
     });
 
     function valPeluquero() {   // Validamos Campos
