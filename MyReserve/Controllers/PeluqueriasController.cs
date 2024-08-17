@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyReserve.Models.Repository.RepositoryPeluqueria;
+using MyReserve.Models.TablasBBDD.Categorias;
 using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
+using MyReserve.Models.TablasBBDD.Servicios;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace MyReserve.Controllers {
     public class PeluqueriasController : Controller {
@@ -54,6 +57,28 @@ namespace MyReserve.Controllers {
             peluqueroEditar.peluqueria = peluqueroPeluqueria;   // se los añadismos a la propiedad de la clase
             peluqueroEditar.grupoPeluqueria = peluqueroGrupo;
             return View(peluqueroEditar);   // Mandamos la vista
+        }
+
+        public async Task<IActionResult> CrearServicios(int pelu_id) {
+            var peluServicioCrear = await _peluqueriasRepository.getPeluqueria(pelu_id);
+            var peluCategorias = await _peluqueriasRepository.getCategorias() ?? new List<Categorias>();
+            ViewBag.pelu_nombre = peluServicioCrear.pelu_nombre;
+            ViewBag.pelu_id = peluServicioCrear.pelu_id;
+            ViewBag.Categorias = peluCategorias;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearServicioPeluqueria(Servicios servicios) {
+            var nuevoServicio = new Servicios {
+                ser_nombre = servicios.ser_nombre,
+                ser_precio = servicios.ser_precio,
+                ser_cat_id_fk = servicios.ser_cat_id_fk,
+                ser_pelu_id_fk = servicios.ser_pelu_id_fk,
+            };
+
+            await _peluqueriasRepository.CrearServicios(nuevoServicio);
+            return RedirectToAction("Portal", new { servicios.ser_pelu_id_fk });
         }
 
         [HttpPost]
