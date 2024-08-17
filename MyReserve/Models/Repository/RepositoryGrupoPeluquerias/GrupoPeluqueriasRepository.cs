@@ -50,24 +50,37 @@ namespace MyReserve.Models.Repository.RepositoryGrupoPeluquerias {
         }
 
         public async Task Eliminar(Peluqueria peluqueria) {
-            var queryCitas = "SELECT cita_id FROM Citas WHERE cita_pelu_id_fk = @pelu_id";
+            var queryGetPeluquero = "SELECT pel_id FROM Peluquero WHERE pel_pelu_id_fk = @pelu_id";
+            var queryServiciosPeluqueria = "DELETE FROM PeluqueriaServicios WHERE pelu_ser_pelu_id_fk = @pelu_id";
+            var queryPeluqueriaHorarios = "DELETE FROM PeluqueriaHorarios WHERE pelu_hora_pelu_id_fk = @pelu_id";
+            var querygetCitas = "SELECT cita_id FROM Citas WHERE cita_pelu_id_fk = @pelu_id";
             var queryServiciosCita = "DELETE FROM CitasServicios WHERE citas_ser_cita_id_fk = @cita_id";
             var queryCita = "DELETE FROM Citas WHERE cita_pelu_id_fk = @pelu_id";
+            var queryServicio = "DELETE FROM Servicios WHERE ser_pelu_id_fk = @pelu_id";
             var queryPeluqueria = "DELETE FROM Peluqueria WHERE pelu_id = @pelu_id";
+            var queryPeluquero = "DELETE FROM Peluquero WHERE pel_id = @pel_id";
+
             var parametros = new DynamicParameters();
             parametros.Add("pelu_id", peluqueria.pelu_id, DbType.Int32);
 
             using(var conexion = _conexion.getConexion()) {
-                var cita_ids = await conexion.QueryAsync<int>(queryCitas, parametros);
-
+                var cita_ids = await conexion.QueryAsync<int>(querygetCitas, parametros);
                 foreach(var cita_id in cita_ids) {
                     await conexion.ExecuteAsync(queryServiciosCita, new { cita_id });
                 }
 
                 await conexion.ExecuteAsync(queryCita, parametros);
+                await conexion.ExecuteAsync(queryServiciosPeluqueria, parametros);
+
+                var pel_id = await conexion.QueryFirstOrDefaultAsync<int?>(queryGetPeluquero, parametros);
+                await conexion.ExecuteAsync(queryPeluquero, new { pel_id });
+                await conexion.ExecuteAsync(queryPeluqueriaHorarios, parametros);
+                await conexion.ExecuteAsync(queryServicio, parametros);
                 await conexion.ExecuteAsync(queryPeluqueria, parametros);
+
             }
         }
+
 
         public async Task<bool> comprobarCorreoGrupo(string gp_correo_electronico) {
             var query = "SELECT COUNT(1) FROM GrupoPeluqueria WHERE gp_correo_electronico = @gp_correo_electronico";
