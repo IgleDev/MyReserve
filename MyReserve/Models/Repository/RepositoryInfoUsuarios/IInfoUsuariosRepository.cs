@@ -8,6 +8,7 @@ using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Horarios;
 using MyReserve.Models.TablasBBDD.Servicios;
 using MyReserve.Models.TablasBBDD.Cita;
+using System.Data.Common;
 
 namespace MyReserve.Models.Repository.RepositoryUsuario {
     public class IInfoUsuariosRepository : IInfoUsuarios{
@@ -151,15 +152,15 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
             }
         }
 
-        public async Task<IEnumerable<Horarios>> getHorariosDisponibles(int pelu_id, DateTime fechaCita) {
-            var query = "SELECT hora.hora_id, hora.hora_fecha FROM Horarios AS hora " +
-                "INNER JOIN PeluqueriaHorarios AS pelu_hora ON hora.hora_id = pelu_hora.pelu_hora_hora_id_fk " +
-                "AND pelu_hora.pelu_hora_pelu_id_fk = @pelu_id AND pelu_hora.hora_reservado IS NULL " +
-                "WHERE hora.hora_id NOT IN (SELECT cita_hora_id_fk FROM Citas " +
-                "WHERE cita_pelu_id_fk = @pelu_id AND cita_fecha = @fechaCita)";
+        public async Task<IEnumerable<Horarios>> getHorariosDisponibles(int pel_id, DateTime fechaCita) {
+            var query = "SELECT hora.hora_id, hora.hora_fecha, pelu_id FROM Horarios AS hora " +
+                "INNER JOIN PeluqueriaHorarios AS pel_hora ON pelu_hora_hora_id_fk = hora_id " +
+                "INNER JOIN Peluqueria AS pelu ON pelu.pelu_id = pel_hora.pelu_hora_pelu_id_fk " +
+                "LEFT JOIN Citas AS cita ON cita.cita_hora_id_fk = hora.hora_id AND cita.cita_pel_id_fk = @pel_id AND cita.cita_fecha = @fechaCita " +
+                "WHERE cita.cita_hora_id_fk IS NULL";
             
             using(var conexion = _conexion.getConexion()) {
-                return await conexion.QueryAsync<Horarios>(query, new { pelu_id, fechaCita });
+                return await conexion.QueryAsync<Horarios>(query, new { pel_id, fechaCita });
             }
         }
 
