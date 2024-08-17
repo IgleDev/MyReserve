@@ -40,7 +40,12 @@ namespace MyReserve.Controllers {
             }
 
             await _grupoPeluqueriasRepository.Editar(peluqueria);   // Editamos la peluqueria
-            var grupoPeluquerias = _grupoPeluqueriasRepository.GetPeluquerias(grupoActual); // Recuperamos las peluquerias del grupo
+            var peluquerias = _grupoPeluqueriasRepository.GetPeluquerias(grupoActual); // Recuperamos las peluquerias del grupo
+            var grupoPeluquerias = new GrupoPeluqueria {    // Creamos un nuevo modelo para pasarlo a la vista
+                gp_id = grupoActual.gp_id,
+                gp_nombre = grupoActual.gp_nombre,
+                peluquerias = peluquerias.ToList()
+            };
             return View("Portal", grupoPeluquerias);    // Retornamos la vista
         }
 
@@ -48,7 +53,12 @@ namespace MyReserve.Controllers {
         public async Task<IActionResult> Eliminar(Peluqueria peluqueria) {
             GrupoPeluqueria grupoActual = deserializarGrupo();  // Recuperamos el grupo
             await _grupoPeluqueriasRepository.Eliminar(peluqueria); // Eliminamos la peluqueria
-            var grupoPeluquerias = _grupoPeluqueriasRepository.GetPeluquerias(grupoActual); // Recuperamos las peluquerias del grupo
+            var peluquerias = _grupoPeluqueriasRepository.GetPeluquerias(grupoActual); // Recuperamos las peluquerias del grupo
+            var grupoPeluquerias = new GrupoPeluqueria {    // Creamos un nuevo modelo para pasarlo a la vista
+                gp_id = grupoActual.gp_id,
+                gp_nombre = grupoActual.gp_nombre,
+                peluquerias = peluquerias.ToList()
+            };
             return View("Portal", grupoPeluquerias);    // Retornamos la vista
         }
 
