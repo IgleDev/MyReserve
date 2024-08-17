@@ -174,12 +174,11 @@ namespace MyReserve.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> getHorariosDisponibles(int pelu_id, DateTime fechaCita) {
+        public async Task<IActionResult> getHorariosDisponibles(int pel_id, DateTime fechaCita) {
             // Recuperamos los horarios disponibles segun la fecha.if (!DateTime.TryParse(fechaCita, out DateTime fechaCitaDate))
-            var horarios = await _usuariosRepository.getHorariosDisponibles(pelu_id, fechaCita);
+            var horarios = await _usuariosRepository.getHorariosDisponibles(pel_id, fechaCita);
             return Json(horarios);  // Devolvemos los horarios en formato JSON.
         }
-
 
         public void serializarUsuario(Usuarios usuario) {
             string json = JsonConvert.SerializeObject(usuario); // Transformamos el usuario en json
