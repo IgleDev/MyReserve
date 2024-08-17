@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MyReserve.Models.TablasBBDD.Categorias;
 using MyReserve.Models.TablasBBDD.Cita;
 using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
 using MyReserve.Models.TablasBBDD.Horarios;
@@ -177,6 +178,29 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
 
             using(var conexion = _conexion.getConexion()) {
                 return await conexion.QueryFirstOrDefaultAsync<Peluqueria>(query, new { pelu_id });
+            }
+        }
+
+        public async Task<IEnumerable<Categorias>> getCategorias() {
+            var query = "SELECT * FROM Categoria";
+
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.QueryAsync<Categorias>(query);
+            }
+        }
+
+        public async Task CrearServicios(Servicios servicio) {
+            var query = "INSERT INTO Servicios (ser_nombre, ser_precio, ser_cat_id_fk, ser_pelu_id_fk) VALUES " +
+                "(@ser_nombre, @ser_precio, @ser_cat_id_fk, @ser_pelu_id_fk)";
+
+            var parametros = new DynamicParameters();
+            parametros.Add("ser_nombre", servicio.ser_nombre, DbType.String);
+            parametros.Add("ser_precio", servicio.ser_precio, DbType.Int32);
+            parametros.Add("ser_cat_id_fk", servicio.ser_cat_id_fk, DbType.Int32);
+            parametros.Add("ser_pelu_id_fk", servicio.ser_pelu_id_fk, DbType.Int32);
+
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, parametros);
             }
         }
     }

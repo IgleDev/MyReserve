@@ -1,4 +1,5 @@
-﻿using MyReserve.Models.TablasBBDD.Cita;
+﻿using MyReserve.Models.TablasBBDD.Categorias;
+using MyReserve.Models.TablasBBDD.Cita;
 using MyReserve.Models.TablasBBDD.GrupoPeluqueria;
 using MyReserve.Models.TablasBBDD.Horarios;
 using MyReserve.Models.TablasBBDD.Peluqueria;
@@ -19,5 +20,7 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
         Task<IEnumerable<Cita>> getCitasPeluqueria(int pelu_id);
         Task<bool> comprobarCorreoPeluquero(string pel_correo_electronico);
         Task<Peluqueria> getPeluqueria(int pelu_id);
+        Task<IEnumerable<Categorias>> getCategorias();
+        Task CrearServicios(Servicios servicio);
     }
 }

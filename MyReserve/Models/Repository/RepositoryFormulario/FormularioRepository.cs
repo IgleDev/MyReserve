@@ -169,12 +169,13 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
             }
         }
 
-        public async Task<IEnumerable<Servicios>> getServicios() {
+        public async Task<IEnumerable<Servicios>> getServicios(int pelu_id) {
             var query = "SELECT ser.ser_id, ser.ser_nombre, ser.ser_precio, cat.cat_nombre FROM Servicios AS ser " +
-                "INNER JOIN Categoria AS cat ON cat.cat_id = ser_cat_id_fk";
+                "INNER JOIN Categoria AS cat ON cat.cat_id = ser_cat_id_fk " +
+                "WHERE ser.ser_pelu_id_fk IS NULL OR ser.ser_pelu_id_fk = @pelu_id ";
 
             using(var conexion = _conexion.getConexion()) {
-                var serviciosLista = await conexion.QueryAsync<Servicios>(query);
+                var serviciosLista = await conexion.QueryAsync<Servicios>(query, new { pelu_id });
                 return serviciosLista;
             }
         }
@@ -213,7 +214,8 @@ namespace MyReserve.Models.Repository.RepositoryUsuarios {
                 "END AS ser_asociado " +
                 "FROM Servicios AS ser " +
                 "INNER JOIN Categoria AS cat ON cat.cat_id = ser_cat_id_fk " +
-                "LEFT JOIN PeluqueriaServicios AS pelu_ser ON pelu_ser.pelu_ser_ser_id_fk = ser.ser_id AND pelu_ser.pelu_ser_pelu_id_fk = @pelu_id";
+                "LEFT JOIN PeluqueriaServicios AS pelu_ser ON pelu_ser.pelu_ser_ser_id_fk = ser.ser_id AND pelu_ser.pelu_ser_pelu_id_fk = @pelu_id " +
+                "WHERE ser.ser_pelu_id_fk IS NULL OR ser.ser_pelu_id_fk = @pelu_id";
 
             using(var conexion = _conexion.getConexion()) {
                 var serviciosLista = await conexion.QueryAsync<Servicios>(query, new { pelu_id });
