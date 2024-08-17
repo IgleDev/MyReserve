@@ -7,5 +7,7 @@
         public string? ser_cat_id_fk { get; set; }
         public int ser_asociado { get; set; }
         public string? cat_nombre { get; set; }
+        public IEnumerable<Servicios> ServiciosAsociados { get; set; }
+        public IEnumerable<Servicios> ServiciosDisponibles { get; set; }
     }
 }
