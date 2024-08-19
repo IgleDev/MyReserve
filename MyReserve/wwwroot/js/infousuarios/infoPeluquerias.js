@@ -16,15 +16,15 @@
             url: '/InfoUsuarios/getHorariosDisponibles',    // Mandamos la URL
             type: 'GET',   // Específicamos el tipo 
             data: { pel_id: pel_id, fechaCita: fechaCita }, // Pasamos la información
-            success: function (response) {  // Si esta bién
+            success: function (respuesta) {  // Si esta bién
                 $('#horariosDisponibles').empty();  // Limpiamos los horarios actuales
 
-                if (!response || response.length === 0) {   // EN caso de que no haya horarios devolvemos un mensaje
+                if (!respuesta || respuesta.length === 0) {   // EN caso de que no haya horarios devolvemos un mensaje
                     $('#horariosDisponibles').html('<p>No hay horarios disponibles para esta fecha y peluquero.</p>');
                     return;
                 }
 
-                $.each(response, function (index, horario) {    // Si no hacemos un bucle donde le pasamos toda la información
+                $.each(respuesta, function (index, horario) {    // Si no hacemos un bucle donde le pasamos toda la información
                     $('#horariosDisponibles').append(
                         `<div class="d-inline-flex flex-wrap mb-2">
                         <div class="form-check">
