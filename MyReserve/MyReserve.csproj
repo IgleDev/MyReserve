@@ -34,4 +34,10 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="MyReserveHitos\Memoria\" />
+    <Folder Include="MyReserveHitos\Fuentes\" />
+    <Folder Include="MyReserveHitos\Presentacion\" />
+  </ItemGroup>
+
 </Project>
