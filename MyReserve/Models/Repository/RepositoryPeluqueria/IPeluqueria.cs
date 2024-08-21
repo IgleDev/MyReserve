@@ -22,5 +22,8 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
         Task<Peluqueria> getPeluqueria(int pelu_id);
         Task<IEnumerable<Categorias>> getCategorias();
         Task CrearServicios(Servicios servicio);
+        Task<IEnumerable<Servicios>> getServiciosPeluqueriaCreados(int pelu_id);
+        Task actualizarServicioPeluqueria(int ser_id, string ser_nombre, int ser_precio, string ser_cat_id_fk);
+        Task EliminarServicioPeluqueriaCreado(int ser_id);
     }
 }

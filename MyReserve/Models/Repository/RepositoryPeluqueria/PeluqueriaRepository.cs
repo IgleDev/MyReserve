@@ -203,5 +203,39 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
                 await conexion.ExecuteAsync(query, parametros);
             }
         }
+
+        public async Task <IEnumerable<Servicios>> getServiciosPeluqueriaCreados(int pelu_id) {
+            var query = "SELECT * FROM Servicios WHERE ser_pelu_id_fk = @pelu_id";
+
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.QueryAsync<Servicios>(query, new { pelu_id });
+            }
+        }
+
+        public async Task actualizarServicioPeluqueria(int ser_id, string ser_nombre, int ser_precio, string ser_cat_id_fk) {
+            var query = "UPDATE Servicios SET ser_nombre = @ser_nombre, ser_precio = @ser_precio, " +
+                "ser_cat_id_fk = @ser_cat_id_fk WHERE ser_id = @ser_id";
+
+            var parametros = new DynamicParameters();
+            parametros.Add("ser_id", ser_id, DbType.Int32);
+            parametros.Add("ser_nombre", ser_nombre, DbType.String);
+            parametros.Add("ser_precio", ser_precio, DbType.Int32);
+            parametros.Add("ser_cat_id_fk", ser_cat_id_fk, DbType.Int32);
+
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, parametros);
+            }
+        }
+
+        public async Task EliminarServicioPeluqueriaCreado(int ser_id) {
+            var query = "DELETE FROM Servicios WHERE ser_id = @ser_id";
+
+            var parametros = new DynamicParameters();
+            parametros.Add("ser_id", ser_id, DbType.Int32);
+
+            using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(query, new { ser_id });
+            }
+        }
     }
 }
