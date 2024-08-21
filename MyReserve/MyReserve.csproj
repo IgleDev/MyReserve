@@ -36,7 +36,6 @@
 
   <ItemGroup>
     <Folder Include="MyReserveHitos\Memoria\" />
-    <Folder Include="MyReserveHitos\Fuentes\" />
     <Folder Include="MyReserveHitos\Presentacion\" />
   </ItemGroup>
 
