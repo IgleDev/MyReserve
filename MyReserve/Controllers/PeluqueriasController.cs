@@ -81,6 +81,47 @@ namespace MyReserve.Controllers {
             return RedirectToAction("Portal", new { servicios.ser_pelu_id_fk });
         }
 
+        public async Task<IActionResult> EditarServiciosPeluqueria(int pelu_id) {
+            var peluServicioCrear = await _peluqueriasRepository.getPeluqueria(pelu_id);
+            var peluCategorias = await _peluqueriasRepository.getCategorias() ?? new List<Categorias>();
+            var peluServicioPeluqueria = await _peluqueriasRepository.getServiciosPeluqueriaCreados(pelu_id) ?? new List<Servicios>();
+            ViewBag.pelu_nombre = peluServicioCrear.pelu_nombre;
+            ViewBag.Categorias = peluCategorias;
+            return View(peluServicioPeluqueria);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> guardarDatosServicios(List<Servicios> sers) {
+            var peluActual = deserializarPeluqueria();
+
+            foreach(var servicio in sers) {
+                await _peluqueriasRepository.actualizarServicioPeluqueria(servicio.ser_id, servicio.ser_nombre, servicio.ser_precio, servicio.ser_cat_id_fk);
+            }
+
+            var peluqueros = _peluqueriasRepository.getPeluqueros(peluActual);  // Recuperamos los peluqueros
+            var grupoPeluqueros = await _peluqueriasRepository.GrupoIdNombre(peluActual.pelu_gp_id_fk);   // Recuperamos el id del peluquero mediante el nombre
+            var serviciosPeluqueria = await _peluqueriasRepository.getServiciosPeluqueria(peluActual.pelu_id);
+            var horariosPeluqueria = await _peluqueriasRepository.getHorariosPeluqueria(peluActual.pelu_id);
+            peluActual.peluqueros = peluqueros; // Le pasamos los peluqueros a la lista de la peluqueria
+            peluActual.grupoPeluqueria = grupoPeluqueros;   // Le pasamos el grupo de peluqueros a la peluqueria
+            peluActual.Servicios = serviciosPeluqueria.ToList();    // Le pasamos los servicios
+            peluActual.Horarios = horariosPeluqueria.ToList();  // Le pasamos los horarios
+            serializarPeluqueria(peluActual);   // Guardamos en sesión
+            return View("Portal", peluActual);    // Retornamos peluqueria
+        }
+
+
+        public async Task<IActionResult> EliminarServiciosPeluqueria(int ser_id) {
+            var peluActual = deserializarPeluqueria();
+            await _peluqueriasRepository.EliminarServicioPeluqueriaCreado(ser_id);
+            var peluServicioCrear = await _peluqueriasRepository.getPeluqueria(peluActual.pelu_id);
+            var peluCategorias = await _peluqueriasRepository.getCategorias() ?? new List<Categorias>();
+            var peluServicioPeluqueria = await _peluqueriasRepository.getServiciosPeluqueriaCreados(peluActual.pelu_id) ?? new List<Servicios>();
+            ViewBag.pelu_nombre = peluServicioCrear.pelu_nombre;
+            ViewBag.Categorias = peluCategorias;
+            return View("EditarServiciosPeluqueria", peluServicioPeluqueria);
+        }
+
         [HttpPost]
         public async Task<IActionResult> GuardarDatosPeluqueros(Peluqueros peluquero) {
             var peluqueroCorreo = await _peluqueriasRepository.getPeluquero(peluquero.pel_id);  // Recuperamos el peluquero para conseguir el correo
