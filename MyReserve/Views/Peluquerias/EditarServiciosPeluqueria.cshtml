@@ -1,0 +1,57 @@
+﻿@model IEnumerable<MyReserve.Models.TablasBBDD.Servicios.Servicios>
+
+@{
+    Layout = "_Layout";
+    var pelu_nombre = ViewBag.pelu_nombre;
+    var categorias = ViewBag.Categorias as List<MyReserve.Models.TablasBBDD.Categorias.Categorias>;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @section Styles {
+        <link rel="stylesheet" href="~/css/grupo/portal.css" asp-append-version="true" />
+    }
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center display-1 mt-5">My Reserve - @pelu_nombre</h1>
+        </div>
+        <form asp-action="guardarDatosServicios" method="post" class="d-flex flex-column align-items-center">
+            <div class="col-12 w-50">
+                @if (Model == null) {
+                    <h2>No se encontraron servicios.</h2>
+
+                } else {
+                    @foreach(var item in Model) {
+                        <div class="d-flex mb-3">
+                            <input type="hidden" name="sers[@item.ser_id].ser_id" value="@item.ser_id" />
+                            <input type="text" name="sers[@item.ser_id].ser_nombre" value="@item.ser_nombre" placeholder="Nombre del servicio" class="form-control me-3" />
+                            <input type="number" name="sers[@item.ser_id].ser_precio" value="@item.ser_precio" placeholder="Precio del servicio" class="form-control me-3" />
+                            <select name="sers[@item.ser_id].ser_cat_id_fk" class="form-control me-3">
+                                @foreach(var categoria in categorias){
+                                    var seleccionado = categoria.cat_id.ToString() == item.ser_cat_id_fk ? "selected" : "";
+                                    <option value="@categoria.cat_id" selected="@seleccionado">@categoria.cat_nombre</option>
+                                }
+                            </select>
+                            <input type="hidden" name="sers[@item.ser_id].ser_pelu_id_fk" value="@item.ser_pelu_id_fk" class="form-control">
+                            @Html.ActionLink("Eliminar Servicio", "EliminarServiciosPeluqueria", new { item.ser_id }, new { @class = "btn btn-danger", onclick = "return confirm('¿Realmente quieres eliminar este servicio?');" })
+                        </div>
+                    }
+                }
+            </div>
+            <div class="col-12 w-50 d-flex justify-content-center mt-3">
+                <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="d-flex justify-content-center col-12 p-2">
+        <a asp-action="Portal" asp-controller="Peluquerias" class="btn btn-outline-info mt-5 rounded-pill">Volver al Portal</a>
+    </div>
+</div>
+</body>
+</html>
