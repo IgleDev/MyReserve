@@ -1,8 +1,9 @@
-﻿@model IEnumerable<MyReserve.Models.TablasBBDD.Servicios.Servicios>
+﻿@model MyReserve.Models.TablasBBDD.Servicios.Servicios[]
 
 @{
     Layout = "_Layout";
     var pelu_nombre = ViewBag.pelu_nombre;
+    ViewData["Title"] = "Editar Servicios";
     var categorias = ViewBag.Categorias as List<MyReserve.Models.TablasBBDD.Categorias.Categorias>;
 }
 
@@ -27,21 +28,25 @@
                     <h2>No se encontraron servicios.</h2>
 
                 } else {
-                    @foreach(var item in Model) {
-                        <div class="d-flex mb-3">
-                            <input type="hidden" name="sers[@item.ser_id].ser_id" value="@item.ser_id" />
-                            <input type="text" name="sers[@item.ser_id].ser_nombre" value="@item.ser_nombre" placeholder="Nombre del servicio" class="form-control me-3" />
-                            <input type="number" name="sers[@item.ser_id].ser_precio" value="@item.ser_precio" placeholder="Precio del servicio" class="form-control me-3" />
-                            <select name="sers[@item.ser_id].ser_cat_id_fk" class="form-control me-3">
-                                @foreach(var categoria in categorias){
-                                    var seleccionado = categoria.cat_id.ToString() == item.ser_cat_id_fk ? "selected" : "";
-                                    <option value="@categoria.cat_id" selected="@seleccionado">@categoria.cat_nombre</option>
-                                }
-                            </select>
-                            <input type="hidden" name="sers[@item.ser_id].ser_pelu_id_fk" value="@item.ser_pelu_id_fk" class="form-control">
-                            @Html.ActionLink("Eliminar Servicio", "EliminarServiciosPeluqueria", new { item.ser_id }, new { @class = "btn btn-danger", onclick = "return confirm('¿Realmente quieres eliminar este servicio?');" })
-                        </div>
-                    }
+                        @for(var i = 0; i < Model.Length; i++) {
+                            <div class="d-flex mb-3">
+                                <input type="hidden" name="sers[@i].ser_id" value="@Model[i].ser_id" />
+                                <input type="text" name="sers[@i].ser_nombre" value="@Model[i].ser_nombre" placeholder="Nombre del servicio" class="form-control me-3" />
+                                <input type="number" name="sers[@i].ser_precio" value="@Model[i].ser_precio" placeholder="Precio del servicio" class="form-control me-3" />
+                                <select name="sers[@i].ser_cat_id_fk" class="form-control me-3">
+                                    @foreach(var categoria in categorias) {
+                                        if(categoria.cat_id.ToString() == Model[i].ser_cat_id_fk) {
+                                            <option value="@categoria.cat_id" selected="@categoria.cat_id">@categoria.cat_nombre</option>
+                                        } else {
+                                            <option value="@categoria.cat_id">@categoria.cat_nombre</option>
+                                        }
+                                    }
+                                </select>
+                                <input type="hidden" name="sers[@i].ser_pelu_id_fk" value="@Model[i].ser_pelu_id_fk" class="form-control">
+                                @Html.ActionLink("Eliminar Servicio", "EliminarServiciosPeluqueria", new { ser_id = Model[i].ser_id }, new { @class = "btn btn-danger", onclick = "return confirm('¿Realmente quieres eliminar este servicio?');" })
+                            </div>
+                        }
+
                 }
             </div>
             <div class="col-12 w-50 d-flex justify-content-center mt-3">
