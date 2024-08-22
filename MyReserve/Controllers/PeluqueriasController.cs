@@ -60,41 +60,41 @@ namespace MyReserve.Controllers {
         }
 
         public async Task<IActionResult> CrearServicios(int pelu_id) {
-            var peluServicioCrear = await _peluqueriasRepository.getPeluqueria(pelu_id);
-            var peluCategorias = await _peluqueriasRepository.getCategorias() ?? new List<Categorias>();
-            ViewBag.pelu_nombre = peluServicioCrear.pelu_nombre;
+            var peluServicioCrear = await _peluqueriasRepository.getPeluqueria(pelu_id);    // Recuperamos la peluquería
+            var peluCategorias = await _peluqueriasRepository.getCategorias() ?? new List<Categorias>();    // Recuperamos las categorias
+            ViewBag.pelu_nombre = peluServicioCrear.pelu_nombre;    // Pasamos viewbags necesarios
             ViewBag.pelu_id = peluServicioCrear.pelu_id;
             ViewBag.Categorias = peluCategorias;
-            return View();
+            return View();  // Retornamos vista
         }
 
         [HttpPost]
         public async Task<IActionResult> CrearServicioPeluqueria(Servicios servicios) {
-            var nuevoServicio = new Servicios {
+            var nuevoServicio = new Servicios { // Creamos el nuevo servicio
                 ser_nombre = servicios.ser_nombre,
                 ser_precio = servicios.ser_precio,
                 ser_cat_id_fk = servicios.ser_cat_id_fk,
                 ser_pelu_id_fk = servicios.ser_pelu_id_fk,
             };
 
-            await _peluqueriasRepository.CrearServicios(nuevoServicio);
-            return RedirectToAction("Portal", new { servicios.ser_pelu_id_fk });
+            await _peluqueriasRepository.CrearServicios(nuevoServicio); // Se lo pasamos
+            return RedirectToAction("Portal", new { servicios.ser_pelu_id_fk });    // Redireccionamos la vista con la id de la peluquería
         }
 
         public async Task<IActionResult> EditarServiciosPeluqueria(int pelu_id) {
-            var peluServicioCrear = await _peluqueriasRepository.getPeluqueria(pelu_id);
-            var peluCategorias = await _peluqueriasRepository.getCategorias() ?? new List<Categorias>();
-            var peluServicioPeluqueria = await _peluqueriasRepository.getServiciosPeluqueriaCreados(pelu_id) ?? new List<Servicios>();
-            ViewBag.pelu_nombre = peluServicioCrear.pelu_nombre;
+            var peluServicioCrear = await _peluqueriasRepository.getPeluqueria(pelu_id);    // Recogemos la peluquería
+            var peluCategorias = await _peluqueriasRepository.getCategorias() ?? new List<Categorias>();    // Recuperamos las categorias
+            var peluServicioPeluqueria = await _peluqueriasRepository.getServiciosPeluqueriaCreados(pelu_id) ?? new List<Servicios>();  // Recuperamos los servicios creados por la peluquería
+            ViewBag.pelu_nombre = peluServicioCrear.pelu_nombre;    // Pasamos viewbags necesarios para el código
             ViewBag.Categorias = peluCategorias;
-            return View(peluServicioPeluqueria.ToArray());
+            return View(peluServicioPeluqueria.ToArray());  // Devolvemos la vista con un array
         }
 
         [HttpPost]
         public async Task<IActionResult> guardarDatosServicios(Servicios []sers) {
-            var peluActual = deserializarPeluqueria();
+            var peluActual = deserializarPeluqueria();  // Recuperamos la peluquería
 
-            foreach(var servicio in sers) {
+            foreach(var servicio in sers) { // Por cada iteracción guardamos el servicio editado
                 await _peluqueriasRepository.actualizarServicioPeluqueria(servicio.ser_id, servicio.ser_nombre, servicio.ser_precio, servicio.ser_cat_id_fk);
             }
 
@@ -112,14 +112,14 @@ namespace MyReserve.Controllers {
 
 
         public async Task<IActionResult> EliminarServiciosPeluqueria(int ser_id) {
-            var peluActual = deserializarPeluqueria();
-            await _peluqueriasRepository.EliminarServicioPeluqueriaCreado(ser_id);
-            var peluServicioCrear = await _peluqueriasRepository.getPeluqueria(peluActual.pelu_id);
+            var peluActual = deserializarPeluqueria();  // Recuperamos la peluquería
+            await _peluqueriasRepository.EliminarServicioPeluqueriaCreado(ser_id);  // LLamamos al método
+            var peluServicioCrear = await _peluqueriasRepository.getPeluqueria(peluActual.pelu_id); // Metemos el código necesario para volver a mandar la vista
             var peluCategorias = await _peluqueriasRepository.getCategorias() ?? new List<Categorias>();
             var peluServicioPeluqueria = await _peluqueriasRepository.getServiciosPeluqueriaCreados(peluActual.pelu_id) ?? new List<Servicios>();
             ViewBag.pelu_nombre = peluServicioCrear.pelu_nombre;
             ViewBag.Categorias = peluCategorias;
-            return View("EditarServiciosPeluqueria", peluServicioPeluqueria.ToArray());
+            return View("EditarServiciosPeluqueria", peluServicioPeluqueria.ToArray()); // La retornamos
         }
 
         [HttpPost]
