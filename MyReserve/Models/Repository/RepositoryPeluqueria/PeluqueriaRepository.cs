@@ -205,7 +205,9 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
         }
 
         public async Task <IEnumerable<Servicios>> getServiciosPeluqueriaCreados(int pelu_id) {
-            var query = "SELECT * FROM Servicios WHERE ser_pelu_id_fk = @pelu_id";
+            var query = "SELECT ser.*, cat.* FROM Servicios AS ser " +
+                "INNER JOIN Categoria AS cat ON cat.cat_id = ser.ser_cat_id_fk " +
+                "WHERE ser.ser_pelu_id_fk = @pelu_id";
 
             using(var conexion = _conexion.getConexion()) {
                 return await conexion.QueryAsync<Servicios>(query, new { pelu_id });
