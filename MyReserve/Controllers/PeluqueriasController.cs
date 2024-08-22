@@ -87,11 +87,11 @@ namespace MyReserve.Controllers {
             var peluServicioPeluqueria = await _peluqueriasRepository.getServiciosPeluqueriaCreados(pelu_id) ?? new List<Servicios>();
             ViewBag.pelu_nombre = peluServicioCrear.pelu_nombre;
             ViewBag.Categorias = peluCategorias;
-            return View(peluServicioPeluqueria);
+            return View(peluServicioPeluqueria.ToArray());
         }
 
         [HttpPost]
-        public async Task<IActionResult> guardarDatosServicios(List<Servicios> sers) {
+        public async Task<IActionResult> guardarDatosServicios(Servicios []sers) {
             var peluActual = deserializarPeluqueria();
 
             foreach(var servicio in sers) {
@@ -119,7 +119,7 @@ namespace MyReserve.Controllers {
             var peluServicioPeluqueria = await _peluqueriasRepository.getServiciosPeluqueriaCreados(peluActual.pelu_id) ?? new List<Servicios>();
             ViewBag.pelu_nombre = peluServicioCrear.pelu_nombre;
             ViewBag.Categorias = peluCategorias;
-            return View("EditarServiciosPeluqueria", peluServicioPeluqueria);
+            return View("EditarServiciosPeluqueria", peluServicioPeluqueria.ToArray());
         }
 
         [HttpPost]
