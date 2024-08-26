@@ -25,6 +25,8 @@ if(!app.Environment.IsDevelopment()) {
     app.UseHsts();
 }
 
+app.UseStatusCodePagesWithRedirects("/Home/Error?codigoError={0}");
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
