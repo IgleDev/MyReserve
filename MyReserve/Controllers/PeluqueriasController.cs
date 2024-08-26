@@ -5,7 +5,6 @@ using MyReserve.Models.TablasBBDD.Peluqueria;
 using MyReserve.Models.TablasBBDD.Peluqueros;
 using MyReserve.Models.TablasBBDD.Servicios;
 using Newtonsoft.Json;
-using System.Reflection;
 
 namespace MyReserve.Controllers {
     public class PeluqueriasController : Controller {
@@ -16,6 +15,12 @@ namespace MyReserve.Controllers {
 
         public async Task<IActionResult> Portal() {
             Peluqueria peluActual = deserializarPeluqueria();   // Recuperamos la peluqueria
+            var errorVista = returnHome(peluActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
+
             var peluqueros = _peluqueriasRepository.getPeluqueros(peluActual);  // Recuperamos los peluqueros
             var grupoPeluqueros = await _peluqueriasRepository.GrupoIdNombre(peluActual.pelu_gp_id_fk);   // Recuperamos el id del peluquero mediante el nombre
             var serviciosPeluqueria = await _peluqueriasRepository.getServiciosPeluqueria(peluActual.pelu_id);
@@ -29,6 +34,13 @@ namespace MyReserve.Controllers {
         }
 
         public async Task<IActionResult> InfoPeluqueros(int pel_id) {
+            var pelActual = deserializarPeluqueria();  // Recuperamos la peluqueria
+            var errorVista = returnHome(pelActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
+
             var infoPeluqueros = await _peluqueriasRepository.getPeluquero(pel_id);   // Según el ID del peluquero mandamos a la vista del peluquero correspondiente
             return View(infoPeluqueros);    //  Mandamos la vista
         }
@@ -51,6 +63,12 @@ namespace MyReserve.Controllers {
 
         public async Task<IActionResult> PeluqueroPortal(int pel_id) {
             var peluActual = deserializarPeluquero();   // Recuperamos el peluquero en sesion
+            var errorVista = returnHome(peluActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
+
             var peluqueroEditar = await _peluqueriasRepository.getPeluquero(pel_id);    // Recuperamos el peluquero
             var peluqueroPeluqueria = await _peluqueriasRepository.PeluqueriaIDNombre(peluqueroEditar.pel_pelu_id_fk);    // Recuperamos el nombre de la peluqueria
             var peluqueroGrupo = await _peluqueriasRepository.GrupoIdNombre(peluqueroEditar.pel_grupo_id_fk); // Recuperamos el nombre del grupo
@@ -60,6 +78,13 @@ namespace MyReserve.Controllers {
         }
 
         public async Task<IActionResult> CrearServicios(int pelu_id) {
+            var peluActual = deserializarPeluquero();   // Recuperamos el peluquero en sesion
+            var errorVista = returnHome(peluActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
+
             var peluServicioCrear = await _peluqueriasRepository.getPeluqueria(pelu_id);    // Recuperamos la peluquería
             var peluCategorias = await _peluqueriasRepository.getCategorias() ?? new List<Categorias>();    // Recuperamos las categorias
             ViewBag.pelu_nombre = peluServicioCrear.pelu_nombre;    // Pasamos viewbags necesarios
@@ -82,6 +107,13 @@ namespace MyReserve.Controllers {
         }
 
         public async Task<IActionResult> EditarServiciosPeluqueria(int pelu_id) {
+            var peluActual = deserializarPeluquero();   // Recuperamos el peluquero en sesion
+            var errorVista = returnHome(peluActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
+
             var peluServicioCrear = await _peluqueriasRepository.getPeluqueria(pelu_id);    // Recogemos la peluquería
             var peluCategorias = await _peluqueriasRepository.getCategorias() ?? new List<Categorias>();    // Recuperamos las categorias
             var peluServicioPeluqueria = await _peluqueriasRepository.getServiciosPeluqueriaCreados(pelu_id) ?? new List<Servicios>();  // Recuperamos los servicios creados por la peluquería
@@ -93,6 +125,11 @@ namespace MyReserve.Controllers {
         [HttpPost]
         public async Task<IActionResult> guardarDatosServicios(Servicios []sers) {
             var peluActual = deserializarPeluqueria();  // Recuperamos la peluquería
+            var errorVista = returnHome(peluActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
 
             foreach(var servicio in sers) { // Por cada iteracción guardamos el servicio editado
                 await _peluqueriasRepository.actualizarServicioPeluqueria(servicio.ser_id, servicio.ser_nombre, servicio.ser_precio, servicio.ser_cat_id_fk);
@@ -113,6 +150,12 @@ namespace MyReserve.Controllers {
 
         public async Task<IActionResult> EliminarServiciosPeluqueria(int ser_id) {
             var peluActual = deserializarPeluqueria();  // Recuperamos la peluquería
+            var errorVista = returnHome(peluActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
+
             await _peluqueriasRepository.EliminarServicioPeluqueriaCreado(ser_id);  // LLamamos al método
             var peluServicioCrear = await _peluqueriasRepository.getPeluqueria(peluActual.pelu_id); // Metemos el código necesario para volver a mandar la vista
             var peluCategorias = await _peluqueriasRepository.getCategorias() ?? new List<Categorias>();
@@ -158,7 +201,13 @@ namespace MyReserve.Controllers {
         }
 
         public async Task<IActionResult> CitasPeluquero(int pel_id) {
-            var pelActual = deserializarPeluquero();
+            var pelActual = deserializarPeluquero();    // Recuperamos el peluquero
+            var errorVista = returnHome(pelActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
+
             ViewBag.pel_id = pelActual.pel_id;
             var peluqueroCitas = await _peluqueriasRepository.getCitasPeluquero(pel_id);    // Recuperamos las citas del peluquero por su ID
             return View(peluqueroCitas.ToList());   // Mandamos la vista convertida en un ToList();
@@ -166,6 +215,12 @@ namespace MyReserve.Controllers {
 
         public async Task<IActionResult> CitasPeluqueria(int pelu_id) { 
             var peluActual = deserializarPeluqueria();  // Recuperamos la peluqueria
+            var errorVista = returnHome(peluActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
+
             ViewBag.pelu_id = peluActual.pelu_id;
             ViewBag.peluNombre = peluActual.pelu_nombre;    // Pasamos el nombre de la peluqueria mediante un ViewBag
             var peluqueriaCitas = await _peluqueriasRepository.getCitasPeluqueria(pelu_id); // Recuperamos las citas
@@ -173,6 +228,12 @@ namespace MyReserve.Controllers {
         }
 
         public async Task<IActionResult> VerPeluqueros(int pelu_id) {
+            var peluActual = deserializarPeluqueria();  // Recuperamos la peluqueria
+            var errorVista = returnHome(peluActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
             Peluqueria peluqueriaActual = await _peluqueriasRepository.getPeluqueria(pelu_id);
             var peluquerosPeluqueria = _peluqueriasRepository.getPeluqueros(peluqueriaActual);
             peluqueriaActual.peluqueros = peluquerosPeluqueria;
@@ -187,6 +248,11 @@ namespace MyReserve.Controllers {
         public Peluqueria deserializarPeluqueria() {
             Peluqueria peluqueria = new Peluqueria();
             string json = HttpContext.Session.GetString("PeluqueriaActual");
+
+            if(string.IsNullOrEmpty(json)) {
+                return null;
+            }
+
             peluqueria = JsonConvert.DeserializeObject<Peluqueria>(json);
             return peluqueria;
         }
@@ -199,8 +265,20 @@ namespace MyReserve.Controllers {
         public Peluqueros deserializarPeluquero() {
             Peluqueros peluquero = new Peluqueros();
             string json = HttpContext.Session.GetString("PeluqueroActual");
+
+            if(string.IsNullOrEmpty(json)) {
+                return null;
+            }
             peluquero = JsonConvert.DeserializeObject<Peluqueros>(json);
             return peluquero;
+        }
+
+        private IActionResult returnHome(object entidad) {
+            if(entidad == null) {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return null;
         }
     }
 }

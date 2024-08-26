@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyReserve.Models;
 using MyReserve.Models.HelpersTablasBBDD.InfoPeluqueriaModel;
 using MyReserve.Models.Repository.RepositoryUsuario;
 using MyReserve.Models.TablasBBDD.Cita;
@@ -19,11 +18,13 @@ namespace MyReserve.Controllers {
         [HttpGet]
         public IActionResult Portal() {
             Usuarios usuariosActual = deserializarUsuario(); // Recogemos el usuario
-            var paises = _usuariosRepository.getPaises();   // Recogemos los países
+            var errorVista = returnHome(usuariosActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
 
-            if(usuariosActual == null) {    // Comprobamos el usuario
-                return RedirectToAction("Index", "Home");
+            if(errorVista != null) {
+                return errorVista;
             }
+
+            var paises = _usuariosRepository.getPaises();   // Recogemos los países
 
             if(usuariosActual.listaPeluqueria == null) { // Si la lista es null que no las cree por defecto
                 usuariosActual.listaPeluqueria = new List<MyReserve.Models.TablasBBDD.Peluqueria.Peluqueria>();
@@ -43,11 +44,22 @@ namespace MyReserve.Controllers {
 
         public IActionResult Editar() {
             Usuarios usuariosActual = deserializarUsuario();    // Recuperamos el usuario
+            var errorVista = returnHome(usuariosActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
             return View(usuariosActual);    // Mostramos el usuario 
         }
 
         public async Task<IActionResult> InfoPeluquerias(int pelu_id) {
             Usuarios usuariosActual = deserializarUsuario(); // Recuperamos el usuario
+            var errorVista = returnHome(usuariosActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
+
             var peluqueria = await _usuariosRepository.getPeluqueriaID(pelu_id);    // Recogemos la peluqueria según el id que pasamos
             var peluqueros = await _usuariosRepository.getPeluquerosPeluqueriaID(pelu_id);  // Recogemos los peluqueros de la peluqueria
             var servicios = await _usuariosRepository.getServiciosPeluqueria(pelu_id);
@@ -102,6 +114,11 @@ namespace MyReserve.Controllers {
         public async Task<IActionResult> BuscarPeluqueriaCerca(string pelu_pais, string pelu_region, string pelu_ciudad) {
             var peluquerias = await _usuariosRepository.getPeluqueriasFiltro(pelu_pais, pelu_region, pelu_ciudad);
             var usuariosActual = deserializarUsuario(); // Recuperamos el usuario
+            var errorVista = returnHome(usuariosActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
 
             usuariosActual.listaPeluqueria = peluquerias;   // Recuperamos las peluquerias y los paises
             usuariosActual.listaPaises = _usuariosRepository.getPaises();
@@ -113,6 +130,12 @@ namespace MyReserve.Controllers {
         [HttpPost]
         public async Task<IActionResult> ReservarCita(int pelu_id, int usu_id, int peluquerosPeluqueria, int horariosPeluqueria, string fechaCita, int[] serviciosPeluqueria) {
             var usuariosActual = deserializarUsuario(); // Recuperamos el usuario actual
+            var errorVista = returnHome(usuariosActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
+
             var peluqueria = await _usuariosRepository.getPeluqueriaID(pelu_id);    // Recuperamos la peluquería
 
             //Pasamos la fecha en un formato que soporte la BBDD
@@ -145,6 +168,12 @@ namespace MyReserve.Controllers {
 
         public async Task<IActionResult> VerCitas(int usu_id) {
             var usuarioActual = deserializarUsuario();  // Recuperamos los usuarios
+            var errorVista = returnHome(usuarioActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
+
             ViewBag.usu_id = usuarioActual.usu_id;   // Pasamos el ID mediante un ViewBag
             ViewBag.usuNombre = usuarioActual.usu_nombre;   // Pasamos el nombre mediante un ViewBag
             var citasUsuario = await _usuariosRepository.getCitasUsuario(usu_id);   // Recuperamos las citas del usuario gracias al ID
@@ -155,6 +184,12 @@ namespace MyReserve.Controllers {
         public async Task<IActionResult> EliminarCitas(int cita_id) {
             await _usuariosRepository.EliminarCita(cita_id);    // Eliminamos la cita gracias a su propio ID
             Usuarios usuariosActual = deserializarUsuario(); // Recogemos el usuario
+            var errorVista = returnHome(usuariosActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
+
+            if(errorVista != null) {
+                return errorVista;
+            }
+
             var paises = _usuariosRepository.getPaises();   // Recogemos los países
 
             if(usuariosActual.listaPeluqueria == null) { // Si la lista es null que no las cree por defecto
@@ -188,8 +223,21 @@ namespace MyReserve.Controllers {
         public Usuarios deserializarUsuario() {
             Usuarios usuario = new Usuarios();  // Creamos un usuario
             string json = HttpContext.Session.GetString("UsuarioActual");   // Guardamos el usuario de la sesion en un json
+            
+            if(string.IsNullOrEmpty(json)) {
+                return null;
+            }
+
             usuario = JsonConvert.DeserializeObject<Usuarios>(json);    // Transformamos a Usuario el json
             return usuario; // Devolvemos el usuario
+        }
+
+        private IActionResult returnHome(object entidad) {
+            if(entidad == null) {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return null;
         }
     }
 }
