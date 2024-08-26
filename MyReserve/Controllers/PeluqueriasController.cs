@@ -228,12 +228,6 @@ namespace MyReserve.Controllers {
         }
 
         public async Task<IActionResult> VerPeluqueros(int pelu_id) {
-            var peluActual = deserializarPeluqueria();  // Recuperamos la peluqueria
-            var errorVista = returnHome(peluActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
-
-            if(errorVista != null) {
-                return errorVista;
-            }
             Peluqueria peluqueriaActual = await _peluqueriasRepository.getPeluqueria(pelu_id);
             var peluquerosPeluqueria = _peluqueriasRepository.getPeluqueros(peluqueriaActual);
             peluqueriaActual.peluqueros = peluquerosPeluqueria;
@@ -273,7 +267,7 @@ namespace MyReserve.Controllers {
             return peluquero;
         }
 
-        private IActionResult returnHome(object entidad) {
+        private IActionResult returnHome(object entidad) {  // Método privado para redireccionar si la entidad es null
             if(entidad == null) {
                 return RedirectToAction("Index", "Home");
             }

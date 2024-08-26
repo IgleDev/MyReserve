@@ -232,7 +232,7 @@ namespace MyReserve.Controllers {
             return usuario; // Devolvemos el usuario
         }
 
-        private IActionResult returnHome(object entidad) {
+        private IActionResult returnHome(object entidad) {  // Método privado para redireccionar si la entidad es null
             if(entidad == null) {
                 return RedirectToAction("Index", "Home");
             }

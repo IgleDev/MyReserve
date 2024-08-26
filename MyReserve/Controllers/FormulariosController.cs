@@ -467,7 +467,7 @@ namespace MyReserve.Controllers {
             return grupo;
         }
 
-        private IActionResult returnHome(object entidad) {
+        private IActionResult returnHome(object entidad) {  // Método privado para redireccionar si la entidad es null
             if(entidad == null) {
                 return RedirectToAction("Index", "Home");
             }
