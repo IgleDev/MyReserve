@@ -16,47 +16,52 @@
     }
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-12 text-center mt-5">
-            <h1 class="opacity-75">Bienvenido <span>@Model.usu_nombre</span> aquí puedes <span>editar</span> tu información</h1>
+    <div class="container-fluid">
+        <div class="col-12">
+            <h1 class="text-center rounded-pill">¡Bienvenido @Model.usu_nombre edita tu información!</h1>
         </div>
-        <div class="container w-50">
-            <div class="row">
-                <div class="col-12">
-                    <form asp-action="EditarUsuario" method="post" id="editarUsuario">
+        <div class="row">
+            <div class="d-none d-md-flex col-md-6 d-flex titleSection">
+                <h1 class="display-1">My Reserve</h1>
+            </div>
+            <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
+                <form asp-action="EditarUsuario" method="post" id="editarUsuario">
+                    <div id="part1">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group mt-3">
-                            <label asp-for="usu_nombre" class="control-label">Nombre de Usuario</label>
-                            <input asp-for="usu_nombre" class="form-control" id="txtNombre"/>
-                            <span asp-validation-for="usu_nombre" class="text-danger"></span>
+                        <input type="number" asp-for="usu_id" class="form-control" type="hidden" />
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="usu_nombre" class="control-label h4">Nombre</label>
+                            <input type="text" asp-for="usu_nombre" class="form-control" placeholder="Nombre de Usuario" id="txtNombre" />
+                            <span class="text-danger"></span>
                         </div>
-                        <div class="form-group mt-3">
-                            <label asp-for="usu_correo_electronico" class="control-label">Correo Electrónico</label>
-                            <input asp-for="usu_correo_electronico" class="form-control" id="txtCorreo"/>
+                        <div class="form-group text-start mt-1 w-100">
+                            <label asp-for="usu_correo_electronico" class="control-label h4">Correo Electrónico</label>
+                            <input asp-for="usu_correo_electronico" type="email" class="form-control" placeholder="Correo Electrónico" id="txtCorreo" />
                             @Html.ValidationMessage("usu_correo_electronico")
+                            <span class="text-danger"></span>
                         </div>
-                        <div class="form-group mt-3">
-                            <label asp-for="usu_contrasenha" class="control-label">Contraseña</label>
-                            <input asp-for="usu_contrasenha" class="form-control" type="password" id="txtContrasenha"/>
-                            <span asp-validation-for="usu_contrasenha" class="text-danger"></span>
+                        <div class="form-group text-start mt-4 w-100">
+                            <label asp-for="usu_contrasenha" class="control-label h4">Contraseña</label>
+                            <input asp-for="usu_contrasenha" class="form-control" placeholder="Contraseña" id="txtContrasenha" />
+                            <span class="text-danger"></span>
                         </div>
-                        <div class="form-group mt-3">
-                            <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
+                        <div class="form-group mt-4 mb-4 w-100">
+                            <input type="submit" class="btn btn-outline-info" value="Aplicar Cambios"/>
                         </div>
-                    </form>
-                    <form asp-action="Eliminar" method="post">
-                        <input type="hidden" name="usu_id" value="@Model.usu_id" />
-                        <input type="submit" value="Eliminar Cuenta" class="btn btn-danger mt-3" onclick="return confirm('¿Seguro que quieres borrar tu cuenta?');" />
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="col-12 text-center mt-5">
+    </div>
+    <div class="row d-flex justify-content-evenly">
+        <div class="col-12 mt-5">
             <a asp-action="Portal" class="btn btn-outline-info rounded-pill">Volver a la página principal</a>
+            <form asp-action="Eliminar" method="post" class="d-inline">
+                <input type="hidden" asp-for="usu_id" value="@Model.usu_id" />
+                <button type="submit" class="btn btn-outline-danger rounded-pill" onclick="return confirm('¿Quieres eliminar tu cuenta?');">Eliminar Cuenta</button>
+            </form>
         </div>
     </div>
-</div>
 </body>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/infousuarios/editar.js"> </script>
