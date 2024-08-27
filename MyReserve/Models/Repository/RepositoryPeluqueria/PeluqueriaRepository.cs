@@ -214,7 +214,7 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
             }
         }
 
-        public async Task actualizarServicioPeluqueria(int ser_id, string ser_nombre, int ser_precio, string ser_cat_id_fk) {
+        public async Task actualizarServicioPeluqueria(int ser_id, string ser_nombre, decimal ser_precio, string ser_cat_id_fk) {
             var query = "UPDATE Servicios SET ser_nombre = @ser_nombre, ser_precio = @ser_precio, " +
                 "ser_cat_id_fk = @ser_cat_id_fk WHERE ser_id = @ser_id";
 
