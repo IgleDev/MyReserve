@@ -78,7 +78,7 @@ namespace MyReserve.Controllers {
         }
 
         public async Task<IActionResult> CrearServicios(int pelu_id) {
-            var peluActual = deserializarPeluquero();   // Recuperamos el peluquero en sesion
+            var peluActual = deserializarPeluqueria();   // Recuperamos el peluquero en sesion
             var errorVista = returnHome(peluActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
 
             if(errorVista != null) {
@@ -97,7 +97,7 @@ namespace MyReserve.Controllers {
         public async Task<IActionResult> CrearServicioPeluqueria(Servicios servicios) {
             var nuevoServicio = new Servicios { // Creamos el nuevo servicio
                 ser_nombre = servicios.ser_nombre,
-                ser_precio = servicios.ser_precio,
+                ser_precio = (int)Math.Ceiling(servicios.ser_precio),
                 ser_cat_id_fk = servicios.ser_cat_id_fk,
                 ser_pelu_id_fk = servicios.ser_pelu_id_fk,
             };
@@ -107,7 +107,7 @@ namespace MyReserve.Controllers {
         }
 
         public async Task<IActionResult> EditarServiciosPeluqueria(int pelu_id) {
-            var peluActual = deserializarPeluquero();   // Recuperamos el peluquero en sesion
+            var peluActual = deserializarPeluqueria();   // Recuperamos el peluquero en sesion
             var errorVista = returnHome(peluActual); // Función para comprobar si la peluqueria actual está vacia y retornar a la vista Home
 
             if(errorVista != null) {
