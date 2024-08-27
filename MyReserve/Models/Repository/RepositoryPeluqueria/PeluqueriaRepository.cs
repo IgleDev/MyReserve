@@ -230,12 +230,14 @@ namespace MyReserve.Models.Repository.RepositoryPeluqueria {
         }
 
         public async Task EliminarServicioPeluqueriaCreado(int ser_id) {
+            var queryPeluServicios = "DELETE FROM PeluqueriaServicios WHERE pelu_ser_ser_id_fk = @ser_id";
             var query = "DELETE FROM Servicios WHERE ser_id = @ser_id";
 
             var parametros = new DynamicParameters();
             parametros.Add("ser_id", ser_id, DbType.Int32);
 
             using(var conexion = _conexion.getConexion()) {
+                await conexion.ExecuteAsync(queryPeluServicios, new { ser_id });
                 await conexion.ExecuteAsync(query, new { ser_id });
             }
         }
