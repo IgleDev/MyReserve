@@ -5,18 +5,10 @@
     ViewData["Title"] = $"{Model.codigoError}"; // El título de la página es el error que nos dé
     string mensajeError = Model.codigoError // Mediante un switch sacamos el mensaje de error según el código de estado
     switch {
-        400 => "BAD REQUEST",
-        401 => "UNAUTHORIZED",
-        403 => "FORBIDDEN",
-        404 => "NOT FOUND",
-        405 => "METHOD NOT ALLOWED",
-        500 => "INTERNAL SERVER ERROR",
-        502 => "BAD GATEWAY",
-        503 => "SERVICE UNAVAILABLE",
-        504 => "GATEWAY TIMEOUT",
-        505 => "HTTP VERSION NOT SUPPORTED",
-        507 => "INSUFFICIENT STORAGE",
-        _ => "AN UNEXPECTED ERROR OCCURED"
+        400 => "BAD REQUEST", 401 => "UNAUTHORIZED", 403 => "FORBIDDEN", 404 => "NOT FOUND",
+        405 => "METHOD NOT ALLOWED", 500 => "INTERNAL SERVER ERROR", 502 => "BAD GATEWAY",
+        503 => "SERVICE UNAVAILABLE", 504 => "GATEWAY TIMEOUT", 505 => "HTTP VERSION NOT SUPPORTED",
+        507 => "INSUFFICIENT STORAGE", _ => "AN UNEXPECTED ERROR OCCURED"
     };
 }
 
@@ -43,11 +35,13 @@
         </div>
         <div class="row">
             <div class="col-12 ms-5 mt-5">
-                <figure class="figure d-flex justify-content-center ms-5">
-                    <img src="@Url.Content($"~/img/error/fondoError{Model.codigoError}.png")" class="img-fluid w-50" />
-                    <!--Utilizamos el Url.Content para pasar la ruta por el navegador para así utilizarla, es util para cuando la url puede cambiar-->
-                    <figcaption class="figure-caption text-center opacity-25">Designed by Freepik</figcaption>
-                </figure>
+                    @if(mensajeError != "AN UNEXPECTED ERROR OCCURED") {
+                        <figure class="figure d-flex justify-content-center ms-5">
+                            <img src="@Url.Content($"~/img/error/fondoError{Model.codigoError}.png")" class="img-fluid w-50" />
+                            <!--Utilizamos el Url.Content para pasar la ruta por el navegador para así utilizarla, es util para cuando la url puede cambiar-->
+                            <figcaption class="figure-caption text-center opacity-25">Designed by Freepik</figcaption>
+                        </figure>
+                    }
             </div>
         </div>
     </div>
