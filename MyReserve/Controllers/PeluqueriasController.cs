@@ -95,9 +95,19 @@ namespace MyReserve.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> CrearServicioPeluqueria(Servicios servicios) {
-            var nuevoServicio = new Servicios { // Creamos el nuevo servicio
+            decimal ser_precio = servicios.ser_precio;
+            decimal ser_precio_decimal = (decimal) ser_precio;
+            int ser_precio_final;
+
+            if(ser_precio_decimal - Math.Floor(ser_precio_decimal) >= 0.5M) {   // Utilizamos la M para especificar que un numero es del tipo decical
+                ser_precio_final = (int)Math.Ceiling(ser_precio_decimal);
+            } else {
+                ser_precio_final = (int)Math.Floor(ser_precio_decimal);
+            }
+
+            var nuevoServicio = new Servicios {
                 ser_nombre = servicios.ser_nombre,
-                ser_precio = (int)Math.Ceiling(servicios.ser_precio),
+                ser_precio = ser_precio_final,
                 ser_cat_id_fk = servicios.ser_cat_id_fk,
                 ser_pelu_id_fk = servicios.ser_pelu_id_fk,
             };
@@ -146,7 +156,6 @@ namespace MyReserve.Controllers {
             serializarPeluqueria(peluActual);   // Guardamos en sesión
             return View("Portal", peluActual);    // Retornamos peluqueria
         }
-
 
         public async Task<IActionResult> EliminarServiciosPeluqueria(int ser_id) {
             var peluActual = deserializarPeluqueria();  // Recuperamos la peluquería
