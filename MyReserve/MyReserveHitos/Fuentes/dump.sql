@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [MyReserve]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Database [MyReserve]    Script Date: 27/08/2024 14:56:21 ******/
 CREATE DATABASE [MyReserve]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -84,7 +84,7 @@ ALTER DATABASE [MyReserve] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP
 GO
 USE [MyReserve]
 GO
-/****** Object:  Table [dbo].[Categoria]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[Categoria]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -98,7 +98,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Citas]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[Citas]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -116,7 +116,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CitasServicios]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[CitasServicios]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -131,7 +131,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[GrupoPeluqueria]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[GrupoPeluqueria]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -147,7 +147,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Horarios]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[Horarios]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -161,7 +161,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Paises]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[Paises]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -175,7 +175,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Peluqueria]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[Peluqueria]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -197,7 +197,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PeluqueriaHorarios]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[PeluqueriaHorarios]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -213,7 +213,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PeluqueriaServicios]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[PeluqueriaServicios]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -228,7 +228,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Peluquero]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[Peluquero]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -249,7 +249,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Region]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[Region]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -264,7 +264,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Servicios]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[Servicios]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -281,7 +281,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Usuarios]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Table [dbo].[Usuarios]    Script Date: 27/08/2024 14:56:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4853,7 +4853,23 @@ SET IDENTITY_INSERT [dbo].[Servicios] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__Peluquer__FFC2E04FA76B1134]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Index [UQ__GrupoPel__ADAA2AD8BE986EE3]    Script Date: 27/08/2024 14:56:21 ******/
+ALTER TABLE [dbo].[GrupoPeluqueria] ADD UNIQUE NONCLUSTERED 
+(
+	[gp_correo_electronico] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Peluquer__907ECF15D7B2F5C4]    Script Date: 27/08/2024 14:56:21 ******/
+ALTER TABLE [dbo].[Peluqueria] ADD UNIQUE NONCLUSTERED 
+(
+	[pelu_correo_electronico] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Peluquer__FFC2E04F1E3C6922]    Script Date: 27/08/2024 14:56:21 ******/
 ALTER TABLE [dbo].[Peluquero] ADD UNIQUE NONCLUSTERED 
 (
 	[pel_correo_electronico] ASC
@@ -4861,7 +4877,7 @@ ALTER TABLE [dbo].[Peluquero] ADD UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__Usuarios__522F29633C180EAE]    Script Date: 21/08/2024 20:21:57 ******/
+/****** Object:  Index [UQ__Usuarios__522F2963D0438C29]    Script Date: 27/08/2024 14:56:21 ******/
 ALTER TABLE [dbo].[Usuarios] ADD UNIQUE NONCLUSTERED 
 (
 	[usu_correo_electronico] ASC

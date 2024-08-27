@@ -14,113 +14,113 @@ CREATE TABLE Usuarios (
 );
 
 CREATE TABLE GrupoPeluqueria (
-    gp_id INT IDENTITY(1,1) PRIMARY KEY,
-	gp_nombre VARCHAR(255) NOT NULL,
-	gp_correo_electronico VARCHAR(255) NOT NULL,
-	gp_contrasenha VARCHAR(255) NOT NULL,
+    gp_id INT IDENTITY(1,1) PRIMARY KEY, -- ID creciente
+	gp_nombre VARCHAR(255) NOT NULL, -- Nombre del Grupo
+	gp_correo_electronico VARCHAR(255) UNIQUE NOT NULL, -- Correo Electronico ÚNICO por grupo
+	gp_contrasenha VARCHAR(255) NOT NULL,   -- Contraseña del grupo
 );
 
 CREATE TABLE Peluqueria (
-    pelu_id INT IDENTITY(1,1) PRIMARY KEY,
-	pelu_nombre VARCHAR(255) NOT NULL,
-	pelu_correo_electronico VARCHAR(255) NOT NULL,
-	pelu_contrasenha VARCHAR(255) NOT NULL,
-	pelu_pais VARCHAR(255) NOT NULL,
-	pelu_region VARCHAR(255) NOT NULL,
-	pelu_ciudad VARCHAR(255) NOT NULL,
-	pelu_direccion VARCHAR(255) NOT NULL,
-	pelu_telefono VARCHAR(255) NOT NULL,
-	pelu_gp_id_fk INT NOT NULL,
-	FOREIGN KEY (pelu_gp_id_fk) REFERENCES GrupoPeluqueria(gp_id)
+    pelu_id INT IDENTITY(1,1) PRIMARY KEY,  -- ID creciente
+	pelu_nombre VARCHAR(255) NOT NULL,  -- Nombre de la peluqueria
+	pelu_correo_electronico VARCHAR(255) UNIQUE NOT NULL,   -- Correo Electronico ÚNICO por peluqueria
+	pelu_contrasenha VARCHAR(255) NOT NULL, -- Contraseña de la peluqueria
+	pelu_pais VARCHAR(255) NOT NULL,    -- Nombre del País
+	pelu_region VARCHAR(255) NOT NULL,  -- Nombre de la región
+	pelu_ciudad VARCHAR(255) NOT NULL,  -- Nombre de la ciudad
+	pelu_direccion VARCHAR(255) NOT NULL,   -- Dirección de la peluquería
+	pelu_telefono VARCHAR(255) NOT NULL,    -- Nº de Telefono
+	pelu_gp_id_fk INT NOT NULL, -- ID del grupo de peluqueria al que pertenece la peluquería
+	FOREIGN KEY (pelu_gp_id_fk) REFERENCES GrupoPeluqueria(gp_id)   -- Clave FK del grupo para unir la peluquería
 );
 
 -- Crear la tabla de los peluqueros
 CREATE TABLE Peluquero (
-    pel_id INT IDENTITY(1,1) PRIMARY KEY,
-	pel_nombre VARCHAR(255) NOT NULL,
-	pel_correo_electronico VARCHAR(255) UNIQUE NOT NULL, -- Correo Electronico ÚNICO por usuario
-    pel_contrasenha VARCHAR(255) NOT NULL,
-	pel_descripcion VARCHAR(255),
-	pel_experiencia INT NOT NULL,
-	pel_instagram VARCHAR(255) DEFAULT NULL,
-	pel_pelu_id_fk INT NOT NULL,
-	pel_grupo_id_fk INT NULL,
-	FOREIGN KEY (pel_pelu_id_fk) REFERENCES Peluqueria(pelu_id),
-	FOREIGN KEY (pel_grupo_id_fk) REFERENCES GrupoPeluqueria(gp_id)
+    pel_id INT IDENTITY(1,1) PRIMARY KEY,   -- ID creciente
+	pel_nombre VARCHAR(255) NOT NULL,   -- Nombre del peluquero
+	pel_correo_electronico VARCHAR(255) UNIQUE NOT NULL, -- Correo Electronico ÚNICO por peluquero
+    pel_contrasenha VARCHAR(255) NOT NULL,  -- Contraseña
+	pel_descripcion VARCHAR(255),   -- Descripción del peluquero
+	pel_experiencia INT NOT NULL,   -- Experiencia del peluquero
+	pel_instagram VARCHAR(255) DEFAULT NULL,    -- Instagram del peluquero
+	pel_pelu_id_fk INT NOT NULL,    -- ID de la peluqueria a la que pertenece el peluquero
+	pel_grupo_id_fk INT NULL,   -- ID del grupo de peluqueria al que pertenece el peluquero
+	FOREIGN KEY (pel_pelu_id_fk) REFERENCES Peluqueria(pelu_id),    -- Clave FK de la peluquería para unir el peluquero
+	FOREIGN KEY (pel_grupo_id_fk) REFERENCES GrupoPeluqueria(gp_id) -- Clave FK del grupo para unir el peluquero
 );
 
 CREATE TABLE Categoria (
-	cat_id INT PRIMARY KEY,
-	cat_nombre VARCHAR(255)
+	cat_id INT PRIMARY KEY, -- ID de la Categoría
+	cat_nombre VARCHAR(255) -- Nombre de la categoria
 );
 
 CREATE TABLE Servicios (
-	ser_id INT IDENTITY(1,1) PRIMARY KEY,
-	ser_nombre VARCHAR(255) NOT NULL,
-	ser_precio INT NOT NULL,
-	ser_cat_id_fk INT NOT NULL,
-	ser_pelu_id_fk INT,
-	FOREIGN KEY (ser_cat_id_fk) REFERENCES Categoria(cat_id),
-	FOREIGN KEY (ser_pelu_id_fk) REFERENCES Peluqueria(pelu_id),
+	ser_id INT IDENTITY(1,1) PRIMARY KEY,    -- ID creciente
+	ser_nombre VARCHAR(255) NOT NULL,    -- Nombre del Servicio
+	ser_precio INT NOT NULL,    -- Precio del Servicio
+	ser_cat_id_fk INT NOT NULL, -- ID de la Categoría a la que pertenece el Servicio
+	ser_pelu_id_fk INT, -- ID de la Peluquería a la que pertenece el Servicio
+	FOREIGN KEY (ser_cat_id_fk) REFERENCES Categoria(cat_id),   -- Clave FK de la categoria para unir el servicio
+	FOREIGN KEY (ser_pelu_id_fk) REFERENCES Peluqueria(pelu_id),    -- Clave FK de la peluquería para unir el servicio
 );
 
 CREATE TABLE PeluqueriaServicios (
-	pelu_ser_pelu_id_fk INT NOT NULL,
-	pelu_ser_ser_id_fk INT NOT NULL,
-	PRIMARY KEY (pelu_ser_pelu_id_fk, pelu_ser_ser_id_fk),
-	FOREIGN KEY (pelu_ser_pelu_id_fk) REFERENCES Peluqueria(pelu_id),
-	FOREIGN KEY (pelu_ser_ser_id_fk) REFERENCES Servicios(ser_id),
+	pelu_ser_pelu_id_fk INT NOT NULL,   -- ID de la Peluqueria
+	pelu_ser_ser_id_fk INT NOT NULL,    -- ID del Servicio
+	PRIMARY KEY (pelu_ser_pelu_id_fk, pelu_ser_ser_id_fk),  -- Las hacemos PK
+	FOREIGN KEY (pelu_ser_pelu_id_fk) REFERENCES Peluqueria(pelu_id),   -- Clave FK de la peluquería para unir la tabla
+	FOREIGN KEY (pelu_ser_ser_id_fk) REFERENCES Servicios(ser_id),  -- Clave FK del servicio para unir la tabla
 );
 
 CREATE TABLE Horarios (
-	hora_id INT NOT NULL PRIMARY KEY,
-	hora_fecha TIME NOT NULL,
+	hora_id INT NOT NULL PRIMARY KEY,   -- ID del Horario
+	hora_fecha TIME NOT NULL,   -- Hora de los horarios
 );
 
 CREATE TABLE PeluqueriaHorarios (
-	pelu_hora_pelu_id_fk INT NOT NULL,
-	pelu_hora_hora_id_fk INT NOT NULL,
-	hora_reservado INT,
-	PRIMARY KEY (pelu_hora_pelu_id_fk, pelu_hora_hora_id_fk),
-	FOREIGN KEY (pelu_hora_pelu_id_fk) REFERENCES Peluqueria(pelu_id),
-    FOREIGN KEY (pelu_hora_hora_id_fk) REFERENCES Horarios(hora_id),
+	pelu_hora_pelu_id_fk INT NOT NULL,  -- ID de la peluquería
+	pelu_hora_hora_id_fk INT NOT NULL,  -- ID del Horario
+	hora_reservado INT, -- Hora Reservado (Sirve como booleano)
+	PRIMARY KEY (pelu_hora_pelu_id_fk, pelu_hora_hora_id_fk),   -- Las hacemos PK
+	FOREIGN KEY (pelu_hora_pelu_id_fk) REFERENCES Peluqueria(pelu_id),  -- Clave FK de la peluquería para unir la tabla
+    FOREIGN KEY (pelu_hora_hora_id_fk) REFERENCES Horarios(hora_id),    -- Clave FK del horario para unir la tabla
 );
 
 CREATE TABLE Citas (
-	cita_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	cita_usu_id_fk INT NOT NULL,
-	cita_pel_id_fk INT NOT NULL,
-	cita_pelu_id_fk INT NOT NULL,
-	cita_hora_id_fk INT NOT NULL,
-	cita_fecha DATE NOT NULL,
-	FOREIGN KEY (cita_usu_id_fk) REFERENCES Usuarios(usu_id),
-    FOREIGN KEY (cita_pel_id_fk) REFERENCES Peluquero(pel_id),
-	FOREIGN KEY (cita_pelu_id_fk) REFERENCES Peluqueria(pelu_id),
-    FOREIGN KEY (cita_hora_id_fk) REFERENCES Horarios(hora_id),
+	cita_id INT NOT NULL PRIMARY KEY IDENTITY(1,1),  -- ID creciente
+	cita_usu_id_fk INT NOT NULL,    -- ID del usuario
+	cita_pel_id_fk INT NOT NULL,    -- ID del peluquero
+	cita_pelu_id_fk INT NOT NULL,   -- ID de la peluquería
+	cita_hora_id_fk INT NOT NULL,   -- ID de los horarios
+	cita_fecha DATE NOT NULL,   -- Dia de la cita
+	FOREIGN KEY (cita_usu_id_fk) REFERENCES Usuarios(usu_id),   -- Clave FK del Usuario para unir la cita
+    FOREIGN KEY (cita_pel_id_fk) REFERENCES Peluquero(pel_id),  -- Clave FK del Peluquero para unir la cita
+	FOREIGN KEY (cita_pelu_id_fk) REFERENCES Peluqueria(pelu_id),   -- Clave FK de la Peluquería para unir la cita
+    FOREIGN KEY (cita_hora_id_fk) REFERENCES Horarios(hora_id), -- Clave FK del Horario para unir la cita
 );
 
 CREATE TABLE CitasServicios (
-    citas_ser_cita_id_fk INT NOT NULL,
-    citas_ser_ser_id INT NOT NULL,
-    PRIMARY KEY (citas_ser_cita_id_fk, citas_ser_ser_id),
-    FOREIGN KEY (citas_ser_cita_id_fk) REFERENCES Citas(cita_id),
-    FOREIGN KEY (citas_ser_ser_id) REFERENCES Servicios(ser_id)
+    citas_ser_cita_id_fk INT NOT NULL,  -- ID de la cita
+    citas_ser_ser_id INT NOT NULL,  -- ID del servicio
+    PRIMARY KEY (citas_ser_cita_id_fk, citas_ser_ser_id),   -- Las hacemos PK
+    FOREIGN KEY (citas_ser_cita_id_fk) REFERENCES Citas(cita_id),   -- Clave FK de la Cita para unir la tabla
+    FOREIGN KEY (citas_ser_ser_id) REFERENCES Servicios(ser_id) -- Clave FK del servicio para unir la tabla
 );
 
 CREATE TABLE Paises (
-  pai_id INT NOT NULL PRIMARY KEY,
-  pai_nombre VARCHAR(255) NOT NULL,
+  pai_id INT NOT NULL PRIMARY KEY,  -- ID del país
+  pai_nombre VARCHAR(255) NOT NULL, -- Nombre del país
 );
 
 
 CREATE TABLE Region (
-  reg_id INT NOT NULL PRIMARY KEY,
-  reg_pai_id_fk INT NOT NULL,
-  reg_nombre VARCHAR(255) NOT NULL,
-  FOREIGN KEY (reg_pai_id_fk) REFERENCES Paises(pai_id)
+  reg_id INT NOT NULL PRIMARY KEY,  -- ID de la Región
+  reg_pai_id_fk INT NOT NULL,   -- ID del país
+  reg_nombre VARCHAR(255) NOT NULL, -- Nombre de la región
+  FOREIGN KEY (reg_pai_id_fk) REFERENCES Paises(pai_id) -- Clave FK del País para unirla con la región
 );
 
-INSERT Categoria (cat_id, cat_nombre) VALUES 
+INSERT Categoria (cat_id, cat_nombre) VALUES -- Plantilla por defecto para la categoría
 	(1, 'Corte de Pelo'),
 	(2, 'Barba'),
 	(3, 'Color'),
@@ -130,7 +130,7 @@ INSERT Categoria (cat_id, cat_nombre) VALUES
 	(7, 'Pedicura'),
 	(8, 'Otros');
 
-INSERT Servicios(ser_nombre, ser_precio, ser_cat_id_fk) VALUES 
+INSERT Servicios(ser_nombre, ser_precio, ser_cat_id_fk) VALUES -- Plantilla por defecto de servicios para las peluquerías
 	('Degradado', 14, 1),
 	('Afeitado', 13, 1),
 	('Corte todo con maquina', 11, 1),
@@ -188,7 +188,7 @@ INSERT INTO Horarios (hora_id, hora_fecha) VALUES
     (25, '20:30'),
     (26, '21:00');
 
-INSERT Paises (pai_id, pai_nombre) VALUES 
+INSERT Paises (pai_id, pai_nombre) VALUES -- Tabla de los países
   (144, 'Afganistán'), 
   (114, 'Albania'),
   (18, 'Alemania'),
@@ -404,7 +404,7 @@ INSERT Paises (pai_id, pai_nombre) VALUES
   (116, 'Zambia'),
   (96, 'Zimbabwe');
 
-INSERT Region (reg_id, reg_pai_id_fk, reg_nombre) VALUES 
+INSERT Region (reg_id, reg_pai_id_fk, reg_nombre) VALUES -- Tabla por defecto de las regiones
     (1, 3, 'Azerbaijan'),
     (2, 3, 'Nargorni Karabakh'),
     (3, 3, 'Nakhichevanskaya Region'),
