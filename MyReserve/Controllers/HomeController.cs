@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using MyReserve.Models;
-using System.Diagnostics;
 
 namespace MyReserve.Controllers {
     public class HomeController : Controller {
