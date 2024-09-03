@@ -15,8 +15,38 @@
 </head>
 <body>
     <div class="container mt-5">
+        <nav class="navbar d-flex d-sm-flex d-md-none d-lg-none fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"><i class="fa-solid fa-bars fs-5"></i></span>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title title" id="offcanvasNavbarLabel">My Reserve</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a asp-controller="Formularios" asp-action="LoginGrupo"><button class="btn btn-outline-secondary rounded-pill me-2 w-100">Grupo <i class="fa-solid fa-store"></i></button></a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a asp-controller="Formularios" asp-action="LoginPeluqueria"><button class="btn btn-outline-secondary rounded-pill me-2 w-100">Peluquería <i class="fa-solid fa-scissors"></i></button></a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a asp-controller="Formularios" asp-action="Login"><button class="btn btn-outline-primary rounded-pill me-2 w-100">Iniciar Sesión</button></a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a asp-controller="Formularios" asp-action="Registro"><button class="btn btn-outline-success rounded-pill me-2 w-100">Registro</button></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
         <div class="row align-items-center">
-            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 d-flex d-sm-flex d-md-flex d-lg-flex">
                 <h1 class="text-start title">My Reserve</h1>
             </div>
             <div class="d-none d-md-flex col-md-6 col-lg-6 d-lg-flex justify-content-center align-items-center">

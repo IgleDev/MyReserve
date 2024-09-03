@@ -22,6 +22,11 @@ button:hover a{
     font-family: 'Coffee Spark';
 }
 
+.container > .navbar > .container-fluid > .offcanvas > .offcanvas-header > .offcanvas-title {
+    color: #2d9696;
+    font-family: 'Coffee Spark';
+}
+
 .container .row .col-lg-6 .titleMain {
     color: #be5e43;
 }
