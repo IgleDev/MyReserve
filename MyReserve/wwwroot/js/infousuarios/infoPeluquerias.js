@@ -1,12 +1,19 @@
 ﻿$(document).ready(function () {
     $('[data-bs-toggle="tooltip"]').tooltip();  // Activamos el tooltip para mostrar más información al usuario.
 
-    var diaActualEntero = new Date(); // Cogemos la fecha de hoy
-    var anhoActual = diaActualEntero.getFullYear();   // Cogemos el año actual
-    var mesActual = String(diaActualEntero.getMonth() + 1).padStart(2, '0'); // Lo pasamos a String para poder mostrarlo y le sumamos uno porque Enero es el mes 0 y lo formateamos a 2 dígitos
-    var diaActual = String(diaActualEntero.getDate()).padStart(2, '0');   // Formateamos a 2 dígitos el dia actual
-    var fechaFinal = anhoActual + '-' + mesActual + '-' + diaActual;    // Montamos la fecha
-    $('#fechaCita').attr('min', fechaFinal);    // Mandamos la fehca atraves del campo min indicando que la fecha que introduzcamos tiene que ser menor
+    let fechaActual = new Date();
+    flatpickr("#fechaCita", {
+        minDate: fechaActual, // Podemos que la fecha mínima es hoy
+        disable: [  // Deshabilitamos los domingos
+            function (date) {
+                return (date.getDay() === 0);   // Domingos es 0
+            }
+        ],
+        locale: {
+            "firstDayOfWeek": 1 // Para que empieze la semana un lunes
+        },
+        dateFormat: "Y-m-d", // Ponemos formato a la fecha para que filtre bien
+    });
 
     function actualizarHorarios() {
         var pel_id = $('input[name="peluquerosPeluqueria"]:checked').val(); // ID del peluquero seleccionado
