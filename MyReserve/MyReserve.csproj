@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MyReserveHitos\Presentacion\**" />
+    <Content Remove="MyReserveHitos\Presentacion\**" />
+    <EmbeddedResource Remove="MyReserveHitos\Presentacion\**" />
+    <None Remove="MyReserveHitos\Presentacion\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\js\forms\registro.js" />
     <Content Remove="wwwroot\js\forms\registroPeluqueria.js" />
     <Content Remove="wwwroot\js\infousuarios\infoPeluquerias.js" />
@@ -32,11 +39,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="MyReserveHitos\Memoria\" />
-    <Folder Include="MyReserveHitos\Presentacion\" />
   </ItemGroup>
 
 </Project>
