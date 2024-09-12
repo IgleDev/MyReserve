@@ -15,6 +15,30 @@
         dateFormat: "Y-m-d", // Ponemos formato a la fecha para que filtre bien
     });
 
+    $('#fechaCita').on('change', function () {
+        let fechaCita = $(this).val(); // pillamos la fecha del input
+        let usu_id = $('#usu_id').val(); // pillamos el ID del usuario
+        
+        $.ajax({    // Función AJAX para no tener que actualizar la página al hacer una petición GET
+            url: '/InfoUsuarios/getCitaUsuario',    // Indicamos URL
+            type: 'GET',    // Tipo de URL
+            data: { usu_id: usu_id, fechaCita: fechaCita }, // Le pasamos los datos
+            success: function (response) {  
+                if (response.success) { // Si la respuesta es correcta
+                    $('#horariosDisponibles').show();   // Mostramos horarios
+                    $('#cita').text(''); // Limpiar el mensaje de error
+                    actualizarHorarios();    // Actualizamos los horarios disponibles
+                } else {    // En caso de que sea false y el usuario ya tenga una cita ese día
+                    $('#horariosDisponibles').hide();   // Ocultamos los horarios
+                    $('#cita').text(`<h4>${response.message}</h4>`); // Mostramos el mensaje de error
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error al verificar la cita:" + error);  // Específicamos el error en caso de fallo
+            }
+        });
+    });
+
     function actualizarHorarios() {
         var pel_id = $('input[name="peluquerosPeluqueria"]:checked').val(); // ID del peluquero seleccionado
         var fechaCita = $('#fechaCita').val(); // Fecha seleccionada
@@ -44,7 +68,7 @@
                 });
             },
             error: function (xhr, status, error) {
-                console.error("Error al obtener los horarios disponibles:", error);  // Específicamos el error en caso de fallo
+                console.error("Error al obtener los horarios disponibles:" + error);  // Específicamos el error en caso de fallo
             }
         });
     }

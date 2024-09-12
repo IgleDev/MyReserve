@@ -33,6 +33,7 @@
             </div>
         </div>
         <form asp-action="ReservarCita" method="post" id="reservarCita">
+            <input type="hidden" name="usu_id" id="usu_id" value="@Model.usu_id" />
             <input type="hidden" name="pelu_id" id="pelu_id" value="@Model.peluqueriaInfo.pelu_id" />
             <div class="row">
                 <div class="col-12">
@@ -68,8 +69,9 @@
                 </div>
                 <div class="col-12 d-flex justify-content-center">
                     <input type="date" class="text-center" placeholder="Escoje la fecha" id="fechaCita" name="fechaCita" />
-                    <div class="text-danger"></div>
                 </div>
+                <div class="text-danger text-center mt-2"></div>
+                <div class="text-danger text-center mt-2" id="cita"></div>
                 <div class="col-12 mt-3 d-inline-flex justify-content-center flex-wrap" id="horarios">
                     <div id="horariosDisponibles">
                         <div class="text-danger"></div>

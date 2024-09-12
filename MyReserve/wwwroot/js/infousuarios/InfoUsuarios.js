@@ -16,7 +16,7 @@
                     });
                 },
                 error: function (xhr, status, error) {  // En caso de fallo pues muestra el error
-                    console.error('Error:', error);
+                    console.error('Error:' + error);
                 }
             });
         }

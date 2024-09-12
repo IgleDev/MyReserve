@@ -66,11 +66,13 @@ namespace MyReserve.Controllers {
             var horarios = await _usuariosRepository.getHorariosPeluqueria(pelu_id);
 
             ViewBag.usuariosActual = usuariosActual.usu_nombre;
+            ViewBag.usuariosActualID = usuariosActual.usu_id;
             peluqueria.Servicios = servicios?.ToList() ?? new List<Servicios>();
             peluqueria.Horarios = horarios?.ToList() ?? new List<Horarios>();
 
             var peluInfo = new InfoPeluqueriaModel {    // Creamos la peluqueria con la información que le pasamos
                 peluqueriaInfo = peluqueria,
+                usu_id = usuariosActual.usu_id,
                 peluquerosInfo = peluqueros ?? new List<MyReserve.Models.TablasBBDD.Peluqueros.Peluqueros>(),
             };
 
@@ -108,6 +110,17 @@ namespace MyReserve.Controllers {
             }
             var regiones = await _usuariosRepository.getRegionesPais(pai_nombre);   // Recuperamos las regiones 
             return Json(regiones);  // Las devolvemos como JSON para ser tratadas en el archivo de JavaScript
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> getCitaUsuario(int usu_id, DateTime fechaCita) {
+            bool cita = await _usuariosRepository.comprobarCitaUsuario(usu_id, fechaCita);
+
+            if(cita) {
+                return Json(new { success = false, message = "Ya tienes un cita este día" });
+            }
+
+            return Json(new { success = true });
         }
 
         [HttpGet]

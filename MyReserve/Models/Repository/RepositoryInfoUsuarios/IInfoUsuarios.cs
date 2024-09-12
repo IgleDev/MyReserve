@@ -23,5 +23,6 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
         Task<IEnumerable<Cita>> getCitasUsuario(int usu_id);
         Task EliminarCita(int cita_id);
         Task<bool> comprobarCorreoUsuario(string usu_correo_electronico);
+        Task<bool> comprobarCitaUsuario(int usu_id, DateTime fechaCita);
     }
 }

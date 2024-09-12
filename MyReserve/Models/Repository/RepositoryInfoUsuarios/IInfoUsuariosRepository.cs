@@ -204,5 +204,13 @@ namespace MyReserve.Models.Repository.RepositoryUsuario {
                 return await conexion.ExecuteScalarAsync<bool>(query, new { usu_correo_electronico });
             }
         }
+
+        public async Task<bool> comprobarCitaUsuario(int usu_id, DateTime fechaCita) {
+            var query = "SELECT COUNT (*) FROM Citas WHERE cita_usu_id_fk = @usu_id AND cita_fecha = @fechaCita";
+
+            using(var conexion = _conexion.getConexion()) {
+                return await conexion.ExecuteScalarAsync<bool>(query, new { usu_id, fechaCita });
+            }
+        }
     }
 }
