@@ -32,16 +32,9 @@ El BackEnd y el FrontEnd.
 
 **Server:** .NET, C#
 
-
 ## Ayuda
 
 Cualquier pregunta adri.iglesias.fernandez@gmail.com.
 
-
-## Autor
-
-- [@IgleDev](https://github.com/IgleDev)
-
-
-![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
-
+![Logo](https://github.com/IgleDev/MyReserve/blob/main/MyReserve/wwwroot/img/layout/logoreadme.png?raw=true)
+[@IgleDev](https://github.com/IgleDev)
