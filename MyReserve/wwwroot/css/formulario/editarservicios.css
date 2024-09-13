@@ -17,3 +17,22 @@ h2 > span {
 .btn-check:checked + .btn {
     border: 1px solid #2d9696;
 }
+
+@media (max-width: 768px) {
+    html, body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn-check + .btn {
+        margin-top: 5%;
+    }
+}

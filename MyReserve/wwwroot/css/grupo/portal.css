@@ -13,3 +13,9 @@
 .container .peluquerias div h3 {
     margin: 0%;
 }
+
+@media (max-width: 768px) {
+    .btnAddPelu{
+        margin-left: 5%;
+    }
+}
