@@ -30,7 +30,7 @@
                     actualizarHorarios();    // Actualizamos los horarios disponibles
                 } else {    // En caso de que sea false y el usuario ya tenga una cita ese día
                     $('#horariosDisponibles').hide();   // Ocultamos los horarios
-                    $('#cita').text(`<h4>${response.message}</h4>`); // Mostramos el mensaje de error
+                    $('#cita').html(`<h4>${response.message}</h4>`); // Mostramos el mensaje de error
                 }
             },
             error: function (xhr, status, error) {
