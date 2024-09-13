@@ -26,39 +26,39 @@
             </div>
             <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
                 <form asp-action="EditarUsuario" method="post" id="editarUsuario">
-                    <div id="part1">
+                    <div class="col-12 form-cuerpo">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="number" asp-for="usu_id" class="form-control" type="hidden" />
-                        <div class="form-group text-start mt-1 w-100">
+                        <div class="form-group pelu-group text-start mt-1 w-100">
                             <label asp-for="usu_nombre" class="control-label h4">Nombre</label>
                             <input type="text" asp-for="usu_nombre" class="form-control" placeholder="Nombre de Usuario" id="txtNombre" />
                             <span class="text-danger"></span>
                         </div>
-                        <div class="form-group text-start mt-1 w-100">
+                        <div class="form-group pelu-group text-start mt-1 w-100">
                             <label asp-for="usu_correo_electronico" class="control-label h4">Correo Electrónico</label>
                             <input asp-for="usu_correo_electronico" type="email" class="form-control" placeholder="Correo Electrónico" id="txtCorreo" />
                             @Html.ValidationMessage("usu_correo_electronico")
                             <span class="text-danger"></span>
                         </div>
-                        <div class="form-group text-start mt-4 w-100">
+                        <div class="form-group pelu-group text-start mt-4 w-100">
                             <label asp-for="usu_contrasenha" class="control-label h4">Contraseña</label>
                             <input asp-for="usu_contrasenha" class="form-control" placeholder="Contraseña" id="txtContrasenha" />
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group mt-4 mb-4 w-100">
-                            <input type="submit" class="btn btn-outline-info" value="Aplicar Cambios"/>
+                            <input type="submit" class="btn btn-primary pelu-btn" value="Aplicar Cambios" />
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="row d-flex justify-content-evenly">
-        <div class="col-12 mt-5">
-            <a asp-action="Portal" class="btn btn-outline-info rounded-pill">Volver a la página principal</a>
-            <form asp-action="Eliminar" method="post" class="d-inline">
+    <div class="row w-100">
+        <div class="col-12 mt-5 d-flex justify-content-center flex-column flex-md-row">
+            <a asp-action="Portal" class="btn btn-outline-info rounded-pill ms-2 me-2 mb-2 mb-md-0">Volver a la página principal</a>
+            <form asp-action="Eliminar" method="post" class="d-inline" id="deleteUsu">
                 <input type="hidden" asp-for="usu_id" value="@Model.usu_id" />
-                <button type="submit" class="btn btn-outline-danger rounded-pill" onclick="return confirm('¿Quieres eliminar tu cuenta?');">Eliminar Cuenta</button>
+                <button type="submit" class="btn btn-outline-danger rounded-pill ms-2" onclick="return confirm('¿Quieres eliminar tu cuenta?');">Eliminar Cuenta</button>
             </form>
         </div>
     </div>

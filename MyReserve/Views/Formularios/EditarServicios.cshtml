@@ -61,7 +61,7 @@
                                 <div class="d-inline-flex flex-wrap mb-2">
                                     @foreach(var servicio in cat) {
                                         <div class="form-check">
-                                            <input type="checkbox" class="btn-check" autocomplete="off" name="serviciosActuales"
+                                            <input type="checkbox" class="btn-check inputsAnhadir" autocomplete="off" name="serviciosActuales"
                                                    value="@servicio.ser_id" id="btn-check-@servicio.ser_id" />
                                             <label class="btn" for="btn-check-@servicio.ser_id">@servicio.ser_nombre - @servicio.ser_precio€</label>
                                         </div>
@@ -79,7 +79,7 @@
                     @Html.ActionLink("Editar Servicios", "EditarServiciosPeluqueria", "Peluquerias", new { pelu_id }, new { @class = "btn btn-outline-info rounded-pill" })
                 </div>
             </form>
-            <div class="col-auto p-0 mt-5 d-flex justify-content-between flex-wrap">
+            <div class="col-auto p-0 mt-5 mb-5 d-flex justify-content-between flex-wrap">
                 <a asp-action="Portal" asp-controller="Peluquerias" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-arrow-left"></i> Volver</a>
             </div>
         </div>

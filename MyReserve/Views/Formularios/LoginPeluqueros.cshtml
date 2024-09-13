@@ -21,20 +21,22 @@
                 <h1 class="display-1">My Reserve</h1>
             </div>
             <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
-                <form asp-action="LoginPeluqueros" method="post" id="formLogin" class="w-100">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group text-start mt-1 w-100">
-                        <label asp-for="pel_correo_electronico" class="control-label h4">Correo Electrónico</label>
-                        <input asp-for="pel_correo_electronico" class="form-control" placeholder="Correo Electrónico" id="txtCorreo" />
-                        <span class="text-danger"></span>
-                    </div>
-                    <div class="form-group text-start mt-4 w-100">
-                        <label asp-for="pel_contrasenha" class="control-label h4">Contraseña</label>
-                        <input asp-for="pel_contrasenha" type="password" class="form-control" placeholder="Contraseña" id="txtContrasenha" />
-                        <span class="text-danger"></span>
-                    </div>
-                    <div class="form-group mt-4 mb-4 w-100">
-                        <input type="submit" value="Iniciar Sesión" class="btn btn-primary w-100" />
+                <form asp-action="LoginPeluqueros" method="post" id="formLogin" class="w-100 form-container d-flex justify-content-center align-items-center">
+                    <div class="col-12 form-cuerpo">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group pelu-group text-start mt-1 w-100">
+                            <label asp-for="pel_correo_electronico" class="control-label h4">Correo Electrónico</label>
+                            <input asp-for="pel_correo_electronico" class="form-control" placeholder="Correo Electrónico" id="txtCorreo" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group pelu-group text-start mt-4 w-100">
+                            <label asp-for="pel_contrasenha" class="control-label h4">Contraseña</label>
+                            <input asp-for="pel_contrasenha" type="password" class="form-control" placeholder="Contraseña" id="txtContrasenha" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-4 mb-4 w-100">
+                            <input type="submit" value="Iniciar Sesión" class="btn btn-primary pelu-btn w-100" />
+                        </div>
                     </div>
                 </form>
             </div>

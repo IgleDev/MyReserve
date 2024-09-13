@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @section Styles {
         <!--El style que renderizamos-->
         <link rel="stylesheet" href="~/css/formulario/registro.css" asp-append-version="true" />
@@ -17,7 +18,7 @@
 </head>
 <body>
     <div class="container-fluid">
-        <h1>Crea un servicio para @pelu_nombre</h1>
+        <h1 class="rounded-pill">Crea un servicio para @pelu_nombre</h1>
         <div class="row">
             <div class="d-none d-md-flex col-md-6 d-flex titleSection">
                 <h1 class="display-1">My Reserve</h1>
@@ -47,11 +48,14 @@
                         </div>
                         <input name="ser_pelu_id_fk" type="hidden" value="@pelu_id" />
                         <div class="form-group mt-4 mb-4 w-100">
-                            <input type="submit" value="Crear" class="btn btn-primary w-50" />
+                            <input type="submit" value="Crear" class="btn btn-primary w-100" />
                         </div>
                     </div>
                 </form>
             </div>
+        </div>
+        <div class="col-auto p-0 mt-5 d-flex justify-content-between flex-wrap">
+            <a asp-action="EditarServicios" asp-controller="Formularios" class="btn btn-outline-info rounded-pill"><i class="fa-solid fa-arrow-left"></i> Volver</a>
         </div>
     </div>
 </body>

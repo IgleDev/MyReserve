@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="col-12">
+        <div class="col-12 rounded-pill">
             <h1 class="text-center">Editar información sobre @Model.pel_nombre</h1>
         </div>
         <div class="row">
@@ -45,7 +45,7 @@
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group mt-4 mb-4 w-100">
-                            <button type="button" id="btnPt1" class="btn btn-info w-100">Queremos saber más de tí &rarr;</button>
+                            <button type="button" id="btnPt1" class="btn btn-info w-100 text-white">Queremos saber más de tí &rarr;</button>
                         </div>
                     </div>
                     <div id="part2">
@@ -65,8 +65,8 @@
                             <input asp-for="pel_instagram" type="text" class="form-control" placeholder="Tu Instagram" id="txtRRSS" />
                             <span class="text-danger"></span>
                         </div>
-                        <div class="form-group mt-4 mb-4 w-100">
-                            <button type="button" id="btnPtV1" class="btn btn-danger w-25">Volver</button>
+                        <div class="form-group mt-4 mb-4 w-100 d-flex justify-content-center">
+                            <button type="button" id="btnPtV1" class="btn btn-danger w-25 me-3">Volver</button>
                             <input type="submit" value="Guardar" class="btn btn-primary w-50" />
                         </div>
                     </div>
